@@ -15,6 +15,7 @@ HERE = pathlib.Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent.parent / "vendor"))
 sys.path.insert(0, str(HERE))
 import safefetch  # noqa: E402
+import base64  # noqa: E402
 from starboard import plugin_logo, plugins  # noqa: E402
 
 STARBOARD_RELEASE = json.loads((HERE.parent.parent / "vendor" / "starboard" / "VENDORED.json").read_text())["release"]
@@ -143,6 +144,51 @@ def https_or_empty(url):
     return url if isinstance(url, str) and re.match(r"^https://[^\s\"'<>]{1,400}$", url) else ""
 
 
+MAX_SVG_DEPTH = 40
+
+
+def svg_depth(text):
+    """The deepest nesting of tags in SVG text, counted without recursion (so a hostile file cannot cause it)."""
+    depth = deepest = 0
+    for m in re.finditer(r"<(/?)([A-Za-z_][^\s/>]*)[^>]*?(/?)>|<!--.*?-->", text, re.S):
+        if m.group(2) is None:
+            continue
+        if m.group(1):
+            depth -= 1
+        elif not m.group(3):
+            depth += 1
+            deepest = max(deepest, depth)
+    return deepest
+
+
+def clean_logo(raw, name):
+    """Starboard's logo cleaning, with a depth cap first. (bytes, content type) or ValueError. Never RecursionError."""
+    if str(name).lower().endswith(".svg"):
+        try:
+            text = raw.decode("utf-8")
+        except UnicodeDecodeError:
+            raise ValueError("The SVG logo is not UTF-8 text") from None
+        if svg_depth(text) > MAX_SVG_DEPTH:
+            raise ValueError(f"The SVG logo is nested more than {MAX_SVG_DEPTH} levels deep")
+    try:
+        return plugin_logo.clean(raw, name)
+    except RecursionError:
+        raise ValueError("The logo is nested too deeply") from None
+
+
+def reclean_data_address(uri):
+    """A logo kept in a snapshot, cleaned again on its way to a file: (bytes, 'svg' or 'png'), or None if it fails."""
+    m = re.match(r"^data:(image/svg\+xml|image/png);base64,([A-Za-z0-9+/=]+)$", str(uri or ""))
+    if not m or len(uri) > plugin_logo.DATA_MAX:
+        return None
+    try:
+        raw = base64.b64decode(m.group(2), validate=True)
+        data, ctype = clean_logo(raw, "logo.svg" if m.group(1) == "image/svg+xml" else "logo.png")
+    except (ValueError, TypeError):
+        return None
+    return data, ("svg" if ctype == "image/svg+xml" else "png")
+
+
 def make_snapshot(manifest_url, fetch=safefetch.fetch, now=None):
     """Fetch a manifest (and its logo) as data and return the snapshot dict. Raises safefetch.FetchError or ValueError."""
     raw = fetch(manifest_url, max_bytes=MAX_MANIFEST)
@@ -152,14 +198,17 @@ def make_snapshot(manifest_url, fetch=safefetch.fetch, now=None):
         raise ValueError("The address did not give a Starboard plug-in file: it is not valid JSON text") from None
     if not isinstance(m, dict):
         raise ValueError("The plug-in file must be one JSON object")
-    found = problems(m)
-    t = trim(m)
+    try:
+        found = problems(m)
+        t = trim(m)
+    except RecursionError:
+        raise ValueError("The plug-in file is nested too deeply") from None
     logo_data = ""
     logo_note = ""
     if t["logo"] and not plugin_logo.check_entry(m.get("logo")):
         try:
             url = plugin_logo.address_beside(manifest_url, t["logo"]["file"])
-            data, ctype = plugin_logo.clean(fetch(url, max_bytes=plugin_logo.PNG_MAX + 1), t["logo"]["file"])
+            data, ctype = clean_logo(fetch(url, max_bytes=plugin_logo.PNG_MAX + 1), t["logo"]["file"])
             logo_data = plugin_logo.as_data(data, ctype)
         except (safefetch.FetchError, ValueError) as e:
             logo_note = str(e)[:200]

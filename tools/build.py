@@ -48,8 +48,9 @@ def merge(listings, snaps_dir, measures, releases, today, max_age, warnings):
             continue
         try:
             s = mf.load_snapshot(sp)
-        except (ValueError, KeyError) as e:
-            raise SystemExit(f"{lid}: broken snapshot: {e}")
+        except (ValueError, KeyError, OSError, RecursionError) as e:
+            warnings.append(f"{lid}: LEFT OUT, because its snapshot is broken ({safe_line(e)})")
+            continue
         age = mf.snapshot_age_days(s, today)
         if age > max_age:
             warnings.append(f"{lid}: LEFT OUT, because its snapshot is {age} days old (the limit is {max_age}). It is listed again when the snapshot is refreshed.")
@@ -71,7 +72,11 @@ def merge(listings, snaps_dir, measures, releases, today, max_age, warnings):
         dates = [v["date"] for v in m["versions"] if v["date"]]
         cur = [v["date"] for v in m["versions"] if v["version"] == m["version"] and v["date"]]
         logo_alt = (m["logo"] or {}).get("alt") or ""
-        ext = "png" if s["logo"].startswith("data:image/png") else "svg"
+        # Defence in depth: the logo is cleaned again here, from the snapshot, before it becomes a file.
+        logo = mf.reclean_data_address(s["logo"]) if s["logo"] else None
+        if s["logo"] and not logo:
+            warnings.append(f"{lid}: its logo failed the logo check again, so a plain one is shown")
+        ext = logo[1] if logo else "svg"
         out.append({
             "id": lid, "name": m["name"], "kind": l.get("kind") or mf.kind_for(m), "manifest": m, "manifest_url": l["manifest"],
             "description": m["description"], "pitch": l.get("pitch", ""), "maker": l["maker"], "notes": l.get("notes", ""), "help": l.get("help", ""),
@@ -79,7 +84,7 @@ def merge(listings, snaps_dir, measures, releases, today, max_age, warnings):
             "older_versions": l.get("older_versions", []), "maker_figures": maker, "own": lst.is_own(l), "measured": meas,
             "measured_totals": tot, "mem_value": mem, "mem_source": src, "mem_line": rs.short_line(tot, maker),
             "needs_sb": need, "latest_date": (cur or sorted(dates, reverse=True) or [""])[0], "snapshot_date": s["fetched_at"][:10],
-            "logo_data": s["logo"], "logo_file": f"assets/logos/{lid}.{ext}" if s["logo"] else "assets/logo/no-logo.svg",
+            "logo_data": mf.plugin_logo.as_data(logo[0], "image/svg+xml" if logo[1] == "svg" else "image/png") if logo else "", "logo_bytes": logo[0] if logo else b"", "logo_file": f"assets/logos/{lid}.{ext}" if logo else "assets/logo/no-logo.svg",
             "logo_alt": logo_alt if len(logo_alt) >= 3 else f"{m['name']} logo", "sha256": s["sha256"],
         })
     return out
@@ -93,8 +98,7 @@ def catalogue(plugins, sb, today):
         cur = next((v for v in m["versions"] if v["version"] == m["version"]), None)
         latest = {"version": m["version"], "starboard_api": m["starboard_api"], "manifest": p["manifest_url"],
                   "changelog": mf.changelog_text(cur) if cur else "", "released": (cur or {}).get("date", "")}
-        if PINNED.search(p["manifest_url"]):
-            latest["manifest_sha256"] = p["sha256"]
+        latest["manifest_sha256"] = p["sha256"]  # always: Starboard refuses a file that differs from the one that was reviewed
         latest = {k: v for k, v in latest.items() if v != ""}
         versions = [latest] + [{k: v for k, v in o.items() if v != ""} for o in p["older_versions"] if o["version"] != m["version"]]
         e = {"id": p["id"], "name": m["name"], "description": m["description"], "kind": p["kind"], "author": p["maker"],
@@ -143,9 +147,8 @@ def build(out, today, max_age=MAX_AGE_DAYS, root=ROOT):
     shutil.copytree(root / "assets", out / "assets")
     (out / "assets" / "logos").mkdir(exist_ok=True)
     for p in plugins:
-        if p["logo_data"]:
-            raw = base64.b64decode(p["logo_data"].split(",", 1)[1])
-            (out / p["logo_file"]).write_bytes(raw)
+        if p["logo_bytes"]:
+            (out / p["logo_file"]).write_bytes(p["logo_bytes"])
     check_label = "release " + mf.STARBOARD_RELEASE
     files = {}
     files["index.html"] = R.page("Stallboard: plug-ins for Starboard", "Find plug-ins for Starboard. Each one is checked and read by a person before it is listed.", 0, "index.html", "home", "home",

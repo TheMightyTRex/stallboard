@@ -40,7 +40,7 @@ _No response_
 
 - [{tick}] I wrote it or have the right to submit it.
 """
-GOOD = dict(manifest="https://raw.githubusercontent.com/example/example/main/starboard-plugin.json", maker="Example Maker", summary="Shows disk use.",
+GOOD = dict(manifest="https://raw.githubusercontent.com/example/example/0123456789abcdef0123456789abcdef01234567/starboard-plugin.json", maker="Example Maker", summary="Shows disk use.",
             asks="It reads disk figures to draw a chart.", licence="MIT", tick="x")
 
 
@@ -287,3 +287,52 @@ class Workflows(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Hardening(unittest.TestCase):
+    def test_nobody_can_claim_the_owners_mark_by_name(self):
+        for name in ["TheMightyTRexUK", "themightytrexuk", "The Mighty T Rex", "THE-MIGHTY-TREX", "The.Mighty.T-Rex UK", "TheMightyTRеxUK", "Тhe Mighty TRex", "ᴛheMightyTRex", "The Mighty TRex (really)", "t h e m i g h t y t r e x", "TheM1ghtyTRex"]:
+            r = sub.run_checks(sub.parse_body(body(maker=name)), None, fetch=fetcher(RAW))
+            self.assertFalse(r["passed"], name)
+            self.assertTrue(any("owner's" in f for f in r["fix"]), name)
+        r = sub.run_checks(sub.parse_body(body(maker="Mighty Mouse")), None, fetch=fetcher(RAW))
+        self.assertTrue(r["passed"], r["fix"])
+
+    def test_the_address_must_be_a_commit_and_the_message_says_how(self):
+        r = sub.run_checks(sub.parse_body(body(manifest="https://raw.githubusercontent.com/example/example/main/starboard-plugin.json")), None, fetch=fetcher(RAW))
+        self.assertFalse(r["passed"])
+        self.assertIn("one commit, not a branch", " ".join(r["fix"]))
+        self.assertIn("Y key", " ".join(r["fix"]))
+
+    def test_www_text_is_not_left_to_become_a_link(self):
+        self.assertNotIn("www.", sub.md("see www.evil.example.com now"))
+        self.assertNotIn("WWW.", sub.md("WWW.evil.example.com"))
+        self.assertNotIn("@", sub.md("me@evil.example.com"))
+
+    def test_the_hourly_limit(self):
+        import datetime as dt
+        now = dt.datetime(2026, 11, 23, 12, 0, tzinfo=dt.timezone.utc)
+
+        def c(minutes, n):
+            at = (now - dt.timedelta(minutes=minutes)).strftime("%Y-%m-%dT%H:%M:%SZ")
+            return {"user": {"login": "github-actions[bot]"}, "body": "## Checks on your plug-in\n", "updated_at": at, "issue_url": f"https://api.github.com/repos/o/r/issues/{n}"}
+        with tempfile.TemporaryDirectory() as d:
+            d = pathlib.Path(d)
+            (d / "event.json").write_text(json.dumps({"issue": {"number": 99}}))
+            out = d / "out"
+            os.environ.update(GITHUB_EVENT_PATH=str(d / "event.json"), RECENT_COMMENTS_FILE=str(d / "c.json"), GITHUB_OUTPUT=str(out))
+            old = sub.ROOT
+            sub.ROOT = d
+            try:
+                (d / "c.json").write_text(json.dumps([[c(5, i) for i in range(9)]]))
+                self.assertFalse(sub.cmd_rate(now))
+                (d / "c.json").write_text(json.dumps([[c(5, i) for i in range(10)]]))
+                self.assertTrue(sub.cmd_rate(now))
+                self.assertIn("try again later", (d / "reports" / "submission" / "comment.md").read_text())
+                self.assertIn("limited=true", out.read_text())
+                (d / "c.json").write_text(json.dumps([[c(90, i) for i in range(30)]]))  # older than an hour: not counted
+                self.assertFalse(sub.cmd_rate(now))
+                (d / "c.json").write_text(json.dumps([[c(5, 99)] * 30]))  # the same issue again and again is not a crowd
+                self.assertFalse(sub.cmd_rate(now))
+            finally:
+                sub.ROOT = old

@@ -8,7 +8,7 @@ from helpers import ROOT
 import listing as lst
 import manifest as mf
 
-BASE = {"id": "example-plug-in", "name": "Example", "manifest": "https://raw.githubusercontent.com/example/example/main/starboard-plugin.json", "maker": "Example Maker",
+BASE = {"id": "example-plug-in", "name": "Example", "manifest": "https://raw.githubusercontent.com/example/example/0123456789abcdef0123456789abcdef01234567/starboard-plugin.json", "maker": "Example Maker",
         "listed_at": "2026-11-23", "reviewed": {"by": "TheMightyTRexUK", "at": "2026-11-23", "version": "1.0.0"}}
 
 
@@ -26,7 +26,9 @@ class Format(unittest.TestCase):
     def test_a_good_listing(self):
         out = lst.check(BASE, "example-plug-in.json")
         self.assertEqual(out["reviewed"]["by"], "TheMightyTRexUK")
-        self.assertFalse(lst.is_own(out | {"maker": "Someone"}))
+        self.assertFalse(lst.is_own(out))
+        self.assertFalse(lst.is_own(out | {"maker": "TheMightyTRexUK"}))  # the name alone never gives the mark
+        self.assertTrue(lst.is_own(lst.check(dict(BASE, own=True))))
 
     def test_refusals(self):
         self.bad(id="Bad Id")
@@ -35,6 +37,9 @@ class Format(unittest.TestCase):
         self.bad(name=KeyError)
         self.bad(manifest="http://example.com/x.json")
         self.bad(manifest="https://169.254.169.254/x.json")
+        self.bad(manifest="https://raw.githubusercontent.com/example/example/main/starboard-plugin.json")
+        self.bad(manifest="https://example.com/0123456789abcdef0123456789abcdef01234567/x.json")
+        self.bad(own="yes")
         self.bad(maker="a" * 61)
         self.bad(maker="line\nbreak")
         self.bad(listed_at="23/11/2026")
@@ -64,6 +69,7 @@ class Committed(unittest.TestCase):
         self.assertGreaterEqual(len(listings), 33)
         for lid, l in listings.items():
             self.assertEqual(l["reviewed"]["by"], "TheMightyTRexUK")
+            self.assertTrue(l["own"])
             self.assertEqual(l["reviewed"]["at"], l["listed_at"])
             self.assertLessEqual(dt.date.fromisoformat(l["listed_at"]), dt.date.today())
             self.assertTrue(l["help"].startswith("https://themightytrex.github.io/starboard-plugins/help/plugins/" + lid + "/"))

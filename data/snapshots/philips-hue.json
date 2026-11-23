@@ -1,7 +1,7 @@
 {
  "id": "philips-hue",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/philips-hue/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/philips-hue/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "6f947c25dc57af618ea4e9c8cfc4b269479609c3f0c79f248e7c98aaa538d3fe",
  "starboard_check": "v0.29.0",
  "problems": [],

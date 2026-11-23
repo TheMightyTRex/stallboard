@@ -1,7 +1,7 @@
 {
  "id": "download-summary",
  "name": "Download summary",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/download-summary/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/download-summary/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -19,5 +19,6 @@
    "manifest_sha256": "009021ed61afc73cb8f19908cbbcb2a293bd4b8b8d51b2779c0a4528a3c3cd64"
   }
  ],
- "pitch": "What you downloaded today and this week."
+ "pitch": "What you downloaded today and this week.",
+ "own": true
 }

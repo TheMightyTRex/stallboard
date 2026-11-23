@@ -1,7 +1,7 @@
 {
  "id": "maintainerr",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/maintainerr/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/maintainerr/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "65f8079e8a7f57251c963a51b9e0aa74b99e5da8dcfccae367161dcff4bda8b2",
  "starboard_check": "v0.29.0",
  "problems": [],

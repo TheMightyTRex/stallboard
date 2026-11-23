@@ -15,7 +15,8 @@ import build
 import manifest as mf
 
 TODAY = dt.date(2026, 11, 23)
-STARBOARD = pathlib.Path(os.environ.get("STARBOARD_SRC", "/mnt/pool/build-cache/ref-starboard"))
+STARBOARD = pathlib.Path(os.environ.get("STARBOARD_SRC", "/nonexistent-set-STARBOARD_SRC"))
+PLUGINS_CATALOGUE = pathlib.Path(os.environ.get("STARBOARD_PLUGINS_CATALOGUE", "/nonexistent"))
 
 
 def scratch_root(ids, mutate=None):
@@ -94,7 +95,7 @@ class RealSite(unittest.TestCase):
         cat = json.loads((self.out / "catalogue.json").read_text())
         self.assertEqual((cat["catalogue_version"], cat["name"]), (1, "Stallboard"))
         self.assertEqual(len(cat["plugins"]), 33)
-        ref = json.loads((ROOT.parent / "ref-starboard-plugins" / "catalogue.json").read_text()) if (ROOT.parent / "ref-starboard-plugins" / "catalogue.json").exists() else None
+        ref = json.loads(PLUGINS_CATALOGUE.read_text()) if PLUGINS_CATALOGUE.exists() else None
         for e in cat["plugins"]:
             self.assertRegex(e["id"], r"^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$")
             self.assertTrue(e["manifest"].startswith("https://") and e["published"] is True)
@@ -134,6 +135,34 @@ print(json.dumps({{"name": got["name"], "n": len(got["items"]), "logos": sum(1 f
         self.assertEqual((got["name"], got["n"], got["logos"]), ("Stallboard", 33, 33))
         self.assertTrue(got["versions"])
         self.assertLess(got["size"], 256 * 1024)
+
+    @unittest.skipUnless((STARBOARD / "starboard" / "plugins_admin.py").exists(), "needs a checkout of Starboard (STARBOARD_SRC)")
+    def test_starboard_refuses_a_file_that_differs_from_the_listed_hash(self):
+        """Starboard's real fetch_manifest, given the catalogue's manifest_sha256: the same file is used, another is refused."""
+        e = next(x for x in json.loads((self.out / "catalogue.json").read_text())["plugins"] if x["id"] == "direct-play")
+        raw = json.dumps({"manifest_version": 1}).encode()
+        code = f"""
+import sys, hashlib
+sys.path.insert(0, {str(STARBOARD)!r})
+from starboard import plugins_admin as pa, outside
+outside.check_url = lambda u: None
+raw = {raw!r}
+class R:
+    def __enter__(s): return s
+    def __exit__(s, *a): pass
+    def read(s, n=-1): return raw
+class O:
+    def open(s, req, timeout=0): return R()
+good = hashlib.sha256(raw).hexdigest()
+pa.fetch_manifest({e["manifest"]!r}, O(), good)
+try:
+    pa.fetch_manifest({e["manifest"]!r}, O(), {e["versions"][0]["manifest_sha256"]!r})
+    print("ACCEPTED")
+except ValueError as err:
+    print("REFUSED", err)
+"""
+        r = subprocess.run([sys.executable, "-I", "-c", code], capture_output=True, text=True, timeout=60)
+        self.assertIn("REFUSED The file changed since the catalogue listed it", r.stdout + r.stderr)
 
     def test_each_plugin_page_has_the_new_sections(self):
         t = (self.out / "plugins" / "direct-play.html").read_text()

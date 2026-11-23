@@ -1,7 +1,7 @@
 {
  "id": "audio-description-tracks",
  "name": "Audio description tracks",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/audio-description-tracks/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/audio-description-tracks/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -19,5 +19,6 @@
    "manifest_sha256": "fcfce26e63b4e7a1e6dff6fcb7c58280511be9037a28c40baa1578c85e2dbcc3"
   }
  ],
- "pitch": "Add a description track you already own to its film in Jellyfin."
+ "pitch": "Add a description track you already own to its film in Jellyfin.",
+ "own": true
 }

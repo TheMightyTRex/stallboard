@@ -1,7 +1,7 @@
 {
  "id": "vpn-check",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/vpn-check/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/vpn-check/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "ad3bd1e5192a606c0c97175178fe11aa6c0d1c37995f255a76423ee8ad6a25b0",
  "starboard_check": "v0.29.0",
  "problems": [],

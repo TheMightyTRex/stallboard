@@ -1,7 +1,7 @@
 {
  "id": "home-assistant",
  "name": "Home Assistant",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/home-assistant/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/home-assistant/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -19,5 +19,6 @@
    "manifest_sha256": "ea0538fb9fc5a98fc7f02e1c1cfd5c1156eab939681ecc96b310e2cb2a8ea997"
   }
  ],
- "pitch": "Your house in one sentence, on the dashboard."
+ "pitch": "Your house in one sentence, on the dashboard.",
+ "own": true
 }

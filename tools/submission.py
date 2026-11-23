@@ -18,6 +18,7 @@ SECURITY. The issue is written by a stranger, so every part of it is text and no
 """
 import datetime as dt
 import json
+import unicodedata
 import os
 import pathlib
 import re
@@ -51,11 +52,28 @@ def md(s, most=300):
     """Text from a stranger as one safe line for markdown: no markup, no mentions, no links, no references."""
     s = " ".join(str(s or "").split())[:most]
     s = re.sub(r"[`<>\[\]()*_~|#!\\]", " ", s).replace("&", "and")
+    s = re.sub(r"(?i)\bwww\.", "www . ", s)  # GitHub turns bare www. text into a link
     return s.replace("@", " at ").replace("://", " : ").strip()
 
 
 def code(s, most=200):
     return "`" + md(s, most).replace("`", "") + "`"
+
+
+LOOKALIKE = str.maketrans({"а": "a", "е": "e", "о": "o", "р": "p", "с": "c", "х": "x", "у": "y", "і": "i", "ј": "j", "ѕ": "s", "т": "t", "һ": "h", "м": "m", "ɡ": "g",
+                           "α": "a", "ε": "e", "ι": "i", "ο": "o", "ρ": "p", "τ": "t", "υ": "u", "ʜ": "h", "ᴛ": "t", "ᴍ": "m", "ɪ": "i", "ɢ": "g", "ʏ": "y", "ᴇ": "e",
+                           "0": "o", "3": "e", "5": "s", "$": "s", "|": "l", "!": "i"})
+
+
+def squash(name, one="l"):
+    """A name reduced to bare lower case letters and numbers, so spaces, dots, case and look-alike letters do not hide it."""
+    s = unicodedata.normalize("NFKD", str(name or ""))
+    s = "".join(c for c in s if not unicodedata.combining(c)).casefold().translate(LOOKALIKE).replace("1", one)
+    return re.sub(r"[^a-z0-9]", "", s)
+
+
+def claims_owners_name(name):
+    return lst.OWN_NAME in squash(name) or lst.OWN_NAME in squash(name, "i")
 
 
 def parse_body(body):
@@ -100,8 +118,13 @@ def run_checks(fields, listings_dir=None, fetch=safefetch.fetch, now=None):
     except safefetch.FetchError as e:
         fix.append(f"The address: {md(e)}.")
         url = ""
+    if url and lst.pinned_problem(url):
+        fix.append("The address: " + lst.pinned_problem(url))
+        url = ""
     maker = (fields.get("maker") or "").strip()
-    if MAKER.match(maker):
+    if claims_owners_name(maker):
+        fix.append("That name is the owner's, and the mark Starboard's own is only given by a maintainer. Use your own name or GitHub name.")
+    elif MAKER.match(maker):
         res["maker"] = maker
         ok.append("The maker's name is given.")
     else:
@@ -189,6 +212,39 @@ def write(path, text):
     p = pathlib.Path(path)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(text, encoding="utf-8")
+
+
+RATE_LIMIT = 10
+
+
+def cmd_rate(now=None):
+    """Counts the checks the Actions bot made in the last hour (its comments, read from reports/recent-comments.json). At
+    the limit it writes a short "try again later" comment and says limited=true, so the checks do not run."""
+    now = now or dt.datetime.now(dt.timezone.utc)
+    path = pathlib.Path(os.environ.get("RECENT_COMMENTS_FILE", ROOT / "reports" / "recent-comments.json"))
+    comments = flatten(json.loads(path.read_text() or "[]")) if path.exists() else []
+    issue = (event().get("issue") or {}).get("number")
+    n = 0
+    for c in comments:
+        user = c.get("user") or {}
+        if user.get("login") != "github-actions[bot]" or not str(c.get("body") or "").startswith("## Checks on your plug-in"):
+            continue
+        try:
+            at = dt.datetime.strptime(str(c.get("updated_at")), "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=dt.timezone.utc)
+        except ValueError:
+            continue
+        if (now - at).total_seconds() < 3600 and not str(c.get("issue_url", "")).endswith(f"/issues/{issue}"):
+            n += 1
+    limited = n >= RATE_LIMIT
+    out = ROOT / "reports" / "submission"
+    if limited:
+        write(out / "comment.md", "## Checks paused\n\nA lot of plug-ins were submitted in the last hour, so the checks are paused to keep the service fair. "
+              "Please try again later: edit your issue (save it again) in an hour or so and the checks will run.\n")
+    if os.environ.get("GITHUB_OUTPUT"):
+        with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+            f.write(f"limited={'true' if limited else 'false'}\n")
+    print("limited" if limited else f"{n} checks in the last hour")
+    return limited
 
 
 def cmd_check():
@@ -304,4 +360,4 @@ def cmd_open_pr():
 
 
 if __name__ == "__main__":
-    {"check": cmd_check, "approve": cmd_approve, "open-pr": cmd_open_pr}.get(sys.argv[1] if len(sys.argv) > 1 else "", lambda: sys.exit(__doc__))()
+    {"check": cmd_check, "rate": cmd_rate, "approve": cmd_approve, "open-pr": cmd_open_pr}.get(sys.argv[1] if len(sys.argv) > 1 else "", lambda: sys.exit(__doc__))()

@@ -1,7 +1,7 @@
 {
  "id": "themearr",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/themearr/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/themearr/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "34da987e6d12ca7fcd23b1da37dba54b837f4707d184ae7c6b896b881e8b0d71",
  "starboard_check": "v0.29.0",
  "problems": [],

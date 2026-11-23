@@ -1,7 +1,7 @@
 {
  "id": "navidrome",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/navidrome/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/navidrome/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "b54dbf8d6cea0ac612a0d52d67845eb919921da4a86923621ded12b82bea9de9",
  "starboard_check": "v0.29.0",
  "problems": [],

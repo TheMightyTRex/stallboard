@@ -1,7 +1,7 @@
 {
  "id": "dns-blocking",
  "name": "Ad blocking",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/dns-blocking/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/dns-blocking/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -19,5 +19,6 @@
    "manifest_sha256": "7e691567b0c354cdd45763c3dd5426b4eb5445f8eb9f8b55e374d89b8221e430"
   }
  ],
- "pitch": "How many adverts and trackers were blocked today."
+ "pitch": "How many adverts and trackers were blocked today.",
+ "own": true
 }

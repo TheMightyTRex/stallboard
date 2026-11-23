@@ -1,7 +1,7 @@
 {
  "id": "audio-description",
  "name": "Audio description",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/audio-description/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/audio-description/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -19,5 +19,6 @@
    "manifest_sha256": "86c3741f9e4784d6bd8d6b91fc151ba37bc176d3e02540ebd64776299f234c59"
   }
  ],
- "pitch": "Films and series with a described sound track, found and played for you."
+ "pitch": "Films and series with a described sound track, found and played for you.",
+ "own": true
 }

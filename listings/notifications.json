@@ -1,7 +1,7 @@
 {
  "id": "notifications",
  "name": "Notifications",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/notifications/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/notifications/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -26,5 +26,6 @@
    "manifest_sha256": "292e225095f76a1639d34ab839d1f19ffa530dab6ef13acedbf47d9191530dee"
   }
  ],
- "pitch": "Starboard's news by email, Telegram, Discord and more."
+ "pitch": "Starboard's news by email, Telegram, Discord and more.",
+ "own": true
 }

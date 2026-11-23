@@ -1,7 +1,7 @@
 {
  "id": "most-watched",
  "name": "Most watched",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/most-watched/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/most-watched/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -19,5 +19,6 @@
    "manifest_sha256": "f2f9bc1662191636980ac0f4851dafa0eb6bc695c0ee0f9e496c9e07d9ec756a"
   }
  ],
- "pitch": "What your household watched most this week."
+ "pitch": "What your household watched most this week.",
+ "own": true
 }

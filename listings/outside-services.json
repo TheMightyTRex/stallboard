@@ -1,7 +1,7 @@
 {
  "id": "outside-services",
  "name": "Uptime and status",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/outside-services/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/outside-services/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -25,5 +25,6 @@
    "manifest_sha256": "e98b7af657ec3372e1db454114a850b2e3029a2c7ecebd4cc5c19e98f4fb4101"
   }
  ],
- "pitch": "Check your router, NAS and websites, with a status page."
+ "pitch": "Check your router, NAS and websites, with a status page.",
+ "own": true
 }

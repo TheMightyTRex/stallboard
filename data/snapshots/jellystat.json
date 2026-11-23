@@ -1,7 +1,7 @@
 {
  "id": "jellystat",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/jellystat/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/jellystat/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "34610a826e6ab6c017f3935eaac2d2450d67586da0f6fba6831182f5ff1a41d5",
  "starboard_check": "v0.29.0",
  "problems": [],

@@ -40,7 +40,7 @@ data/starboard-releases.json   each Starboard release and its plug-in API
 tools/build.py            writes the whole site into site/ (standard library only, works offline)
 ```
 
-- **Offline builds.** The build reads only the committed snapshots, so it never fails because a maker's server is down. A listing whose snapshot is older than 14 days, or whose manifest fails Starboard's check, is left out of the site, and the build says so in its output and its run summary.
+- **Offline builds.** The build reads only the committed snapshots, so it never fails because a maker's server is down. A listing whose snapshot is older than 14 days, or whose manifest fails Starboard's check, or whose snapshot or logo is broken, is left out of the site, and the build says so in its output and its run summary. The daily refresh opens a pull request only when a file changed, or to move the read date of one not read for 7 days.
 - **Refreshing.** `tools/refresh_snapshots.py` and `tools/refresh_releases.py` fetch again (as data, through `tools/lib/safefetch.py`). A daily workflow runs them and opens one pull request for a person to read. More permissions than before are shown in bold.
 - **The manifest check** is Starboard's own `check()`, copied unchanged into `vendor/starboard/` and pinned to a release (see `VENDORED.json`). It is copied, not downloaded, so a submission check never fetches code and the copy is reviewed in a pull request. To refresh it: `python3 tools/vendor_starboard.py v0.30.0`, run the tests and open a pull request.
 - **Resources.** Declared limits come from each manifest. Measured figures come from `tools/measure_resources.py`, run on a Starboard server (it only reads: `docker ps`, `docker stats`, `docker inspect`). Where nothing is measured the page says "Not measured yet". A maker's own figures are shown as "Maker's figures, not measured by the reviewer".
@@ -58,6 +58,10 @@ tools/run.sh shots                       # the screenshots, into reports/
 `tools/run.sh` uses `mcr.microsoft.com/playwright:v1.63.0-noble`. The checks are axe 4 at WCAG 2.2 AA plus best practice in light, dark, forced colours and at 375 px, a keyboard walk, 175% text, 200% and 400% zoom, 44 px targets, a read without JavaScript and a check that nothing is requested from outside. Zero violations is required.
 
 The owner sets up the labels once with `tools/setup-labels.sh`.
+
+**Test the workflows once.** The submission and approval workflows could not be run for real before the repository had labels and settings. After switching them on, submit a throwaway plug-in and follow "The first real run of the approval workflow" in [REVIEWING.md](REVIEWING.md): the comment and label appear, `approved` from a maintainer opens a pull request, and from anyone else does nothing.
+
+Plug-in files must be at a commit address (a 40 character commit in the raw address), and `catalogue.json` carries each file's SHA-256, so Starboard installs exactly the file that was reviewed. Pages carry a Content-Security-Policy (`default-src 'self'`) set in a meta tag; the host cannot set headers, so `frame-ancestors` is not set.
 
 ## Feedback
 

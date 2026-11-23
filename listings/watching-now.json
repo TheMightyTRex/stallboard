@@ -1,7 +1,7 @@
 {
  "id": "watching-now",
  "name": "Watching now",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/watching-now/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/watching-now/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -19,5 +19,6 @@
    "manifest_sha256": "98fb2e84caf7e3cfa559cd81b917de964b421489f5454ff3ea893f92adbbb324"
   }
  ],
- "pitch": "Who is watching what in Jellyfin right now."
+ "pitch": "Who is watching what in Jellyfin right now.",
+ "own": true
 }

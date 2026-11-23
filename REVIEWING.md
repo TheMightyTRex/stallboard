@@ -26,3 +26,24 @@ The daily refresh reads every listed plug-in's file again. Anything that **asks 
 ## Taking a plug-in off
 
 Delete its `listings/<id>.json` in a pull request and say why on the issue. Do it at once for anything harmful.
+
+## The mark Starboard's own
+
+A submitter cannot claim it: the checks refuse any maker name that contains the owner's name (spaces, case and look-alike letters are ignored), and the mark comes only from `"own": true` in a listing file. Never add `own` to a listing unless the plug-in is the owner's. If a pull request from the approval workflow carries `own`, close it.
+
+## Addresses must be a commit
+
+A listing's manifest address must be `raw.githubusercontent.com/<owner>/<repo>/<40 hex commit>/...`, so the file you read is the file Starboard installs. The catalogue carries the file's SHA-256 and Starboard refuses a file that differs ("The file changed since the catalogue listed it, so Starboard did not use it"). A new version is a new submission with a new commit address, or a pull request that changes the listing's address and snapshot after you read it.
+
+## The first real run of the approval workflow
+
+It could not be tested before the repository had labels and settings. Test it once, with a throwaway plug-in, before relying on it:
+
+1. Labels exist (`tools/setup-labels.sh`) and Actions may create pull requests.
+2. Open a submission with a plug-in file at a commit address. Within a minute the issue should have a comment "Checks on your plug-in" and the label `checks-passed` (or `checks-failed` with what to fix). The comment ends with a hidden line `stallboard-checks sha256=...`.
+3. Add `approved` as a maintainer. Within a minute there should be a pull request that adds `listings/<id>.json` and `data/snapshots/<id>.json`, with "Closes #n" and the checklist. The reviewer named is you.
+4. Add `approved` as someone without write access (or check the run log of a label added by a bot): nothing is opened, the label is removed and a comment says why.
+5. Edit the issue after approval and add the label again: it must refuse until the checks have run on the new text.
+6. Close the test pull request without merging, and delete the branch.
+
+Also check that the run logs show no secret and that the `open-pr` job is the only one with write access.

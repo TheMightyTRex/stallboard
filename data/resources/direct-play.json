@@ -1,7 +1,7 @@
 {
  "plugin": "direct-play",
  "measured_at": "2026-11-23T16:41+00:00",
- "how": "docker stats, 6 samples 4 seconds apart, on the owner's server (T-Rex-Server), containers as they were running; image size is the unpacked local size",
+ "how": "docker stats, 6 samples 4 seconds apart, on the maker's server, containers as they were running; image size is the unpacked local size",
  "containers": [
   {
    "container": "plugin-direct-play-main",

@@ -1,7 +1,7 @@
 {
  "id": "vpn-check",
  "name": "VPN check",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/vpn-check/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/vpn-check/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -19,5 +19,6 @@
    "manifest_sha256": "3c104e5a4443379f0374a3c3972eb0d31f16ee647a757c5975a698270beedba1"
   }
  ],
- "pitch": "Check which address your downloads use through your VPN."
+ "pitch": "Check which address your downloads use through your VPN.",
+ "own": true
 }

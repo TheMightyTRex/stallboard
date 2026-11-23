@@ -96,6 +96,11 @@ if (MODE === "check") {
         if (broken.length) fail(`${cname} / ${pname}: pictures that did not load: ${broken.slice(0, 4).join(", ")}`);
       }
       if (pname === "home") {
+        // Snaglist still works under the Content-Security-Policy: its button opens its window.
+        await page.getByRole("button", { name: /Send feedback/ }).first().click(); await page.waitForTimeout(400);
+        const snag = await page.evaluate(() => [...document.querySelectorAll("snag-list, [class*=sl-], [role=dialog]")].some((e) => e.offsetParent !== null || e.tagName === "SNAG-LIST") && !!(document.querySelector("snag-list")?.shadowRoot?.querySelector("[role=dialog],dialog,.sl-panel") || document.querySelector("[role=dialog]")));
+        if (!snag) fail(`${cname}: Snaglist did not open under the Content-Security-Policy`);
+        await page.keyboard.press("Escape"); await page.waitForTimeout(200);
         await page.click('#kind-chips button[data-kind="Jellyfin"]'); await page.waitForTimeout(100);
         record(cname, "home-filtered", await axeRun(page), page);
         await page.selectOption("#sort", "mem"); await page.waitForTimeout(100);

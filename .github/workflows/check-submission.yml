@@ -30,9 +30,29 @@ jobs:
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: "3.12"
+      - name: Count the checks made in the last hour
+        id: rate
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          since=$(date -u -d '1 hour ago' +%Y-%m-%dT%H:%M:%SZ)
+          gh api "repos/$GH_REPO/issues/comments?since=$since&per_page=100" --paginate --slurp > reports/recent-comments.json
+          python3 tools/submission.py rate
+      - name: Pause when too many were checked
+        if: steps.rate.outputs.limited == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: gh issue comment "$NUMBER" --body-file reports/submission/comment.md
       - name: Run the checks
+        if: steps.rate.outputs.limited != 'true'
         run: python3 tools/submission.py check
       - name: Comment and label
+        if: steps.rate.outputs.limited != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}

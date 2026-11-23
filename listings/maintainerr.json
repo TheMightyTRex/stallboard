@@ -1,7 +1,7 @@
 {
  "id": "maintainerr",
  "name": "Maintainerr",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/maintainerr/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/maintainerr/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -23,5 +23,6 @@
   "memory_mib": 127,
   "cpu_percent": 0.0
  },
- "pitch": "Clean-up rules for Jellyfin, with you in charge."
+ "pitch": "Clean-up rules for Jellyfin, with you in charge.",
+ "own": true
 }
