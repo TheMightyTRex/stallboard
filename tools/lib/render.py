@@ -130,6 +130,9 @@ MARK = ('<svg viewBox="0 0 64 64" aria-hidden="true" focusable="false"><rect cla
         + '<rect class="lg-post" x="17" y="34" width="6" height="18" rx="3"/><rect class="lg-post" x="41" y="34" width="6" height="18" rx="3"/></svg>')
 
 
+APP_NAV = []  # (id, name) of the apps Starboard works with, set by the build
+
+
 def header(depth, current):
     p = rel(depth)
 
@@ -140,6 +143,7 @@ def header(depth, current):
   <a class="brand" href="{p}index.html">{MARK}<span>Stallboard<span class="visually-hidden"> home</span></span></a>
   <nav class="nav" aria-label="Main"><ul>
     {item("starboard.html", "Start here: Starboard", "starboard")}
+    {"".join(item(f"{i}.html", esc(n), i) for i, n in APP_NAV)}
     {item("index.html#all-plug-ins", "Browse", "home")}
     {item("submit.html", "Submit a plug-in", "submit")}
     <li><a href="{HELP_CENTRE}" target="_blank" rel="noopener">Help centre {icon("help-new-tab")}<span class="visually-hidden"> (opens in a new tab)</span></a></li>
@@ -237,7 +241,7 @@ def tile(p, depth, why=None):
 # ------------------------------------------------------------------ home
 
 
-def home(plugins, depth_releases, sb):
+def home(plugins, depth_releases, sb, apps=()):
     P = sorted(plugins, key=lambda p: p["name"].lower())
     counts = {k: sum(1 for p in P if p["kind"] == k) for k in KINDS}
     by_id = {p["id"]: p for p in P}
@@ -274,14 +278,15 @@ def home(plugins, depth_releases, sb):
   <ul class="collage" id="collage" aria-hidden="true">{collage}</ul>
 </div></div></section>
 
-<section class="section" id="start-here" aria-labelledby="start-h" data-s="pt0"><div class="wrap">
+<section class="section" id="start-here" aria-labelledby="start-h" data-s="pt0"><div class="wrap"><div class="startgrid">
   <div class="startcard"><div>
     <p class="kicker">New here? Start here</p>
     <h2 class="display" id="start-h">Starboard</h2>
     <p>The plug-ins need Starboard, a media server you set up from one dashboard. {f"The newest release is {esc(latest['version'])}, with plug-in API {esc(latest['api'])}." if latest else ""} Every plug-in says which Starboard it needs.</p>
     <p class="startcard__actions"><a class="btn btn--primary btn--big" href="starboard.html">About Starboard and how to install it</a> <a class="btn" href="{addr(latest["url"]) if latest else REPO_URL}" target="_blank" rel="noopener">Release notes{f" for {esc(latest['version'])}" if latest else ""}<span class="visually-hidden"> (opens in a new tab)</span></a></p>
   </div></div>
-</div></section>
+  {"".join(f'<div class="startcard"><div><p class="kicker">An app, not a plug-in</p><h2 class="display" id="app-{esc(a["id"])}-h">Works with Starboard: {esc(a["name"])}</h2><p>{esc(a["summary"] or a["tagline"])}</p><p class="startcard__actions"><a class="btn btn--big" href="{esc(a["id"])}.html">About {esc(a["name"])}, with help and links</a></p></div></div>' for a in apps)}
+</div></div></section>
 
 <section class="section" id="categories" aria-labelledby="cats-h" data-s="pt0"><div class="wrap">
   <div class="section__head"><h2 class="display" id="cats-h">What do you want to do?</h2><p>Pick a colour to open its plug-ins.</p></div>

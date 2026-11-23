@@ -45,7 +45,7 @@ class RealSite(unittest.TestCase):
 
     def test_every_page_is_made(self):
         self.assertEqual(len(self.plugins), 33)
-        for name in ("index.html", "starboard.html", "submit.html", "what-reviewed-means.html", "accessibility.html", "privacy.html", "404.html",
+        for name in ("index.html", "starboard.html", "reelix.html", "submit.html", "what-reviewed-means.html", "accessibility.html", "privacy.html", "404.html",
                      "catalogue.json", "sitemap.xml", "robots.txt"):
             self.assertTrue((self.out / name).exists(), name)
         for p in self.plugins:
@@ -74,7 +74,7 @@ class RealSite(unittest.TestCase):
 
     def test_words_follow_the_house_rules(self):
         """No contractions, no em dashes, never See or Look at the start of interface text, in the pages we write."""
-        for name in ("index.html", "starboard.html", "submit.html", "what-reviewed-means.html", "accessibility.html", "privacy.html", "404.html"):
+        for name in ("index.html", "starboard.html", "reelix.html", "submit.html", "what-reviewed-means.html", "accessibility.html", "privacy.html", "404.html"):
             t = (self.out / name).read_text()
             text = re.sub(r"<(script|style|svg)\b.*?</\1>", " ", t, flags=re.S)
             text = re.sub(r"<[^>]+>", " ", text)
@@ -132,7 +132,7 @@ print(json.dumps({{"name": got["name"], "n": len(got["items"]), "logos": sum(1 f
         r = subprocess.run([sys.executable, "-I", "-c", code], capture_output=True, text=True, timeout=60)
         self.assertEqual(r.returncode, 0, r.stderr[-800:])
         got = json.loads(r.stdout.strip().splitlines()[-1])
-        self.assertEqual((got["name"], got["n"], got["logos"]), ("Stallboard", 33, 33))
+        self.assertEqual((got["name"], got["n"], got["logos"]), ("Stallboard", 33, 33))  # the apps array and the starboard key are ignored, not installed as plug-ins
         self.assertTrue(got["versions"])
         self.assertLess(got["size"], 256 * 1024)
 
