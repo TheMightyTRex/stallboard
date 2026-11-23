@@ -1,0 +1,17 @@
+{
+ "id": "direct-play",
+ "name": "Direct play",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/direct-play/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.0.3"
+ },
+ "kind": "Jellyfin",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/direct-play/index.html",
+ "recommended": true,
+ "pitch": "Stop Jellyfin converting films while people watch.",
+ "own": true
+}

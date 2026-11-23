@@ -1,0 +1,17 @@
+{
+ "plugin": "picture-shrinker",
+ "measured_at": "2026-11-23T16:41+00:00",
+ "how": "docker stats, 6 samples 4 seconds apart, on the maker's server, containers as they were running; image size is the unpacked local size",
+ "containers": [
+  {
+   "container": "plugin-picture-shrinker-main",
+   "memory_mib_median": 4.6,
+   "memory_mib_max": 4.6,
+   "cpu_percent_median": 0.0,
+   "memory_limit_mib": 128,
+   "cpus_limit": 0.5,
+   "pids_limit": 64,
+   "image_size_mb": 26.2
+  }
+ ]
+}

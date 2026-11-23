@@ -1,0 +1,24 @@
+{
+ "id": "watch-stats",
+ "name": "Watch statistics",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/watch-stats/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.1.4"
+ },
+ "kind": "Jellyfin",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/watch-stats/index.html",
+ "older_versions": [
+  {
+   "version": "1.0.0",
+   "starboard_api": ">=1.11 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/watch-stats/starboard-plugin.json",
+   "manifest_sha256": "cc2704c0417f12170b8e3a301840a97abeda94f7838ce76d4e9a26f25fdf716c"
+  }
+ ],
+ "pitch": "Who watched what and when, with no second database.",
+ "own": true
+}

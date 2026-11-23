@@ -1,0 +1,47 @@
+name: CI
+# On every pull request: the unit tests, the build, an HTML check, and the accessibility checks (axe 4 at WCAG 2.2 AA
+# plus best practice in light, dark, forced colours and 375 px, a keyboard walk, 175% text, 200% and 400% zoom, 44 px
+# targets) in the Playwright image. Zero violations is required. Nothing here uses a secret, and the pull request's code
+# runs with a read-only token (the pull_request event, never pull_request_target).
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test and check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read  # read the repository
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Unit tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Build
+        run: python3 tools/build.py --out site
+      - name: HTML check
+        run: python3 tools/check_html.py site
+      - name: Accessibility and behaviour checks
+        env:
+          OUT_DIR: ${{ runner.temp }}/reports
+        run: tools/run.sh check
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: check-results
+          path: ${{ runner.temp }}/reports
+          if-no-files-found: ignore
+          retention-days: 7

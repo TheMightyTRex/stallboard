@@ -1,0 +1,28 @@
+{
+ "id": "uptime-kuma",
+ "name": "Uptime Kuma",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/uptime-kuma/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.1.1"
+ },
+ "kind": "Apps you can add",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/uptime-kuma/index.html",
+ "older_versions": [
+  {
+   "version": "1.0.0",
+   "starboard_api": ">=1.13 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/uptime-kuma/starboard-plugin.json",
+   "manifest_sha256": "1ff60e7930a7eb9312d3172cf16270b7edd67091b1d3cdeaa8d2aa9367485f55"
+  }
+ ],
+ "maker_figures": {
+  "memory_mib": 116,
+  "cpu_percent": 0.0
+ },
+ "pitch": "Status checks and alerts for any website or service.",
+ "own": true
+}

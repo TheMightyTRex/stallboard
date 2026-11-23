@@ -1,0 +1,24 @@
+{
+ "id": "line-speed",
+ "name": "Line speed",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/line-speed/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.1.4"
+ },
+ "kind": "Network",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/line-speed/index.html",
+ "older_versions": [
+  {
+   "version": "1.0.0",
+   "starboard_api": ">=1.1 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/line-speed/starboard-plugin.json",
+   "manifest_sha256": "2b8c88e9e3fc3cfda145e88c323614c6033673d4baf2351d4c712757377cb1e9"
+  }
+ ],
+ "pitch": "A nightly internet speed test, kept for a week.",
+ "own": true
+}

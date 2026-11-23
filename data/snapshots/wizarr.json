@@ -1,0 +1,94 @@
+{
+ "id": "wizarr",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/wizarr/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:23Z",
+ "sha256": "b4d9d1921a249acbff8408d00644d1cd40102db574eb1b9f3dfc64da11c00818",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "wizarr",
+  "name": "Wizarr",
+  "version": "1.1.1",
+  "description": "Wizarr, invitation links for Jellyfin: send someone a link and they make their own Jellyfin account, with the libraries you choose.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/wizarr",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "network:lan",
+   "network:port"
+  ],
+  "needs": [
+   "jellyfin"
+  ],
+  "containers": [
+   {
+    "name": "app",
+    "image": "ghcr.io/wizarrrr/wizarr@sha256:08f2c6de534ec7d36d39a4f55b7c5c379021ca881dc519c702aad0ddafbdc67a",
+    "port": 5690,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "app": {
+    "memory": 384,
+    "cpus": 0.5,
+    "pids": 128
+   }
+  },
+  "versions": [
+   {
+    "version": "1.1.1",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Logo description: where its logo stands on its own, a screen reader says \"Wizarr logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins and in the Catalogue."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.0.0."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-13",
+    "groups": [
+     [
+      "Added",
+      [
+       "Wizarr as a plug-in, outside the main install, on its own page on your home network."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Wizarr logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5XaXphcnIgbG9nbzwvdGl0bGU+PHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTEiIGZpbGw9IiMzYjVhYTAiIC8+PHJlY3QgeD0iOSIgeT0iMTMiIHdpZHRoPSIzMCIgaGVpZ2h0PSIyMiIgcng9IjIuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjxwYXRoIGQ9Ik0xMCAxNS41bDE0IDEwLjUgMTQtMTAuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjwvc3ZnPg==",
+ "logo_note": ""
+}

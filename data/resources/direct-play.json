@@ -1,0 +1,17 @@
+{
+ "plugin": "direct-play",
+ "measured_at": "2026-11-23T16:41+00:00",
+ "how": "docker stats, 6 samples 4 seconds apart, on the maker's server, containers as they were running; image size is the unpacked local size",
+ "containers": [
+  {
+   "container": "plugin-direct-play-main",
+   "memory_mib_median": 8.6,
+   "memory_mib_max": 8.6,
+   "cpu_percent_median": 0.0,
+   "memory_limit_mib": 512,
+   "cpus_limit": 1.0,
+   "pids_limit": 64,
+   "image_size_mb": 73.5
+  }
+ ]
+}

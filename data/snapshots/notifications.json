@@ -1,0 +1,168 @@
+{
+ "id": "notifications",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/notifications/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
+ "sha256": "16be72013de8ddf37a1313d02c9be79e9c439c68f398ab1ac8f61c4812a1cc88",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "notifications",
+  "name": "Notifications",
+  "version": "1.3.0",
+  "description": "Sends Starboard's events to email, Telegram, Discord, Signal, Pushover, ntfy or a webhook, in plain words, and a weekly New this week.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/notifications",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.16 <2.0",
+  "permissions": [
+   "apps:read",
+   "downloads:read",
+   "media:read",
+   "system:read",
+   "network:lan"
+  ],
+  "needs": [],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-examples@sha256:e17269dd1e48c8f41902e091ece24207cdf5330b0930347d4a32158d43822c15",
+    "port": 8080,
+    "network": "lan",
+    "start": "when_needed",
+    "idle_stop_minutes": 5,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 48,
+    "cpus": 0.1,
+    "pids": null
+   }
+  },
+  "versions": [
+   {
+    "version": "1.3.0",
+    "date": "2026-11-22",
+    "groups": [
+     [
+      "Added",
+      [
+       "New this week, by email: a weekly email of what was added to Jellyfin: films, episodes, albums and books, with titles and years only and no pictures. You choose the day and the hour, and it can go by email alone or by every way you activated."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Deactivated at first: New this week is now deactivated until you activate it under What to send. Send New this week on is replaced by When to send New this week, one setting for the day and the hour."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.2.0",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Added",
+      [
+       "Disk changes: a message whenever a disk is erased, added to the pool or taken out of it, however it was asked for, so an erase you did not start reaches you at once. Needs Starboard with plug-in API 1.16 or later; an older Starboard keeps 1.1.3."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.4",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Reaches Starboard on any network: with Starboard 0.23.0 or later it calls Starboard through a socket in its own folder, so it works on its own closed network too. An older Starboard works as before."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.3",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: each channel's switch says what to enter before you activate it, the band says Not sent, and a message about an event it does not know says \"Starboard has an alert. Open Starboard for the details.\"",
+       "Logo description: where its logo stands on its own, a screen reader says \"Notifications logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.2",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Shared helper: the helper every example shares sends Jellyfin's key the way Jellyfin 12 asks for it. This plug-in does not ask Jellyfin anything, so it works as before."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.1",
+    "date": "2026-11-16",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Lighter at rest: it wakes about once a minute while nothing asks it anything, not twice a second, and writes nothing to its folder when a run goes well.",
+       "Starts faster: its image comes with Python's modules already compiled, so a start takes about a quarter of the processor time."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins, in the Catalogue and on its dashboard cards.",
+       "Its cards say how things are: a status and when they last changed, in the grey band at the top of each card.",
+       "Updates safely: before an update it finishes what it is doing and starts nothing new."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.0.0."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-13",
+    "groups": [
+     [
+      "Added",
+      [
+       "Seven ways to send: email, Telegram, Discord, Signal (through signal-cli-rest-api), Pushover, ntfy and Apprise-style webhooks, each with a Test button.",
+       "What it sends: a request ready to watch (to the person who asked too), a failed download, an app down and back, a disk nearly full, an update ready, and New this week.",
+       "Plain words with no meaning in symbols, and links with words before them.",
+       "Rests between messages: Starboard's events and its daily job wake it, so it uses no memory while idle."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Notifications logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5Ob3RpZmljYXRpb25zIGxvZ288L3RpdGxlPjxyZWN0IHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcng9IjExIiBmaWxsPSIjYTMzYzE3IiAvPjxwYXRoIGQ9Ik0yNCAxMC41YTguNSA4LjUgMCAwIDAtOC41IDguNXY2LjVsLTMuNSA1LjVoMjRsLTMuNS01LjVWMTlhOC41IDguNSAwIDAgMC04LjUtOC41eiIgZmlsbD0iI2ZmZmZmZiIgLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjM1IiByPSIzLjIiIGZpbGw9IiNmZmZmZmYiIC8+PC9zdmc+",
+ "logo_note": ""
+}

@@ -1,0 +1,16 @@
+{
+ "id": "philips-hue",
+ "name": "Philips Hue",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/philips-hue/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "0.1.0"
+ },
+ "kind": "Home",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/philips-hue/index.html",
+ "pitch": "Your Hue lights by room, with nothing sent to the cloud.",
+ "own": true
+}

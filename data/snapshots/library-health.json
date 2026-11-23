@@ -1,0 +1,138 @@
+{
+ "id": "library-health",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/library-health/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
+ "sha256": "06fc9b5910305709c2bc8c61c3440f530db7d1d44bf16729163207935c1074f9",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "library-health",
+  "name": "Library health",
+  "version": "1.1.4",
+  "description": "Films and series in Jellyfin with no poster, no description or no year, so you can fix them.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/library-health",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "jellyfin:key",
+   "network:lan"
+  ],
+  "needs": [],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-examples@sha256:e17269dd1e48c8f41902e091ece24207cdf5330b0930347d4a32158d43822c15",
+    "port": 8080,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 96,
+    "cpus": 0.25,
+    "pids": null
+   }
+  },
+  "versions": [
+   {
+    "version": "1.1.4",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Reaches Starboard on any network: with Starboard 0.23.0 or later it calls Starboard through a socket in its own folder, so it works on its own closed network too. An older Starboard works as before."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.3",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: the band says To fix, and the number card says how many.",
+       "Logo description: where its logo stands on its own, a screen reader says \"Library health logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.2",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "Jellyfin 12: it sends Jellyfin's key the way Jellyfin 12 asks for it, so Jellyfin no longer refuses its requests where legacy authorisation is off. Older Jellyfin still works."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.1",
+    "date": "2026-11-16",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Lighter at rest: it wakes about once a minute while nothing asks it anything, not twice a second, and writes nothing to its folder when a run goes well.",
+       "Starts faster: its image comes with Python's modules already compiled, so a start takes about a quarter of the processor time."
+      ]
+     ],
+     [
+      "Fixed",
+      [
+       "Large libraries: it asks Jellyfin a page of 500 titles at a time, so a large library no longer makes the check fail."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins, in the Catalogue and on its dashboard cards.",
+       "Its cards say how things are: a status and when they last changed, in the grey band at the top of each card.",
+       "Updates safely: before an update it finishes what it is doing and starts nothing new."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.0.0."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-12",
+    "groups": [
+     [
+      "Added",
+      [
+       "Films and series in Jellyfin with no poster, no description or no year, so you can fix them."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Library health logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5MaWJyYXJ5IGhlYWx0aCBsb2dvPC90aXRsZT48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMSIgZmlsbD0iIzZiNGYxZCIgLz48cmVjdCB4PSIxMiIgeT0iMTIiIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNyIgcng9IjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48cmVjdCB4PSIxOC41IiB5PSI4LjUiIHdpZHRoPSIxMSIgaGVpZ2h0PSI2LjUiIHJ4PSIyIiBmaWxsPSIjZmZmZmZmIiAvPjxwYXRoIGQ9Ik0xOCAyNi41bDQgNCA4LTkiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48L3N2Zz4=",
+ "logo_note": ""
+}

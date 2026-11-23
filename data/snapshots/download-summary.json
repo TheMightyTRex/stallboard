@@ -1,0 +1,130 @@
+{
+ "id": "download-summary",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/download-summary/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
+ "sha256": "21fb990ed8ac4ee347ead74eba1c6bb60e6e5ee847db1898e6c52040270c6d02",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "download-summary",
+  "name": "Download summary",
+  "version": "1.1.4",
+  "description": "How much has downloaded today and this week, from the download queue in Starboard.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/download-summary",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "downloads:read"
+  ],
+  "needs": [],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-examples@sha256:e17269dd1e48c8f41902e091ece24207cdf5330b0930347d4a32158d43822c15",
+    "port": 8080,
+    "network": "default",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 48,
+    "cpus": 0.1,
+    "pids": null
+   }
+  },
+  "versions": [
+   {
+    "version": "1.1.4",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Reaches Starboard on any network: with Starboard 0.23.0 or later it calls Starboard through a socket in its own folder, so it works on its own closed network too. An older Starboard works as before."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.3",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: its description says it counts the download queue in Starboard.",
+       "Logo description: where its logo stands on its own, a screen reader says \"Download summary logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.2",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Shared helper: the helper every example shares sends Jellyfin's key the way Jellyfin 12 asks for it. This plug-in does not ask Jellyfin anything, so it works as before."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.1",
+    "date": "2026-11-16",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Lighter at rest: it wakes about once a minute while nothing asks it anything, not twice a second, and writes nothing to its folder when a run goes well.",
+       "Starts faster: its image comes with Python's modules already compiled, so a start takes about a quarter of the processor time."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins, in the Catalogue and on its dashboard cards.",
+       "Its cards say how things are: a status and when they last changed, in the grey band at the top of each card."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.0.0."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-12",
+    "groups": [
+     [
+      "Added",
+      [
+       "How much has downloaded today and this week, from the download queue in Starboard."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Download summary logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5Eb3dubG9hZCBzdW1tYXJ5IGxvZ288L3RpdGxlPjxyZWN0IHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcng9IjExIiBmaWxsPSIjMmU2YjMwIiAvPjxwYXRoIGQ9Ik0yNCA5djE4TTE2IDIwbDggOCA4LTgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48cGF0aCBkPSJNMTEgMjl2N2gyNnYtNyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjwvc3ZnPg==",
+ "logo_note": ""
+}

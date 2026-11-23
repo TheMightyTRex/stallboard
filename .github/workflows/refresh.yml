@@ -1,0 +1,53 @@
+name: Refresh snapshots
+# Once a day, reads each listed plug-in's file again (as data), and the list of Starboard releases, and opens ONE pull
+# request with what changed, for a person to read and merge. It never commits to main. A plug-in whose new file fails
+# Starboard's check keeps its old snapshot. If a maker's server is down the old snapshot stays; the build leaves a
+# listing out only when its snapshot is older than 14 days.
+# The repository setting "Allow GitHub Actions to create and approve pull requests" must be on for this to open the pull request.
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: refresh-snapshots
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Refresh the snapshots
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write  # push the branch
+      pull-requests: write  # open the pull request
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true # to push the refresh branch; the job runs only code from main
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Refresh the snapshots and the Starboard releases
+        run: |
+          python3 tools/refresh_snapshots.py
+          python3 tools/refresh_releases.py
+      - name: Check the site still builds
+        run: python3 tools/build.py --out reports/site-test
+      - name: Open a pull request if anything changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain data assets/starboard)" ]; then echo "Nothing changed."; exit 0; fi
+          day=$(date -u +%Y-%m-%d)
+          branch="refresh/$day"
+          git checkout -b "$branch"
+          git add data assets/starboard
+          git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Refresh snapshots and Starboard releases ($day)"
+          git push origin "$branch"
+          { echo "A daily refresh. A person reads it before merging: anything that asks for more than before is in bold."; echo; cat data/refresh-report.md 2>/dev/null || true; } > reports/refresh-body.md
+          gh pr create --base main --head "$branch" --title "Refresh snapshots ($day)" --body-file reports/refresh-body.md

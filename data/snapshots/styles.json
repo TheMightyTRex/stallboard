@@ -1,0 +1,144 @@
+{
+ "id": "styles",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/styles/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
+ "sha256": "845b13df2bb625b97ae934649591170848f99279afb4adbdd7572e9a2c5f2657",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "styles",
+  "name": "Styles",
+  "version": "1.6.0",
+  "description": "22 accessible styles for Display: 17 change every part of Starboard (cards, buttons, tabs, menus), checked for contrast.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/styles",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "appearance:styles"
+  ],
+  "needs": [],
+  "containers": [],
+  "resources": {},
+  "versions": [
+   {
+    "version": "1.6.0",
+    "date": "2026-11-20",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Eleven styles redesigned in full: Dusk, Liquid glass, Brutal, Bento, Almanac, Garden, Terminal, Riso, Vantage, Newsprint and Piste now change cards, buttons, tabs, the header, the side menu and chips, not only colours.",
+       "They replace Midnight, Frost, Bold, Bento, Paper, Forest, Retro, Vivid, Graphite, Editorial and Nordic, after the Hallmark themes and this year's trends. Anyone using one of those moves to its new design."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.5.0",
+    "date": "2026-11-18",
+    "groups": [
+     [
+      "Added",
+      [
+       "Classic: Starboard's design before Mica (teal on cool blue-grey, square corners), now that Mica is Starboard's own style."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Mica first: Mica, now Starboard's own design, is the first style, with the same colours as the design system's default.",
+       "Every style keeps its own design on top of the new Mica design system: cards lift only in styles with elevated cards, and the hover on menus has a clear edge."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.4.1",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: its description says \"21 accessible styles\", and the descriptions of Editorial, Large and clear, Studio, Mica, Retro and Bento are plainer.",
+       "Logo description: where its logo stands on its own, a screen reader says \"Styles logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.4.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins and in the Catalogue."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.3.0."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.3.0",
+    "date": "2026-11-12",
+    "groups": [
+     [
+      "Added",
+      [
+       "Six styles that reskin the whole look: Studio, Expressive, Swiss, Neon, Clay and Mica."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.2.0",
+    "date": "2026-11-12",
+    "groups": [
+     [
+      "Added",
+      [
+       "Winter and Large and clear, which were the separate Seasonal styles plug-in."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-11",
+    "groups": [
+     [
+      "Added",
+      [
+       "Five more styles: Aurora, Nordic, Sunset, Graphite and Editorial."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-10",
+    "groups": [
+     [
+      "Added",
+      [
+       "Eight styles: Midnight, Frost, Bold, Bento, Paper, Forest, Retro and Vivid."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Styles logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5TdHlsZXMgbG9nbzwvdGl0bGU+PHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTEiIGZpbGw9IiM2MjM2YTgiIC8+PHBhdGggZD0iTTI0IDEwYTE0IDE0IDAgMSAwIDAgMjhjMi4zIDAgMy4yLTEuNyAyLjMtMy40LS45LTEuOC4zLTMuOSAyLjQtMy45SDMyYTYgNiAwIDAgMCA2LTZjMC04LjItNi4zLTE0LjctMTQtMTQuN3oiIGZpbGw9IiNmZmZmZmYiIC8+PGNpcmNsZSBjeD0iMTYuNSIgY3k9IjIzIiByPSIyLjYiIGZpbGw9IiM2MjM2YTgiIC8+PGNpcmNsZSBjeD0iMjEuNSIgY3k9IjE2LjUiIHI9IjIuNiIgZmlsbD0iIzYyMzZhOCIgLz48Y2lyY2xlIGN4PSIyOS41IiBjeT0iMTciIHI9IjIuNiIgZmlsbD0iIzYyMzZhOCIgLz48L3N2Zz4=",
+ "logo_note": ""
+}

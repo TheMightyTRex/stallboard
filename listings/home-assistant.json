@@ -1,0 +1,24 @@
+{
+ "id": "home-assistant",
+ "name": "Home Assistant",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/home-assistant/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.1.4"
+ },
+ "kind": "Home",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/home-assistant/index.html",
+ "older_versions": [
+  {
+   "version": "1.0.0",
+   "starboard_api": ">=1.1 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/home-assistant/starboard-plugin.json",
+   "manifest_sha256": "ea0538fb9fc5a98fc7f02e1c1cfd5c1156eab939681ecc96b310e2cb2a8ea997"
+  }
+ ],
+ "pitch": "Your house in one sentence, on the dashboard.",
+ "own": true
+}

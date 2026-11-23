@@ -1,0 +1,134 @@
+{
+ "id": "remote-access",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/remote-access/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
+ "sha256": "2aed162f24ac8dfa3482a6f622cd48923a69452f3c40b8227fac8e34e8c94fa8",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "remote-access",
+  "name": "Remote access",
+  "version": "1.1.4",
+  "description": "Starboard, Jellyfin and Audiobookshelf away from home through Tailscale or Cloudflare Tunnel, with no port opened on your router.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/remote-access",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "apps:read",
+   "network:lan"
+  ],
+  "needs": [],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-remote-access@sha256:2b285193ac09b3d638c46dd22fc837050755bb8218dc28b7dd7dafee801d5239",
+    "port": 8080,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 128,
+    "cpus": 0.5,
+    "pids": null
+   }
+  },
+  "versions": [
+   {
+    "version": "1.1.4",
+    "date": "2026-11-18",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer messages with what to do: when it cannot reach Starboard it says so and to update Starboard, then Start again; an app it could not check says Not checked instead of saying it is missing; a missing app says to add it in Settings, Apps.",
+       "Your Tailscale name: it checks whether Starboard opens at the name, says when it works, and otherwise gives the steps to add it to STARBOARD_ALLOWED_HOSTS."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.3",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: Cloudflare tunnel token is now Cloudflare Tunnel token, and its messages say \"the server\" instead of \"this computer\".",
+       "Logo description: where its logo stands on its own, a screen reader says \"Remote access logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.2",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Shared helper: its shared code sends Jellyfin's key the way Jellyfin 12 asks for it. Remote access does not ask Jellyfin anything, so it works as before."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.1",
+    "date": "2026-11-16",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Lighter at rest: it wakes about once a minute while nothing asks it anything, not twice a second.",
+       "Starts faster: its image comes with Python's modules already compiled, so a start takes about a quarter of the processor time."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins, in the Catalogue and on its dashboard cards.",
+       "Its card says how things are: a status and when it last changed, in the grey band at the top of the card."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.0.0."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-13",
+    "groups": [
+     [
+      "Added",
+      [
+       "Tailscale in userspace networking, with an auth key or a sign-in link",
+       "Cloudflare Tunnel with a tunnel token, stopped if a route leads anywhere but Starboard, Jellyfin or Audiobookshelf, or to Starboard without Cloudflare Access",
+       "Addresses away from home for each shared app, with Test; download apps are never shared"
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Remote access logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5SZW1vdGUgYWNjZXNzIGxvZ288L3RpdGxlPjxyZWN0IHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcng9IjExIiBmaWxsPSIjMGI1Yzg2IiAvPjxyZWN0IHg9IjEwIiB5PSIxNiIgd2lkdGg9IjE1IiBoZWlnaHQ9IjI0IiByeD0iMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjxwYXRoIGQ9Ik0xNiAzNC41aDMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48cGF0aCBkPSJNMzAgMTRhNyA3IDAgMCAxIDUgNU0zMCA4YTEzIDEzIDAgMCAxIDExIDExIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIC8+PC9zdmc+",
+ "logo_note": ""
+}

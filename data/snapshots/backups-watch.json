@@ -1,0 +1,65 @@
+{
+ "id": "backups-watch",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/backups-watch/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
+ "sha256": "4f72abde30cadf24ce7d5bcf8c560c2f4cf852a95a3ca75c642ea0d1353d415a",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "backups-watch",
+  "name": "Backups watch",
+  "version": "0.1.0",
+  "description": "The last run, size and failures of your Backrest or Kopia backups on a card, and an alert when one is overdue.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/backups-watch",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.17 <2.0",
+  "permissions": [
+   "network:lan",
+   "alerts:send"
+  ],
+  "needs": [],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-examples@sha256:e17269dd1e48c8f41902e091ece24207cdf5330b0930347d4a32158d43822c15",
+    "port": 8080,
+    "network": "lan",
+    "start": "when_needed",
+    "idle_stop_minutes": 5,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 48,
+    "cpus": 0.1,
+    "pids": null
+   }
+  },
+  "versions": [
+   {
+    "version": "0.1.0",
+    "date": "2026-11-22",
+    "groups": [
+     [
+      "Added",
+      [
+       "One card for your backups: the last run, the size and the failures of each Backrest plan or Kopia source.",
+       "Alerts: once when a backup is overdue or its last run failed, and once when it is fine again, through Starboard.",
+       "You choose the tool, its address and password, and how many hours count as overdue.",
+       "Light: it wakes once an hour, asks the tool once and rests; its cards read what it kept."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Backups watch logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5CYWNrdXBzIHdhdGNoIGxvZ288L3RpdGxlPjxyZWN0IHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcng9IjExIiBmaWxsPSIjMWY2YjRhIiAvPjxlbGxpcHNlIGN4PSIyMiIgY3k9IjE0IiByeD0iMTIiIHJ5PSI1IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjxwYXRoIGQ9Ik0xMCAxNHY5YzAgMi44IDUuNCA1IDEyIDVNMTAgMjN2OWMwIDIuOCA1LjQgNSAxMiA1TTM0IDE0djYiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIC8+PGNpcmNsZSBjeD0iMzQiIGN5PSIzMyIgcj0iOCIgZmlsbD0iI2ZmZmZmZiIgLz48cGF0aCBkPSJNMzAgMzNsMyAzIDUtNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWY2YjRhIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48L3N2Zz4=",
+ "logo_note": ""
+}
