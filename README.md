@@ -1,2 +1,68 @@
-# stallboard
-Stallboard: a storefront for Starboard plug-ins. Browse, read what each one can read and change, and submit your own.
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/logo/stallboard-logo-dark.svg">
+  <img src="assets/logo/stallboard-logo-light.svg" alt="Stallboard: a market stall with a striped awning, standing on two posts shaped like the prongs of a plug." width="296" height="64">
+</picture>
+
+**A storefront for Starboard plug-ins.** Browse them, read what each one can read and change and what it uses, and submit your own. Every plug-in is checked by a robot and read by a person before it is listed, and the listing says who and when.
+
+The site is static: pages built from data in this repository, hosted on GitHub Pages at <https://themightytrex.github.io/stallboard/>. There is no server, no database, no account, no analytics and no request to any other site when a page loads. Every page reads without JavaScript.
+
+![The home page: a yellow block, then Starboard, the categories and the plug-ins](docs/screenshots/home-light-1280.jpg)
+
+## What is in it
+
+- A home page with search, categories, new and updated, a demo row called Made for you, and every plug-in, sortable by memory use.
+- A page for each plug-in: what it does, what it can read and change, what it needs (including the Starboard release it needs), **what it uses** (declared limits and measured figures, kept apart), its versions and notes, its help, how to install it and a link to report a problem to its maker.
+- **Start here: Starboard**, a page for the platform: its version, how to install it, and which plug-in needs which release.
+- Submit a plug-in, What Reviewed means, an accessibility statement and a privacy page.
+- `catalogue.json`, which Starboard reads (see below).
+
+## Submit a plug-in
+
+1. Open the [Submit a plug-in form](https://github.com/TheMightyTRex/stallboard/issues/new?template=submit-a-plug-in.yml) (or use the Submit page on the site, which opens it with your address filled in).
+2. A workflow reads your `starboard-plugin.json` as plain text, runs Starboard's own manifest check and comments with what passed and what to fix. Edit the issue to run it again.
+3. A maintainer reviews it with [REVIEWING.md](REVIEWING.md) and adds the label `approved`.
+4. A second workflow opens a pull request adding `listings/<id>.json` and its snapshot. A person merges it, and merging deploys the site.
+
+Nothing you submit is ever run. [SECURITY.md](SECURITY.md) says how.
+
+## How Starboard uses its catalogue
+
+In Starboard, open **Settings**, then **Plug-ins**, then **Catalogue**. Under **Catalogue sources**, paste `https://themightytrex.github.io/stallboard/catalogue.json` and select **Add catalogue**. Its plug-ins appear in the Catalogue, each showing what it asks for before you install it. `catalogue.json` has the same schema as the [starboard-plugins](https://github.com/TheMightyTRex/starboard-plugins) catalogue (id, name, description, kind, author, permissions, version, `starboard_api`, manifest address, logo as a small data address, versions and a measured `rest` figure). A test runs Starboard's own `fetch_catalogue` on it.
+
+## How it is built
+
+```
+listings/<id>.json        who listed it, who reviewed it, when (one file for each plug-in)
+data/snapshots/<id>.json  the plug-in's manifest as fetched and checked, with its logo (refreshed by a script)
+data/resources/<id>.json  figures measured on a real server, with date and method
+data/starboard-releases.json   each Starboard release and its plug-in API
+tools/build.py            writes the whole site into site/ (standard library only, works offline)
+```
+
+- **Offline builds.** The build reads only the committed snapshots, so it never fails because a maker's server is down. A listing whose snapshot is older than 14 days, or whose manifest fails Starboard's check, is left out of the site, and the build says so in its output and its run summary.
+- **Refreshing.** `tools/refresh_snapshots.py` and `tools/refresh_releases.py` fetch again (as data, through `tools/lib/safefetch.py`). A daily workflow runs them and opens one pull request for a person to read. More permissions than before are shown in bold.
+- **The manifest check** is Starboard's own `check()`, copied unchanged into `vendor/starboard/` and pinned to a release (see `VENDORED.json`). It is copied, not downloaded, so a submission check never fetches code and the copy is reviewed in a pull request. To refresh it: `python3 tools/vendor_starboard.py v0.30.0`, run the tests and open a pull request.
+- **Resources.** Declared limits come from each manifest. Measured figures come from `tools/measure_resources.py`, run on a Starboard server (it only reads: `docker ps`, `docker stats`, `docker inspect`). Where nothing is measured the page says "Not measured yet". A maker's own figures are shown as "Maker's figures, not measured by the reviewer".
+
+### Run it
+
+```bash
+python3 -m unittest discover -s tests   # the tests
+python3 tools/build.py                   # builds site/
+python3 tools/check_html.py site         # the HTML check
+tools/run.sh check                       # accessibility and behaviour checks in the Playwright image (needs Docker)
+tools/run.sh shots                       # the screenshots, into reports/
+```
+
+`tools/run.sh` uses `mcr.microsoft.com/playwright:v1.63.0-noble`. The checks are axe 4 at WCAG 2.2 AA plus best practice in light, dark, forced colours and at 375 px, a keyboard walk, 175% text, 200% and 400% zoom, 44 px targets, a read without JavaScript and a check that nothing is requested from outside. Zero violations is required.
+
+The owner sets up the labels once with `tools/setup-labels.sh`.
+
+## Feedback
+
+Every page has the **Send feedback** button, which is [Snaglist](https://github.com/TheMightyTRex/snaglist) (copied unchanged to `assets/snaglist.js`, version 0.6.0). A report opens an issue here with the label `feedback`. The [privacy page](https://themightytrex.github.io/stallboard/privacy.html) says what a report holds and never holds.
+
+## Licence
+
+MIT. See [LICENSE](LICENSE). Third-party files: the design system's CSS and script and the Atkinson Hyperlegible Next font (SIL OFL, `assets/ds/fonts/LICENSE-OFL.txt`), Snaglist (MIT), axe-core (MPL 2.0, used only to test) and a copy of some Starboard modules (MIT, `vendor/starboard/LICENSE`).

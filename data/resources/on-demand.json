@@ -1,0 +1,27 @@
+{
+ "plugin": "on-demand",
+ "measured_at": "2026-11-23T16:41+00:00",
+ "how": "docker stats, 6 samples 4 seconds apart, on the owner's server (T-Rex-Server), containers as they were running; image size is the unpacked local size",
+ "containers": [
+  {
+   "container": "plugin-on-demand-on-demand",
+   "memory_mib_median": 11.2,
+   "memory_mib_max": 11.2,
+   "cpu_percent_median": 0.0,
+   "memory_limit_mib": 384,
+   "cpus_limit": 1.0,
+   "pids_limit": 128,
+   "image_size_mb": 82.5
+  },
+  {
+   "container": "plugin-on-demand-on-demand-engine",
+   "memory_mib_median": 6.0,
+   "memory_mib_max": 6.1,
+   "cpu_percent_median": 0.03,
+   "memory_limit_mib": 512,
+   "cpus_limit": 1.0,
+   "pids_limit": 64,
+   "image_size_mb": 450.2
+  }
+ ]
+}

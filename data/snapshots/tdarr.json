@@ -1,0 +1,116 @@
+{
+ "id": "tdarr",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/tdarr/starboard-plugin.json",
+ "fetched_at": "2026-11-23T16:47Z",
+ "sha256": "472a0220c40356425ffc201b5da578881ebdc3d4e72a18b74336a30719f5c318",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "tdarr",
+  "name": "Tdarr",
+  "version": "1.1.1",
+  "description": "Tdarr converts films and series to save space, in Starboard's quiet hours. It can copy the Tdarr you already have, with its libraries and history.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/tdarr",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "network:lan",
+   "network:port"
+  ],
+  "needs": [],
+  "containers": [
+   {
+    "name": "server",
+    "image": "ghcr.io/haveagitgat/tdarr@sha256:84743e5ae433a5b49cb463b2dff2679eb02f0cac24fb88c830f49bf8aa9f1c04",
+    "port": 8265,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "server": {
+    "memory": 2048,
+    "cpus": 2.0,
+    "pids": 512
+   }
+  },
+  "versions": [
+   {
+    "version": "1.1.1",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Logo description: where its logo stands on its own, a screen reader says \"Tdarr logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins and in the Catalogue."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.0.2."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.2",
+    "date": "2026-11-13",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Files are converted in a tdarr-cache folder on your media drives, not on the system disk, so working copies of large films cannot fill it. Starboard points its Films and Series libraries there."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.1",
+    "date": "2026-11-13",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "The worker can download Tdarr's plug-ins: it has a folder it may write to."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-13",
+    "groups": [
+     [
+      "Added",
+      [
+       "Tdarr as a plug-in, outside the main install, on its own page on your home network."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Tdarr logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5UZGFyciBsb2dvPC90aXRsZT48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMSIgZmlsbD0iIzJhNjU4NSIgLz48cGF0aCBkPSJNMTMuNSAyMWExMSAxMSAwIDAgMSAxOS41LTQuNU0zNC41IDI3QTExIDExIDAgMCAxIDE1IDMxLjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48cGF0aCBkPSJNMzQuNSAxMC41djdoLTdNMTMuNSAzNy41di03aDciIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48L3N2Zz4=",
+ "logo_note": ""
+}

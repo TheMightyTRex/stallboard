@@ -1,0 +1,92 @@
+{
+ "id": "navidrome",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/navidrome/starboard-plugin.json",
+ "fetched_at": "2026-11-23T16:47Z",
+ "sha256": "b54dbf8d6cea0ac612a0d52d67845eb919921da4a86923621ded12b82bea9de9",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "navidrome",
+  "name": "Navidrome",
+  "version": "1.1.1",
+  "description": "Navidrome, a music server for Subsonic apps on phones and in the car. It reads your music folder and never changes it.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/navidrome",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "network:lan",
+   "network:port"
+  ],
+  "needs": [],
+  "containers": [
+   {
+    "name": "app",
+    "image": "docker.io/deluan/navidrome@sha256:38dc2727bfcfd5ede290f8ada114fc90368146f265ae4701ddddbcbe2a44ee52",
+    "port": 4533,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "app": {
+    "memory": 256,
+    "cpus": 0.5,
+    "pids": 128
+   }
+  },
+  "versions": [
+   {
+    "version": "1.1.1",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Logo description: where its logo stands on its own, a screen reader says \"Navidrome logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins and in the Catalogue."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.0.0."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-13",
+    "groups": [
+     [
+      "Added",
+      [
+       "Navidrome as a plug-in, outside the main install, on its own page on your home network."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Navidrome logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5OYXZpZHJvbWUgbG9nbzwvdGl0bGU+PHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTEiIGZpbGw9IiNhMzI0M2YiIC8+PHBhdGggZD0iTTI4IDMxVjExLjVsOCAzdjUuNWwtOC0zIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIC8+PGVsbGlwc2UgY3g9IjIyIiBjeT0iMzEiIHJ4PSI2LjUiIHJ5PSI1IiBmaWxsPSIjZmZmZmZmIiAvPjwvc3ZnPg==",
+ "logo_note": ""
+}

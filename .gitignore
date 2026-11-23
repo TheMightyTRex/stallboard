@@ -1,0 +1,5 @@
+site/
+reports/
+__pycache__/
+*.pyc
+data/refresh-report.md

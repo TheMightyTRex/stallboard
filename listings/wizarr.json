@@ -1,0 +1,27 @@
+{
+ "id": "wizarr",
+ "name": "Wizarr",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/wizarr/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.1.1"
+ },
+ "kind": "Apps you can add",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/wizarr/index.html",
+ "older_versions": [
+  {
+   "version": "1.0.0",
+   "starboard_api": ">=1.13 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/wizarr/starboard-plugin.json",
+   "manifest_sha256": "40b6f8b1c0aa1ac1a2670467db90fc346829665896c8294f9374f856a6f6f02c"
+  }
+ ],
+ "maker_figures": {
+  "memory_mib": 124,
+  "cpu_percent": 0.02
+ },
+ "pitch": "Invitation links, so people join Jellyfin themselves."
+}

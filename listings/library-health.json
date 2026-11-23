@@ -1,0 +1,23 @@
+{
+ "id": "library-health",
+ "name": "Library health",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/library-health/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.1.4"
+ },
+ "kind": "Jellyfin",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/library-health/index.html",
+ "older_versions": [
+  {
+   "version": "1.0.0",
+   "starboard_api": ">=1.1 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/library-health/starboard-plugin.json",
+   "manifest_sha256": "f77b37a36738671ecce83742660b7bef6ee4084e8db17d1d3730cb44ab20716d"
+  }
+ ],
+ "pitch": "Find films with no poster, no description or no year."
+}

@@ -1,0 +1,108 @@
+{
+ "id": "library-cleanup",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/library-cleanup/starboard-plugin.json",
+ "fetched_at": "2026-11-23T16:47Z",
+ "sha256": "a0ee1c0e35aa09f0b6237183ddd6450368be409fbf4552ba70273a5e9f8ea327",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "library-cleanup",
+  "name": "Library clean-up",
+  "version": "1.0.3",
+  "description": "Moves films and series everyone has watched, or nobody has watched for a long time, to the holding folder, so your disks do not fill up. It never deletes, and each can be put back.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/library-cleanup",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.15 <2.0",
+  "permissions": [
+   "jellyfin:key",
+   "reelix:key",
+   "library:holding",
+   "network:lan"
+  ],
+  "needs": [
+   "jellyfin"
+  ],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-library-cleanup@sha256:2914e3b907f7efe71bf109e28c8926443f5d600f9bcaa73d98bcb5605370f67a",
+    "port": 8080,
+    "network": "lan",
+    "start": "when_needed",
+    "idle_stop_minutes": 15,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 128,
+    "cpus": 0.5,
+    "pids": null
+   }
+  },
+  "versions": [
+   {
+    "version": "1.0.3",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: Libraries says Checked for each library the rules check, the card says \"Next check in quiet hours\", and its hints name the setting they mean.",
+       "Logo description: where its logo stands on its own, a screen reader says \"Library clean-up logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.2",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "Jellyfin 12: it sends Jellyfin's key the way Jellyfin 12 asks for it, so Jellyfin no longer refuses its requests where legacy authorisation is off. Older Jellyfin still works."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.1",
+    "date": "2026-11-16",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Lighter at rest: it wakes about once a minute while nothing asks it anything, not twice a second.",
+       "Starts faster: its image comes with Python's modules already compiled, so a start takes about a quarter of the processor time."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "Rules: films watched by everyone, last watched more than 90 days ago; series that ended with every episode watched; films and series nobody has watched for 12 months. Each a setting, for the libraries you choose.",
+       "Always kept: favourites, anything someone is part way through, films in a collection, and anything tagged keep.",
+       "Preview lists what would move and the space it frees. Nothing moves until you activate Move items each day.",
+       "Never deletes: it moves each item to media/.holding, keeping its folders, and Put back returns it.",
+       "Reelix and Jellyfin are told: Reelix stops following what moves, so it is not downloaded again, and follows it again when it is put back."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Library clean-up logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5MaWJyYXJ5IGNsZWFuLXVwIGxvZ288L3RpdGxlPjxyZWN0IHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcng9IjExIiBmaWxsPSIjNGQ1YjE2IiAvPjxyZWN0IHg9IjguNSIgeT0iMTEiIHdpZHRoPSIzMSIgaGVpZ2h0PSI3LjUiIHJ4PSIyIiBmaWxsPSIjZmZmZmZmIiAvPjxwYXRoIGQ9Ik0xMS41IDE4LjV2MTdhMi41IDIuNSAwIDAgMCAyLjUgMi41aDIwYTIuNSAyLjUgMCAwIDAgMi41LTIuNXYtMTciIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48cGF0aCBkPSJNMjQgMjN2OS41TTE5LjUgMjguNWw0LjUgNC41IDQuNS00LjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48L3N2Zz4=",
+ "logo_note": ""
+}

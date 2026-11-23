@@ -1,0 +1,17 @@
+{
+ "plugin": "tv-station",
+ "measured_at": "2026-11-23T16:41+00:00",
+ "how": "docker stats, 6 samples 4 seconds apart, on the owner's server (T-Rex-Server), containers as they were running; image size is the unpacked local size",
+ "containers": [
+  {
+   "container": "plugin-tv-station-main",
+   "memory_mib_median": 93.0,
+   "memory_mib_max": 93.0,
+   "cpu_percent_median": 0.0,
+   "memory_limit_mib": 768,
+   "cpus_limit": 2.0,
+   "pids_limit": 128,
+   "image_size_mb": 75.0
+  }
+ ]
+}

@@ -1,0 +1,165 @@
+{
+ "id": "jellystat",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/jellystat/starboard-plugin.json",
+ "fetched_at": "2026-11-23T16:47Z",
+ "sha256": "34610a826e6ab6c017f3935eaac2d2450d67586da0f6fba6831182f5ff1a41d5",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "jellystat",
+  "name": "Jellystat",
+  "version": "1.1.4",
+  "description": "Jellystat, the full watch statistics app for Jellyfin, with its own PostgreSQL database, kept apart from the main install. Opens on its own web page.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/jellystat",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "jellyfin:key",
+   "network:lan",
+   "network:port"
+  ],
+  "needs": [
+   "jellyfin"
+  ],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-jellystat@sha256:3b03e15a99c7c07e8d15ac2e88d9174ac537d0ca61df6a9b0c8bd5dca7c60586",
+    "port": 8080,
+    "network": "default",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   },
+   {
+    "name": "app",
+    "image": "docker.io/cyfershepard/jellystat@sha256:e61c759ec706da378bc8374e797da1dfd298ab30f804cefd82d192c301a888c7",
+    "port": 3000,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   },
+   {
+    "name": "db",
+    "image": "docker.io/library/postgres@sha256:fc41cfa8a90c09e84dd723ee764be4b2f59ba6c98b1e5b3fca540adddf68a5ba",
+    "port": 5432,
+    "network": "default",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 64,
+    "cpus": 0.25,
+    "pids": null
+   },
+   "app": {
+    "memory": 320,
+    "cpus": 0.5,
+    "pids": 128
+   },
+   "db": {
+    "memory": 256,
+    "cpus": 0.5,
+    "pids": 128
+   }
+  },
+  "versions": [
+   {
+    "version": "1.1.4",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: its messages say to enter a backup's name in 'Backup file to restore', the Restore page says when a restore is done, and the card says \"Jellystat is connected to Jellyfin.\"",
+       "Logo description: where its logo stands on its own, a screen reader says \"Jellystat logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.3",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Shared helper: its helper's shared code sends Jellyfin's key the way Jellyfin 12 asks for it. It hands the key to Jellystat as before."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.2",
+    "date": "2026-11-16",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Lighter at rest: its helper wakes about once a minute while nothing asks it anything, not twice a second.",
+       "Starts faster: its helper's image comes with Python's modules already compiled."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.1",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "Its card's example in the Catalogue and on Edit dashboard now shows what the card really says: \"Jellystat has your Jellyfin.\""
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins, in the Catalogue and on its dashboard cards.",
+       "Its card says how things are: a status and when it last changed, in the grey band at the top of the card.",
+       "Updates safely: an update waits for a restore that is running, or is refused until it is done."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.0.0."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-13",
+    "groups": [
+     [
+      "Added",
+      [
+       "Jellystat and its PostgreSQL 15 database as one plug-in, outside the main install, on its own page on your home network.",
+       "Jellyfin's address and key handed over by Starboard, and a database password made for this install.",
+       "Restore a Jellystat backup: a pg_dump file, restored beside your figures and then swapped in."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Jellystat logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5KZWxseXN0YXQgbG9nbzwvdGl0bGU+PHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTEiIGZpbGw9IiM4YTNiMTIiIC8+PGNpcmNsZSBjeD0iMjQiIGN5PSIyNCIgcj0iMTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48cGF0aCBkPSJNMjQgMjRWMTFhMTMgMTMgMCAwIDEgMTIuNCAxNi45eiIgZmlsbD0iI2ZmZmZmZiIgLz48L3N2Zz4=",
+ "logo_note": ""
+}

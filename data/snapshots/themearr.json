@@ -1,0 +1,83 @@
+{
+ "id": "themearr",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/themearr/starboard-plugin.json",
+ "fetched_at": "2026-11-23T16:47Z",
+ "sha256": "34da987e6d12ca7fcd23b1da37dba54b837f4707d184ae7c6b896b881e8b0d71",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "themearr",
+  "name": "Themearr",
+  "version": "1.0.0",
+  "description": "Themearr puts a theme tune, theme.mp3, in the folder of each film Reelix has, and Jellyfin plays it on the film's page. It needs a RapidAPI key to fetch the tunes.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/themearr",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "reelix:key",
+   "network:lan",
+   "network:port"
+  ],
+  "needs": [
+   "reelix",
+   "jellyfin"
+  ],
+  "containers": [
+   {
+    "name": "main",
+    "image": "docker.io/library/python@sha256:c5ba3deef00c7758561a0f03c26f44f10589263d40e732b8748e0d1f38f6dd89",
+    "port": 8080,
+    "network": "default",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   },
+   {
+    "name": "app",
+    "image": "ghcr.io/themearr/themearr@sha256:0a5c617c35f93342f8fc44eb2ce874005f2142315d2c7b4410c709790143448a",
+    "port": 8080,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 64,
+    "cpus": 0.25,
+    "pids": null
+   },
+   "app": {
+    "memory": 512,
+    "cpus": 1.0,
+    "pids": 256
+   }
+  },
+  "versions": [
+   {
+    "version": "1.0.0",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Added",
+      [
+       "Themearr as a plug-in, outside the main install, on its own page on your home network.",
+       "Reads your films from Reelix with nothing to enter: Starboard gives Themearr Reelix's address and key, and its films folder.",
+       "Your RapidAPI key in its settings in Starboard, and the access token for Themearr's own page on its tab.",
+       "A card with how many films have a theme tune."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Themearr logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5UaGVtZWFyciBsb2dvPC90aXRsZT48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMSIgZmlsbD0iIzZjM2Y4ZSIgLz48cmVjdCB4PSI3IiB5PSIxMCIgd2lkdGg9IjM0IiBoZWlnaHQ9IjI1IiByeD0iMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjxwYXRoIGQ9Ik0xNyA0MGgxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjxwYXRoIGQ9Ik0yNi41IDI5VjE2bDcgMnY0bC03LTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIC8+PGVsbGlwc2UgY3g9IjIyIiBjeT0iMjkiIHJ4PSI0LjUiIHJ5PSIzLjUiIGZpbGw9IiNmZmZmZmYiIC8+PC9zdmc+",
+ "logo_note": ""
+}

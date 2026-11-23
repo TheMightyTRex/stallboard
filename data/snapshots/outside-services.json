@@ -1,0 +1,159 @@
+{
+ "id": "outside-services",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/outside-services/starboard-plugin.json",
+ "fetched_at": "2026-11-23T16:47Z",
+ "sha256": "d0879d7254739e4f39cb143c9b71426338d587e3dfb776b6002585161d41ed9d",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "outside-services",
+  "name": "Uptime and status",
+  "version": "2.0.0",
+  "description": "Checks your router, NAS, websites and more by address, port, ping, DNS or heartbeat, with 90 days of response times, certificates, maintenance windows and a status page.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/outside-services",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.17 <2.0",
+  "permissions": [
+   "network:lan",
+   "network:port",
+   "alerts:send"
+  ],
+  "needs": [],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-outside-services@sha256:07c3b9eee5622d7b75cb3cf0647ad72a81607a9481133713c36abfbff40cddb0",
+    "port": 8080,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 48,
+    "cpus": 0.1,
+    "pids": null
+   }
+  },
+  "versions": [
+   {
+    "version": "2.0.0",
+    "date": "2026-11-20",
+    "groups": [
+     [
+      "Added",
+      [
+       "More kinds of check: a port (tcp), ping (with a knock on common ports where ping is not allowed), a DNS record, and words on a web page (keyword), beside web addresses.",
+       "Heartbeats: a push check gives an address for a backup or a script to call; no call within its grace time means down.",
+       "90 days of history: response times and uptime an hour and a day, about 43 KB a check, with no database.",
+       "Certificates for every https address and every port checked with tls: the days left and the names it was issued for.",
+       "Groups, tags and maintenance windows: write in Home after a check; a group's alerts pause in its maintenance windows.",
+       "Alerts through Starboard, to where it sends its own, once when a check is down and once when it is up again.",
+       "A status page on your home network, which only shows names, up or down, response times and uptime.",
+       "Three more cards: Groups, Response times (a small line for each check) and Certificates."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Outside services is now Uptime and status. Your Addresses to check and Check every stay as they were and are checked as before, in the group Outside services.",
+       "Needs Starboard with plug-in API 1.17 or later, for the Response times card and the alerts. A Starboard with an older plug-in API keeps version 1.1.4.",
+       "Its own image, with the status page's files, in place of the image the examples share."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.4",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Reaches Starboard on any network: with Starboard 0.23.0 or later it calls Starboard through a socket in its own folder, so it works on its own closed network too. An older Starboard works as before."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.3",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: the band says Not answering, and the card names each one. Its description spells out NAS.",
+       "Logo description: where its logo stands on its own, a screen reader says \"Outside services logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.2",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Shared helper: the helper every example shares sends Jellyfin's key the way Jellyfin 12 asks for it. This plug-in does not ask Jellyfin anything, so it works as before."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.1",
+    "date": "2026-11-16",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Lighter at rest: it wakes about once a minute while nothing asks it anything, not twice a second, and writes nothing to its folder when a run goes well.",
+       "Starts faster: its image comes with Python's modules already compiled, so a start takes about a quarter of the processor time."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins, in the Catalogue and on its dashboard cards.",
+       "Its cards say how things are: a status and when they last changed, in the grey band at the top of each card."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.0.0."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-12",
+    "groups": [
+     [
+      "Added",
+      [
+       "Up or down for things that are not on this server: your router, a NAS (network storage device), a website."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Uptime and status logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5VcHRpbWUgYW5kIHN0YXR1cyBsb2dvPC90aXRsZT48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMSIgZmlsbD0iIzMzNDQ5ZSIgLz48Y2lyY2xlIGN4PSIyNCIgY3k9IjI0IiByPSIxNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48cGF0aCBkPSJNNyAyNWg4bDMuNS03IDUgMTQgNC0xMCAyLjUgM2gxMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjwvc3ZnPg==",
+ "logo_note": ""
+}

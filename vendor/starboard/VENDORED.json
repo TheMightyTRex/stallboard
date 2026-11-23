@@ -1,0 +1,15 @@
+{
+ "release": "v0.29.0",
+ "source": "https://github.com/TheMightyTRex/starboard",
+ "sha256": {
+  "LICENSE": "4be48a756d8be0e5f01ad1d4985ed622dae6571e62640c90c6c56959664eb229",
+  "__init__.py": "26c344dad3fae50ecd4027cccce7694a30056ab2f02fc6d861484124a8a488b9",
+  "api_v1.py": "c06fdf84b87f03f8c14f75544af31ae98056b4b2094396826c400c163c0086b9",
+  "app_logs.py": "da195ca3bb9583a0ff49fdb2edca9f260c9ef7dddfeea03a1f6f7428ad6f64b5",
+  "logs.py": "c28c4cf3a117a98ebeaa9276d5e0207e67e30be58100192a10d6af041a01ea01",
+  "plugin_logo.py": "6f31eb9c2016fcd63238be9de6bafb59cdb8fdc8ffc78a3c6e42523bff00eb7b",
+  "plugin_styles.py": "505017e9ac8b4758443d5565aaf816491ac69ca97d3d8b344e17f3257171e848",
+  "plugin_update.py": "974d7348396211c1a43d70d2ba33bbd1ccc9fa99c236146e2cacec7328f53c01",
+  "plugins.py": "dc6bdc21d778baac14107bc6d578fff4de731029d88ae02f6c0fc62d3d7633a0"
+ }
+}

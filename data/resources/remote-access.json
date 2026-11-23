@@ -1,0 +1,17 @@
+{
+ "plugin": "remote-access",
+ "measured_at": "2026-11-23T16:41+00:00",
+ "how": "docker stats, 6 samples 4 seconds apart, on the owner's server (T-Rex-Server), containers as they were running; image size is the unpacked local size",
+ "containers": [
+  {
+   "container": "plugin-remote-access-main",
+   "memory_mib_median": 17.3,
+   "memory_mib_max": 17.5,
+   "cpu_percent_median": 0.02,
+   "memory_limit_mib": 128,
+   "cpus_limit": 0.5,
+   "pids_limit": 64,
+   "image_size_mb": 82.9
+  }
+ ]
+}

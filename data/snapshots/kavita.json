@@ -1,0 +1,93 @@
+{
+ "id": "kavita",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/kavita/starboard-plugin.json",
+ "fetched_at": "2026-11-23T16:47Z",
+ "sha256": "2ebc1817503d8cc3ec28bc69086e8bdef5730690f56edd79ada87fe58e320e17",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "kavita",
+  "name": "Kavita",
+  "version": "1.1.1",
+  "description": "Kavita, a reader for comics, manga and books in the browser and in e-reader apps that use OPDS (Open Publication Distribution System). It reads your books and comics folders and never changes them.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/kavita",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "network:lan",
+   "network:port"
+  ],
+  "needs": [],
+  "containers": [
+   {
+    "name": "app",
+    "image": "docker.io/jvmilazz0/kavita@sha256:31181a32f0dda73cae68721867028a7253d57881b58bea5754cd9e578e75421a",
+    "port": 5000,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "app": {
+    "memory": 768,
+    "cpus": 1.0,
+    "pids": 256
+   }
+  },
+  "versions": [
+   {
+    "version": "1.1.1",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: its description spells out OPDS, the Open Publication Distribution System.",
+       "Logo description: where its logo stands on its own, a screen reader says \"Kavita logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins and in the Catalogue."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.0.0."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-13",
+    "groups": [
+     [
+      "Added",
+      [
+       "Kavita as a plug-in, outside the main install, on its own page on your home network."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Kavita logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5LYXZpdGEgbG9nbzwvdGl0bGU+PHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTEiIGZpbGw9IiMxZDYzNjMiIC8+PHBhdGggZD0iTTI0IDE1Yy0zLTIuNi04LTMuMi0xMy0yLjJ2MjEuNWM1LTEgMTAtLjQgMTMgMi4yIDMtMi42IDgtMy4yIDEzLTIuMlYxMi44Yy01LTEtMTAtLjQtMTMgMi4yeiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjxwYXRoIGQ9Ik0yNCAxNXYyMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjwvc3ZnPg==",
+ "logo_note": ""
+}
