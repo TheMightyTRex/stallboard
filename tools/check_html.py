@@ -70,7 +70,7 @@ class Page(html.parser.HTMLParser):
 def main(root):
     root = pathlib.Path(root)
     pages, bad = {}, []
-    for f in sorted(root.rglob("*.html")):
+    for f in sorted(p for p in root.rglob("*.html") if "assets" not in p.relative_to(root).parts):
         p = Page()
         p.feed(f.read_text(encoding="utf-8"))
         pages[f] = p
