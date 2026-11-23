@@ -1,7 +1,7 @@
 {
  "id": "line-speed",
  "name": "Line speed",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/line-speed/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/line-speed/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -19,5 +19,6 @@
    "manifest_sha256": "2b8c88e9e3fc3cfda145e88c323614c6033673d4baf2351d4c712757377cb1e9"
   }
  ],
- "pitch": "A nightly internet speed test, kept for a week."
+ "pitch": "A nightly internet speed test, kept for a week.",
+ "own": true
 }

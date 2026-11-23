@@ -1,7 +1,7 @@
 {
  "id": "download-summary",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/download-summary/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/download-summary/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "21fb990ed8ac4ee347ead74eba1c6bb60e6e5ee847db1898e6c52040270c6d02",
  "starboard_check": "v0.29.0",
  "problems": [],

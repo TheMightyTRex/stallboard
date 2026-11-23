@@ -1,7 +1,7 @@
 {
  "id": "backups-watch",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/backups-watch/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/backups-watch/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "4f72abde30cadf24ce7d5bcf8c560c2f4cf852a95a3ca75c642ea0d1353d415a",
  "starboard_check": "v0.29.0",
  "problems": [],

@@ -1,7 +1,7 @@
 {
  "id": "remote-access",
  "name": "Remote access",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/remote-access/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/remote-access/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -19,5 +19,6 @@
    "manifest_sha256": "7e0d7937b3c98b8c064bbec7cf39b6264c4b7501ad7c8405f67afa397e51af9c"
   }
  ],
- "pitch": "Reach Starboard and Jellyfin away from home, safely."
+ "pitch": "Reach Starboard and Jellyfin away from home, safely.",
+ "own": true
 }

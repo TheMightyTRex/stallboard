@@ -146,3 +146,46 @@ class Fetching(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TotalDeadline(unittest.TestCase):
+    def test_slow_reads_add_up_to_the_limit(self):
+        import time
+
+        class Sock:
+            timeouts = []
+
+            def settimeout(self, t):
+                Sock.timeouts.append(t)
+
+        class Resp:
+            status = 200
+
+            def getheaders(self):
+                return []
+
+            def read(self, n):
+                time.sleep(0.06)
+                return b"x" * 10
+
+        class Conn:
+            sock = Sock()
+
+            def request(self, *a, **k):
+                pass
+
+            def getresponse(self):
+                return Resp()
+
+            def close(self):
+                pass
+        orig = sf._PinnedHTTPS
+        try:
+            sf._PinnedHTTPS = lambda host, ip, timeout: Conn()
+            start = time.monotonic()
+            with self.assertRaises(sf.FetchError):
+                sf._transport("a.example.com", "8.8.8.8", "/", 5, 10 ** 9, time.monotonic() + 0.3)
+            self.assertLess(time.monotonic() - start, 1)
+            self.assertTrue(all(t <= 0.31 for t in Sock.timeouts))
+        finally:
+            sf._PinnedHTTPS = orig

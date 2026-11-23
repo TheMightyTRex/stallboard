@@ -19,6 +19,7 @@ REPO_URL = "https://github.com/" + REPO
 STARBOARD_REPO = "https://github.com/TheMightyTRex/starboard"
 HELP_CENTRE = "https://themightytrex.github.io/starboard-plugins/help/index.html"
 CATALOGUE_URL = SITE_URL + "catalogue.json"
+CSP = "default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; base-uri 'self'; object-src 'none'; form-action https://github.com"
 SPRITE = (HERE / "sprite.html").read_text()
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
@@ -107,6 +108,7 @@ def head(title, desc, depth, page_path, page_id, extra=""):
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="{CSP}">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <link rel="canonical" href="{esc(url)}">
@@ -272,7 +274,7 @@ def home(plugins, depth_releases, sb):
   <ul class="collage" id="collage" aria-hidden="true">{collage}</ul>
 </div></div></section>
 
-<section class="section" id="start-here" aria-labelledby="start-h" style="padding-top:0"><div class="wrap">
+<section class="section" id="start-here" aria-labelledby="start-h" data-s="pt0"><div class="wrap">
   <div class="startcard"><div>
     <p class="kicker">New here? Start here</p>
     <h2 class="display" id="start-h">Starboard</h2>
@@ -281,12 +283,12 @@ def home(plugins, depth_releases, sb):
   </div></div>
 </div></section>
 
-<section class="section" id="categories" aria-labelledby="cats-h" style="padding-top:0"><div class="wrap">
+<section class="section" id="categories" aria-labelledby="cats-h" data-s="pt0"><div class="wrap">
   <div class="section__head"><h2 class="display" id="cats-h">What do you want to do?</h2><p>Pick a colour to open its plug-ins.</p></div>
   <ul class="cats" id="cats">{cats}</ul>
 </div></section>
 
-<section class="section" id="fresh-section" aria-labelledby="fresh-h" style="padding-top:0"><div class="wrap">
+<section class="section" id="fresh-section" aria-labelledby="fresh-h" data-s="pt0"><div class="wrap">
   <div class="section__head"><h2 class="display" id="fresh-h">New and updated</h2><p>The latest from the makers, newest first.</p></div>
   <ul class="strip" id="fresh">{strip}</ul>
 </div></section>
@@ -296,7 +298,7 @@ def home(plugins, depth_releases, sb):
   <p class="muted" id="mfy-demo">This row is a demo. Stallboard cannot see your Starboard: nothing is linked, and nothing about you is sent. Here is what a Starboard that runs Jellyfin, Reelix and Home Assistant would be shown.</p>
   <div class="linked js-only" id="linked" hidden>
     <div class="linked__head"><h3>Demo: a Starboard that runs these apps</h3></div>
-    <p class="muted" style="margin:0">Change the ticks to try it. Nothing is saved or sent.</p>
+    <p class="muted" data-s="m0">Change the ticks to try it. Nothing is saved or sent.</p>
     <fieldset><legend>Apps the demo Starboard runs</legend><div class="checks" id="apps-run">{checks}</div></fieldset>
   </div>
   <p class="results-note" id="mfy-status" role="status">Showing {min(6, len(hits))} of {len(hits)} plug-ins that work with {esc(join_words(demo_apps))}.</p>
@@ -313,7 +315,7 @@ def home(plugins, depth_releases, sb):
     </div>
   </div>
   <p class="results-note" id="results-status" role="status"></p>
-  <div class="blank" id="none" hidden><p style="margin-top:0">Nothing matches that.</p><button class="btn" type="button" id="clear">Clear the search and choose All</button></div>
+  <div class="blank" id="none" hidden><p data-s="mt0">Nothing matches that.</p><button class="btn" type="button" id="clear">Clear the search and choose All</button></div>
   <ul class="tiles" id="all-list">{tiles}</ul>
 </div></section>
 </main>'''
@@ -327,8 +329,8 @@ def category_page(kind, plugins):
     return f'''
 <main id="main"><nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><a href="../index.html#categories">Categories</a></li><li><span aria-current="page">{esc(kind)}</span></li></ol></nav>
 <div class="wrap section"><header class="phead kind-{slug}"><span class="logo-plate logo-plate--lg phead__icon">{icon(ic)}</span><div><p class="kicker">Category</p><h1 class="display">{esc(kind)}</h1><p class="phead__pitch">{esc(line)} {len(ps)} plug-in{"" if len(ps) == 1 else "s"}.</p></div></header>
-<h2 class="visually-hidden">Plug-ins in this category</h2><ul class="tiles" style="margin-top:2rem">{tiles}</ul>
-<p style="margin-top:2rem"><a class="btn" href="../index.html#all-plug-ins">All plug-ins</a></p></div></main>'''
+<h2 class="visually-hidden">Plug-ins in this category</h2><ul class="tiles" data-s="mt2">{tiles}</ul>
+<p data-s="mt2"><a class="btn" href="../index.html#all-plug-ins">All plug-ins</a></p></div></main>'''
 
 
 # ------------------------------------------------------------------ a plug-in
@@ -481,7 +483,7 @@ def plugin_page(p, sb):
         <p class="kicker">{esc(p["kind"])}</p>
         <h1 class="display">{esc(m["name"])}</h1>
         <p class="phead__pitch">{esc(pitch_of(p))}</p>
-        <ul class="tile__meta" style="padding-top:1rem" aria-label="Marks and version"><li>{reviewed_chip()}</li>{f"<li>{own}</li>" if own else ""}<li><span class="chip">Version {esc(m["version"])}</span></li><li><a class="chip" href="../starboard.html#plugin-api">{esc(sb_text)}</a></li></ul>
+        <ul class="tile__meta" data-s="pt1" aria-label="Marks and version"><li>{reviewed_chip()}</li>{f"<li>{own}</li>" if own else ""}<li><span class="chip">Version {esc(m["version"])}</span></li><li><a class="chip" href="../starboard.html#plugin-api">{esc(sb_text)}</a></li></ul>
         <p class="phead__use">{mfy_line}</p>
         <div class="phead__actions"><a class="btn btn--primary btn--big" href="#install" data-dialog="install-dialog">{icon("plus")}How to install in Starboard</a>{help_btn}</div>
       </div></header>{notice}</div>
@@ -509,7 +511,7 @@ def plugin_page(p, sb):
             <div class="tabs__panel" role="tabpanel" id="tp-1" aria-labelledby="t-1" tabindex="0"><h3 class="nojs-h">From Starboard</h3><ol class="how"><li>In Starboard, open Settings, then Plug-ins, then Catalogue.</li><li>Under Catalogue sources, paste <code>{esc(CATALOGUE_URL)}</code> and select Add catalogue. You do this once.</li><li>Find {esc(m["name"])} in the Catalogue and select Install. Starboard shows what it asks for, and you choose.</li></ol></div>
             <div class="tabs__panel" role="tabpanel" id="tp-2" aria-labelledby="t-2" tabindex="0"><h3 class="nojs-h">By address</h3><p>Or give Starboard this plug-in's address: in Settings, then Plug-ins, then Catalogue, paste it under Add one from elsewhere.</p><p><code id="manifest">{esc(p["manifest_url"])}</code></p><p class="js-only" hidden><button class="btn" type="button" id="copy-manifest">{icon("copy")}Copy the address</button> <span role="status" id="copy-status" class="muted"></span></p></div></div></section>
         <section id="review" aria-labelledby="review-h"><h2 id="review-h">Who reviewed it</h2><p>Reviewed by <strong>{esc(p["reviewed"]["by"])}</strong> on {esc(nice_date(p["reviewed"]["at"]))}, version {esc(p["reviewed"]["version"])}. Listed on {esc(nice_date(p["listed_at"]))}. Its manifest was last read on {esc(nice_date(p["snapshot_date"]))}. <a href="../what-reviewed-means.html">What Reviewed means</a>.</p></section>
-        <section id="report" aria-labelledby="report-h"><div class="callout"><h2 id="report-h" style="margin:0">Report a problem with this plug-in</h2>{report}<p class="muted">A problem with Stallboard, such as this page? Use the Send feedback button.</p></div></section>
+        <section id="report" aria-labelledby="report-h"><div class="callout"><h2 id="report-h" data-s="m0">Report a problem with this plug-in</h2>{report}<p class="muted">A problem with Stallboard, such as this page? Use the Send feedback button.</p></div></section>
       </div></div>
     <dialog class="dialog" id="install-dialog" aria-labelledby="install-dialog-h">
       <div class="panel-header"><h2 class="panel-header__title" id="install-dialog-h">Add {esc(m["name"])} to Starboard</h2><button class="icon-btn" type="button" data-closes aria-label="Close">{icon("x")}</button></div>

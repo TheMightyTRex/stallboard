@@ -1,7 +1,7 @@
 {
  "id": "dns-blocking",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/dns-blocking/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/dns-blocking/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "f1cab1d8cc82bcfd4bb1bab333a4e3d14c27809f0f9b6307bc5125c97e7c9d62",
  "starboard_check": "v0.29.0",
  "problems": [],

@@ -1,7 +1,7 @@
 {
  "id": "seerr",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/seerr/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/seerr/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "bdecb02abdbdf73bbd9574c1fb894bc6046a3fd94cad5c042d1264efaac8da70",
  "starboard_check": "v0.29.0",
  "problems": [],

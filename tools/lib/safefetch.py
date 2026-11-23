@@ -120,8 +120,11 @@ def _transport(host, ip, path, timeout, max_bytes, deadline):
             raise FetchError("That file is too large")
         body = b""
         while len(body) <= max_bytes:
-            if time.monotonic() > deadline:
+            left = deadline - time.monotonic()
+            if left <= 0:
                 raise FetchError("The address took too long to answer")
+            if getattr(conn, "sock", None) is not None:
+                conn.sock.settimeout(max(0.1, min(timeout, left)))  # one slow read cannot run past the total
             chunk = r.read(min(16384, max_bytes + 1 - len(body)))
             if not chunk:
                 break

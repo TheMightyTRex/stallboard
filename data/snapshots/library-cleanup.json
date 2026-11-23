@@ -1,7 +1,7 @@
 {
  "id": "library-cleanup",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/library-cleanup/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/library-cleanup/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "a0ee1c0e35aa09f0b6237183ddd6450368be409fbf4552ba70273a5e9f8ea327",
  "starboard_check": "v0.29.0",
  "problems": [],

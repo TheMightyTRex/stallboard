@@ -1,7 +1,7 @@
 {
  "id": "remote-access",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/remote-access/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/remote-access/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "2aed162f24ac8dfa3482a6f622cd48923a69452f3c40b8227fac8e34e8c94fa8",
  "starboard_check": "v0.29.0",
  "problems": [],

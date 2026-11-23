@@ -1,7 +1,7 @@
 {
  "id": "disk-forecast",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/disk-forecast/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/disk-forecast/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "2abcfb307cef28d8d1eb80c9db17313b5bf51f0a9a2c8c506bcf4470a40c19bf",
  "starboard_check": "v0.29.0",
  "problems": [],

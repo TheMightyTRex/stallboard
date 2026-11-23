@@ -1,7 +1,7 @@
 {
  "id": "calibre-web",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/calibre-web/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/calibre-web/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "138355f3653a14dccfa006b191e770fde6703485f79b985e2bf555de37115758",
  "starboard_check": "v0.29.0",
  "problems": [],

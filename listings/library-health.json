@@ -1,7 +1,7 @@
 {
  "id": "library-health",
  "name": "Library health",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/library-health/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/library-health/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -19,5 +19,6 @@
    "manifest_sha256": "f77b37a36738671ecce83742660b7bef6ee4084e8db17d1d3730cb44ab20716d"
   }
  ],
- "pitch": "Find films with no poster, no description or no year."
+ "pitch": "Find films with no poster, no description or no year.",
+ "own": true
 }

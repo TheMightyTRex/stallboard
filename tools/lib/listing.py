@@ -14,9 +14,19 @@ ID = r"^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$"
 SEMVER = r"^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$"
 DATE = r"^\d{4}-\d{2}-\d{2}$"
 KEYS = {"id", "name", "manifest", "maker", "listed_at", "reviewed", "notes", "kind", "help", "recommended", "older_versions",
-        "maker_figures", "pitch"}
+        "maker_figures", "pitch", "own"}
 REQUIRED = {"id", "name", "manifest", "maker", "listed_at", "reviewed"}
-OWN_MAKERS = ("TheMightyTRexUK",)  # the owner's own plug-ins carry the mark "Starboard's own"
+OWN_NAME = "themightytrex"  # a maker may not use the owner's name: the mark "Starboard's own" comes from `own: true` only
+PINNED = re.compile(r"^https://raw\.githubusercontent\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/[0-9a-f]{40}/[^\s]+$")
+
+
+def pinned_problem(url):
+    """None when a manifest address is raw.githubusercontent.com at a full commit, else a plain explanation."""
+    if PINNED.match(str(url or "")):
+        return None
+    return ("The address must point at one commit, not a branch, so the file that is reviewed is the file Starboard installs. "
+            "On GitHub, open the file, press the Y key to change the address to a commit, then use Raw. It looks like "
+            "https://raw.githubusercontent.com/you/repo/0123456789abcdef0123456789abcdef01234567/starboard-plugin.json")
 
 
 class ListingError(ValueError):
@@ -53,6 +63,9 @@ def check(d, filename=None):
     except safefetch.FetchError as e:
         raise ListingError("manifest: " + str(e)) from None
     out["manifest"] = d["manifest"]
+    problem = pinned_problem(d["manifest"])
+    if problem:
+        raise ListingError("manifest: " + problem)
     out["maker"] = _text(d, "maker", 60)
     for k in ("listed_at",):
         if not (isinstance(d[k], str) and re.match(DATE, d[k])):
@@ -74,6 +87,9 @@ def check(d, filename=None):
         out["help"] = d["help"] if isinstance(d["help"], str) and re.match(r"^https://[^\s\"'<>]{1,400}$", d["help"]) else ""
         if not out["help"]:
             raise ListingError("help must be an https address")
+    out["own"] = d.get("own") is True
+    if "own" in d and not isinstance(d["own"], bool):
+        raise ListingError("own must be true or false")
     out["recommended"] = d.get("recommended") is True
     if "recommended" in d and not isinstance(d["recommended"], bool):
         raise ListingError("recommended must be true or false")
@@ -109,4 +125,4 @@ def load_all(folder):
 
 
 def is_own(listing):
-    return listing["maker"] in OWN_MAKERS
+    return listing.get("own") is True

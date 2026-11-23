@@ -1,7 +1,7 @@
 {
  "id": "audio-description-tracks",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/audio-description-tracks/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/audio-description-tracks/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "78a74af61ff530a49d6cb61a2761f94fb9d1cd09afd8fff60325c4936816e5d4",
  "starboard_check": "v0.29.0",
  "problems": [],

@@ -1,7 +1,7 @@
 {
  "id": "wizarr",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/wizarr/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/wizarr/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:23Z",
  "sha256": "b4d9d1921a249acbff8408d00644d1cd40102db574eb1b9f3dfc64da11c00818",
  "starboard_check": "v0.29.0",
  "problems": [],

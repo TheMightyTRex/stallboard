@@ -68,7 +68,7 @@ def submit_page(repo_checks):
     <h1 class="display">Submit a plug-in</h1>
     <p class="lede">Made a plug-in for Starboard? Send us its address. It costs nothing, and nobody is paid to say yes or no.</p>
     <p>Submissions go through GitHub, with no server of ours in between. You need a GitHub account. The form below checks your answers, then opens GitHub's own form for you to read and post. <strong>Nothing is sent until you post it there</strong>, and what you post is public.</p>
-    <div class="sheet" style="margin-top:2rem" id="form-area">
+    <div class="sheet" data-s="mt2" id="form-area">
       <form id="submit-form" class="form-stack" novalidate action="{SUBMIT_FORM}" method="get" target="_blank">
         <input type="hidden" name="template" value="submit-a-plug-in.yml">
         <div class="field"><label class="field__label" for="address">Address of your plug-in<span class="field__required" aria-hidden="true">*</span></label><p class="hint" id="address-hint">The web address of its Starboard plug-in file, <code>starboard-plugin.json</code>, starting with https://. On GitHub, use the Raw button to get it.</p><input class="input" id="address" name="manifest" type="text" inputmode="url" autocomplete="off" spellcheck="false" required aria-describedby="address-hint"></div>
@@ -80,13 +80,13 @@ def submit_page(repo_checks):
     <p class="muted">Without JavaScript, the button above opens GitHub's form directly, and GitHub asks for everything. You can also <a href="{SUBMIT_FORM}" target="_blank" rel="noopener">open the form on GitHub<span class="visually-hidden"> (opens in a new tab)</span></a> yourself.</p>
     <section class="sheet success" id="success" aria-labelledby="success-h" hidden>
       <div class="notice" data-tone="success" role="status">{icon("circle-check")}<div class="notice__body"><span class="notice__title">Ready to post on GitHub</span><p>GitHub's form opened in a new tab. The rest of the form is there, and nothing is sent until you select Submit new issue.</p></div></div>
-      <h2 class="display" id="success-h" tabindex="-1" style="font-size:2rem"><span id="success-name">Thank you</span></h2>
+      <h2 class="display" id="success-h" tabindex="-1" data-s="fs2"><span id="success-name">Thank you</span></h2>
       <p>Your address, <code id="success-addr"></code>, is filled in. If the tab did not open, <a id="success-link" href="{SUBMIT_FORM}" target="_blank" rel="noopener">open the form on GitHub<span class="visually-hidden"> (opens in a new tab)</span></a>.</p>
       <p><button class="btn" type="button" id="again">Submit another plug-in</button> <a class="btn" href="index.html">Back to browse</a></p>
     </section>
   </div>
   <section aria-labelledby="next-h">
-    <h2 class="display" id="next-h" style="font-size:2rem;margin-bottom:1.25rem">What happens next</h2>
+    <h2 class="display" id="next-h" data-s="fs2mb">What happens next</h2>
     <ol class="next" id="next">
       <li><h3>Automatic checks</h3><p>A robot reads your plug-in file as plain text, never running anything, and runs the same manifest check Starboard runs ({esc(repo_checks)}). It comments on your issue with what passed and what to fix.</p></li>
       <li><h3>Safety review</h3><p>A person checks everything it asks to read and change. Anything it asks for and does not need is raised with you.</p></li>

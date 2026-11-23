@@ -1,7 +1,7 @@
 {
  "id": "library-health",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/library-health/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/library-health/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "06fc9b5910305709c2bc8c61c3440f530db7d1d44bf16729163207935c1074f9",
  "starboard_check": "v0.29.0",
  "problems": [],

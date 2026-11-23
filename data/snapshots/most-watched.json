@@ -1,7 +1,7 @@
 {
  "id": "most-watched",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/most-watched/starboard-plugin.json",
- "fetched_at": "2026-11-23T16:47Z",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/most-watched/starboard-plugin.json",
+ "fetched_at": "2026-11-23T17:22Z",
  "sha256": "4254addfd111368dcdb024948b7bc467600f74b1f7c003406f4c7ee9aa789f42",
  "starboard_check": "v0.29.0",
  "problems": [],

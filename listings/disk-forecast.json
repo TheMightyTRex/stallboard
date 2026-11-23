@@ -1,7 +1,7 @@
 {
  "id": "disk-forecast",
  "name": "Disk forecast",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/disk-forecast/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/disk-forecast/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -20,5 +20,6 @@
    "manifest_sha256": "ee7cf40d60d3b3fcfbc2b7737b64ea8e768e7c2057f921732c390c638fea796c"
   }
  ],
- "pitch": "Know when each disk will fill up."
+ "pitch": "Know when each disk will fill up.",
+ "own": true
 }

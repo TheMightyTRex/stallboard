@@ -1,7 +1,7 @@
 {
  "id": "calibre-web",
  "name": "Calibre-Web",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/calibre-web/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/calibre-web/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -23,5 +23,6 @@
   "memory_mib": 182,
   "cpu_percent": 0.01
  },
- "pitch": "Read your Calibre books in any browser."
+ "pitch": "Read your Calibre books in any browser.",
+ "own": true
 }

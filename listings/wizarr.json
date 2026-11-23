@@ -1,7 +1,7 @@
 {
  "id": "wizarr",
  "name": "Wizarr",
- "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/wizarr/starboard-plugin.json",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/ef67f0c273140fd80637bd3b9c8feb7ed15b648f/wizarr/starboard-plugin.json",
  "maker": "TheMightyTRexUK",
  "listed_at": "2026-11-23",
  "reviewed": {
@@ -23,5 +23,6 @@
   "memory_mib": 124,
   "cpu_percent": 0.02
  },
- "pitch": "Invitation links, so people join Jellyfin themselves."
+ "pitch": "Invitation links, so people join Jellyfin themselves.",
+ "own": true
 }
