@@ -1,0 +1,162 @@
+{
+ "id": "audio-description-tracks",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/audio-description-tracks/starboard-plugin.json",
+ "fetched_at": "2026-11-23T16:47Z",
+ "sha256": "78a74af61ff530a49d6cb61a2761f94fb9d1cd09afd8fff60325c4936816e5d4",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "audio-description-tracks",
+  "name": "Audio description tracks",
+  "version": "1.2.1",
+  "description": "Adds a description track you already have, such as one from AudioVault, to its film or episode in Jellyfin, after checking that the lengths match.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/audio-description-tracks",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "jellyfin:key",
+   "network:lan"
+  ],
+  "needs": [
+   "jellyfin"
+  ],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-audio-description-tracks@sha256:90acc8587be0053dc6852f1c2cf62fd546f556f65999eb6fb02f1d754dc8c5cb",
+    "port": 8080,
+    "network": "lan",
+    "start": "when_needed",
+    "idle_stop_minutes": 10,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 96,
+    "cpus": 0.5,
+    "pids": null
+   }
+  },
+  "versions": [
+   {
+    "version": "1.2.1",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "Films in a collection: on Jellyfin 12, a film in a collection was not found, because Jellyfin answered the search with the collection in its place. It now asks Jellyfin for the films themselves, so a track for a film in a collection is added. The same goes for series."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.2.0",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Rules 1.0: the track words, how a file name is read, how close the lengths must be (5 seconds by default), the languages and the new track's name and title come from the same rules file as Jellyfin's own Audio description plug-in, so the two add tracks in the same way.",
+       "Idle beside the Jellyfin version: when Jellyfin's own Audio description plug-in is installed, this one adds nothing and its card says Idle, so the two never add the same track. Add tracks in Jellyfin instead."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.4",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: Look in the folder now is now Check the folder now, and its job is Check for new description tracks. Its card's band says To check, with the numbers on the card, and a track that was not added says what to do next.",
+       "Logo description: where its logo stands on its own, a screen reader says \"Audio description tracks logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.3",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "Jellyfin 12: it sends Jellyfin's key the way Jellyfin 12 asks for it, so Jellyfin no longer refuses its requests where legacy authorisation is off. Older Jellyfin still works."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.2",
+    "date": "2026-11-16",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Lighter at rest: it wakes about once a minute while nothing asks it anything, not twice a second.",
+       "Starts faster: its image comes with Python's modules already compiled, so a start takes about a quarter of the processor time."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.1",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "Its card says when it last looked: the grey band now shows when it last looked in the folder or a track last changed. Before, it never showed a time."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "A logo in Settings, Plug-ins, in the Catalogue and on its dashboard cards.",
+       "Its card says how things are: a status and when it last changed, in the grey band at the top of the card.",
+       "Updates safely: before an update it finishes adding the track it is on and starts no other."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Needs Starboard with plug-in API 1.14 or later. A Starboard with an older plug-in API keeps version 1.0.0."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-13",
+    "groups": [
+     [
+      "Added",
+      [
+       "Add a description track you already have: put it in the audio-description folder in your media folder, or upload it, and it is matched to its film or episode by name",
+       "Lengths checked: added only when the track and the film are the same length, within the seconds you choose; otherwise it says the track is probably for another cut",
+       "Added as an extra sound track next to the film, named English (Audio Description), with the visual impaired flag; the film file is not changed",
+       "Nothing deleted: the original moves to Confirmed once you say it plays in step, and a wrong track moves to Taken off"
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Audio description tracks logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5BdWRpbyBkZXNjcmlwdGlvbiB0cmFja3MgbG9nbzwvdGl0bGU+PHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTEiIGZpbGw9IiMyZDVhODciIC8+PHBhdGggZD0iTTggMjBoNmw4LTd2MjJsLTgtN0g4eiIgZmlsbD0iI2ZmZmZmZiIgLz48cGF0aCBkPSJNMzMgMTh2MTJNMjcgMjRoMTIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48L3N2Zz4=",
+ "logo_note": ""
+}

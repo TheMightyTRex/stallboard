@@ -1,0 +1,23 @@
+{
+ "id": "audio-description",
+ "name": "Audio description",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/audio-description/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.5.0"
+ },
+ "kind": "Accessibility",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/audio-description/index.html",
+ "older_versions": [
+  {
+   "version": "1.1.0",
+   "starboard_api": ">=1.12 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/audio-description/starboard-plugin.json",
+   "manifest_sha256": "86c3741f9e4784d6bd8d6b91fc151ba37bc176d3e02540ebd64776299f234c59"
+  }
+ ],
+ "pitch": "Films and series with a described sound track, found and played for you."
+}

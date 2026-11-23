@@ -1,0 +1,165 @@
+{
+ "id": "picture-shrinker",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/picture-shrinker/starboard-plugin.json",
+ "fetched_at": "2026-11-23T16:47Z",
+ "sha256": "e6b637e5f24368363c15c5d34d75a4dfe41f9e14eed353ccedf04ce081f7142e",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "picture-shrinker",
+  "name": "Picture shrinker",
+  "version": "1.2.2",
+  "description": "Shrinks the posters and photos of people Jellyfin keeps, so they take less space. You choose: keep a backup of each original, or shrink without a backup.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/picture-shrinker",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "jellyfin:metadata",
+   "jellyfin:key",
+   "network:lan"
+  ],
+  "needs": [
+   "jellyfin"
+  ],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-picture-shrinker@sha256:888d9ef01191127d9f589cfb5c3b813e98582625bc180f146e38caa8064b87e0",
+    "port": 8080,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 128,
+    "cpus": 0.5,
+    "pids": null
+   }
+  },
+  "versions": [
+   {
+    "version": "1.2.2",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Added",
+      [
+       "Space saved by type: a dashboard card with the space each type of picture saved, such as posters, backdrops and photos of cast and crew, how many of each were shrunk, and the last run.",
+       "Saved by type in its settings: a table of the same figures, with the size before and now. Pictures shrunk before 1.2.2 were not counted by type, so they share one row."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Space saved card: with nothing shrunk yet, it says so and what to do next: choose a backup in Original pictures first, then Shrink now or the next run.",
+       "Sizes as Starboard shows them: a kilobyte is 1,024 bytes in its words too, so the figures on its cards and pages agree with the number Starboard draws on the Space saved card.",
+       "Light as before: both cards read the figures kept after each run; nothing is measured or scanned when a card asks."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.2.1",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: Just shrink, with no backup is now Shrink without a backup. The card's band says Scheduled, and the card says when it runs next.",
+       "Logo description: where its logo stands on its own, a screen reader says \"Picture shrinker logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.2.0",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Added",
+      [
+       "Choose the backup: Original pictures asks whether to keep a backup copy of each original or just shrink, once it is added and again after this update. Nothing is shrunk until you choose; a backup you already have is kept.",
+       "Start again in its actions, for the pictures it shrinks or for every picture: deletes the backup and the records, and has Jellyfin download the pictures again at full size. A picture Jellyfin cannot download again is put back after a day.",
+       "Every picture type: posters, photos of people, backdrops, thumbnails, logos, banners, disc art and clear art, each with its own size and all activated, with Shrink all picture types for all in one setting. Backdrops asked for by Lentzeris (issue #2)."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Rules 1.2: the same rules file as the Jellyfin version (SYNC.md).",
+       "Settings in sections: What to shrink (with Original pictures), Sizes and quality, and When it runs. After this update, check What to shrink: every type is shrunk until you choose otherwise."
+      ]
+     ],
+     [
+      "Removed",
+      [
+       "Back up each original before it is replaced: replaced by Original pictures."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.1",
+    "date": "2026-11-16",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Lighter at rest: it wakes about once a minute while nothing asks it anything, not twice a second.",
+       "Starts faster: its image comes with Python's modules already compiled, so a start takes about a quarter of the processor time."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.1.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "Backup first: each original is copied to the plug-in's own folder before its first shrink, and a picture whose original cannot be backed up is not shrunk. Activated by default.",
+       "Restore original pictures and Delete backup in its actions; Space saved shows the pictures now, the backup and the space saved.",
+       "Quality, posters and photos of people are settings, as in the Jellyfin version.",
+       "Stays idle when Jellyfin's own Picture shrinker is installed, so the two never shrink the same pictures. To see that, it reads Jellyfin's list of plug-ins with Jellyfin's key."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Rules 1.1: the same rules file as the Jellyfin version (SYNC.md).",
+       "Quiet when it finishes: a run changes only the figures on its card and page; the card no longer shows a problem status."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-15",
+    "groups": [
+     [
+      "Added",
+      [
+       "Shrinks Jellyfin's pictures: posters to 900 pixels tall and photos of cast and crew to 400 pixels wide, both settings. Smaller pictures are left alone.",
+       "Checked before it replaces: each picture is written beside the original, opened again and checked, and swapped in only when it is smaller.",
+       "When you choose: every day, week or month at a time, with Shrink now, at the lowest priority.",
+       "New pictures in quiet hours: deactivated unless you activate it.",
+       "Space saved: on its page and on a dashboard card."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Picture shrinker logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5QaWN0dXJlIHNocmlua2VyIGxvZ288L3RpdGxlPjxyZWN0IHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcng9IjExIiBmaWxsPSIjOGE0YTBiIiAvPjxyZWN0IHg9IjgiIHk9IjE2IiB3aWR0aD0iMjQiIGhlaWdodD0iMjIiIHJ4PSIzIiBmaWxsPSIjZmZmZmZmIiAvPjxwYXRoIGQ9Ik0xMS41IDM0LjVsNi41LTggNC41IDUgMi41LTMgNCA2eiIgZmlsbD0iIzhhNGEwYiIgLz48Y2lyY2xlIGN4PSIyNSIgY3k9IjIyIiByPSIyLjUiIGZpbGw9IiM4YTRhMGIiIC8+PHBhdGggZD0iTTQwIDhsLTggOE0zMiAxMC41VjE2aDUuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjwvc3ZnPg==",
+ "logo_note": ""
+}

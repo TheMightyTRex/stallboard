@@ -1,0 +1,27 @@
+{
+ "id": "navidrome",
+ "name": "Navidrome",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/navidrome/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.1.1"
+ },
+ "kind": "Apps you can add",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/navidrome/index.html",
+ "older_versions": [
+  {
+   "version": "1.0.0",
+   "starboard_api": ">=1.13 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/navidrome/starboard-plugin.json",
+   "manifest_sha256": "852262eaef0d2f874573ede2f9e94c2f713633379df4a2165716920e0553fa16"
+  }
+ ],
+ "maker_figures": {
+  "memory_mib": 16,
+  "cpu_percent": 0.01
+ },
+ "pitch": "A music server for your phone and your car."
+}

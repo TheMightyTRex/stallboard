@@ -1,0 +1,27 @@
+{
+ "id": "seerr",
+ "name": "Seerr",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/seerr/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.1.1"
+ },
+ "kind": "Apps you can add",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/seerr/index.html",
+ "older_versions": [
+  {
+   "version": "1.0.0",
+   "starboard_api": ">=1.13 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/seerr/starboard-plugin.json",
+   "manifest_sha256": "dc105c12593f29ddb750b7b31acc50a63b9815171b0d9d4fb70014b42f511589"
+  }
+ ],
+ "maker_figures": {
+  "memory_mib": 127,
+  "cpu_percent": 0.0
+ },
+ "pitch": "A requests page for the people who use Jellyfin."
+}

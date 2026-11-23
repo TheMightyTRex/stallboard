@@ -1,0 +1,15 @@
+{
+ "id": "picture-shrinker",
+ "name": "Picture shrinker",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/picture-shrinker/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.2.2"
+ },
+ "kind": "Jellyfin",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/picture-shrinker/index.html",
+ "pitch": "Shrink Jellyfin's posters and photos to save space."
+}

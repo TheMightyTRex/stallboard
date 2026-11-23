@@ -1,0 +1,24 @@
+{
+ "id": "disk-forecast",
+ "name": "Disk forecast",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/disk-forecast/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.1.4"
+ },
+ "kind": "System",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/disk-forecast/index.html",
+ "recommended": true,
+ "older_versions": [
+  {
+   "version": "1.0.0",
+   "starboard_api": ">=1.1 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/disk-forecast/starboard-plugin.json",
+   "manifest_sha256": "ee7cf40d60d3b3fcfbc2b7737b64ea8e768e7c2057f921732c390c638fea796c"
+  }
+ ],
+ "pitch": "Know when each disk will fill up."
+}

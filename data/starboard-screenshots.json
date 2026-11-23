@@ -1,0 +1,21 @@
+{
+ "from": "v0.29.0",
+ "screenshots": [
+  {
+   "file": "apps.png",
+   "alt": "Apps, in the Health first design: each app with its status"
+  },
+  {
+   "file": "storage.png",
+   "alt": "System, Storage: the pool by type, with free space"
+  },
+  {
+   "file": "install-apps.png",
+   "alt": "Install apps, What to set up: Basics (recommended), Full install or Everything"
+  },
+  {
+   "file": "library-phone-dark.png",
+   "alt": "The Books wall on a phone, in the dark theme, with example data"
+  }
+ ]
+}

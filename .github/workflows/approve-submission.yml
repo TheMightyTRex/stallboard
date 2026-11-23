@@ -1,0 +1,84 @@
+name: Approve a submission
+# Runs only when the label "approved" is added AND GitHub says the person who added it is a maintainer of this
+# repository (their permission is read from the API, not from a name in any text). It checks the plug-in again, makes the
+# listing and the snapshot, and opens a pull request for a person to merge. Merging deploys.
+# Two jobs, so the one that reads the stranger's file cannot write to the repository, and the one that can write only
+# takes back files it checks again.
+on:
+  issues:
+    types: [labeled]
+
+permissions: {}
+
+concurrency:
+  group: approve-submission-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Check and prepare the listing
+    if: github.event.label.name == 'approved' && contains(github.event.issue.labels.*.name, 'submission')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read  # read the repository
+      issues: write  # comment on and label the submission issue
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - name: Read the comments the checks left
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          gh api "repos/$GH_REPO/issues/$NUMBER/comments" --paginate --slurp > reports/comments.json
+      - name: Approve, if a maintainer added the label
+        id: approve
+        run: python3 tools/submission.py approve
+      - name: Say why nothing happened, and take the label off
+        if: failure() && steps.approve.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: |
+          if [ -f reports/approval/refused.md ]; then gh issue comment "$NUMBER" --body-file reports/approval/refused.md; fi
+          gh issue edit "$NUMBER" --remove-label approved || true
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: approval
+          path: reports/approval
+          retention-days: 3
+          if-no-files-found: error
+
+  open-pr:
+    name: Open the pull request
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write  # push the branch
+      pull-requests: write  # open the pull request
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: true # needed to push the branch; this job runs only code from the default branch
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: approval
+          path: reports/approval
+      - name: Open the pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: python3 tools/submission.py open-pr

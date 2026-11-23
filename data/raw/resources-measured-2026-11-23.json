@@ -1,0 +1,90 @@
+{
+ "measured_at": "2026-11-23T16:41+00:00",
+ "how": "docker stats, 6 samples 4 seconds apart, on the owner's server (T-Rex-Server), containers as they were running; image size is the unpacked local size",
+ "plugins": {
+  "livetv": [
+   {
+    "container": "plugin-livetv-main",
+    "memory_mib_median": 24.5,
+    "memory_mib_max": 24.6,
+    "cpu_percent_median": 0.0,
+    "memory_limit_mib": 192,
+    "cpus_limit": 0.5,
+    "pids_limit": 64,
+    "image_size_mb": 25.0
+   }
+  ],
+  "tv-station": [
+   {
+    "container": "plugin-tv-station-main",
+    "memory_mib_median": 93.0,
+    "memory_mib_max": 93.0,
+    "cpu_percent_median": 0.0,
+    "memory_limit_mib": 768,
+    "cpus_limit": 2.0,
+    "pids_limit": 128,
+    "image_size_mb": 75.0
+   }
+  ],
+  "on-demand-on": [
+   {
+    "container": "plugin-on-demand-on-demand",
+    "memory_mib_median": 11.2,
+    "memory_mib_max": 11.2,
+    "cpu_percent_median": 0.0,
+    "memory_limit_mib": 384,
+    "cpus_limit": 1.0,
+    "pids_limit": 128,
+    "image_size_mb": 82.5
+   }
+  ],
+  "on-demand-on-demand": [
+   {
+    "container": "plugin-on-demand-on-demand-engine",
+    "memory_mib_median": 6.0,
+    "memory_mib_max": 6.1,
+    "cpu_percent_median": 0.03,
+    "memory_limit_mib": 512,
+    "cpus_limit": 1.0,
+    "pids_limit": 64,
+    "image_size_mb": 450.2
+   }
+  ],
+  "remote-access": [
+   {
+    "container": "plugin-remote-access-main",
+    "memory_mib_median": 17.3,
+    "memory_mib_max": 17.5,
+    "cpu_percent_median": 0.02,
+    "memory_limit_mib": 128,
+    "cpus_limit": 0.5,
+    "pids_limit": 64,
+    "image_size_mb": 82.9
+   }
+  ],
+  "picture-shrinker": [
+   {
+    "container": "plugin-picture-shrinker-main",
+    "memory_mib_median": 4.6,
+    "memory_mib_max": 4.6,
+    "cpu_percent_median": 0.0,
+    "memory_limit_mib": 128,
+    "cpus_limit": 0.5,
+    "pids_limit": 64,
+    "image_size_mb": 26.2
+   }
+  ],
+  "direct-play": [
+   {
+    "container": "plugin-direct-play-main",
+    "memory_mib_median": 8.6,
+    "memory_mib_max": 8.6,
+    "cpu_percent_median": 0.0,
+    "memory_limit_mib": 512,
+    "cpus_limit": 1.0,
+    "pids_limit": 64,
+    "image_size_mb": 73.5
+   }
+  ]
+ }
+}

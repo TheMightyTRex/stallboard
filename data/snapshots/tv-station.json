@@ -1,0 +1,357 @@
+{
+ "id": "tv-station",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/tv-station/starboard-plugin.json",
+ "fetched_at": "2026-11-23T16:47Z",
+ "sha256": "58e93880aca06f276f9879984dfa0ae9f7ff46c508217dda6bbf8bfd3d7d4ea9",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "tv-station",
+  "name": "Create your own TV channel",
+  "version": "0.8.0",
+  "description": "Your own TV channels in Jellyfin's Live TV, made from your films and series, with your own broadcast pack: on-screen logo, idents, transitions, Coming up next cards and promos.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/tv-station",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.15 <2.0",
+  "permissions": [
+   "jellyfin:key",
+   "network:lan",
+   "network:port"
+  ],
+  "needs": [
+   "jellyfin"
+  ],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-tv-station@sha256:e28963c0c088954fc078ce275ada907e989e073195fe1ca29e6ce7cd037e72f5",
+    "port": 8080,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 768,
+    "cpus": 2.0,
+    "pids": 128
+   }
+  },
+  "versions": [
+   {
+    "version": "0.8.0",
+    "date": "2026-11-23",
+    "groups": [
+     [
+      "Added",
+      [
+       "Break grids: two grids for each channel, In between programmes and Breaks, with up to 7 columns. Choose Random, Sequence, Day of week, or Morning, afternoon and evening, then drag items into the columns, or use the buttons and the keyboard.",
+       "Where breaks go inside a programme: at silence, at set times or at the end of a scene, and how many in each 30 minutes and in a film. Found once for each programme in the quiet hours, never while a channel streams.",
+       "A channel that has not changed its grids plays exactly as before."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.7.0",
+    "date": "2026-11-22",
+    "groups": [
+     [
+      "Added",
+      [
+       "Audio description on promos (not active unless you activate it): a voice says each promo's words, so a blind viewer hears what is coming, on which channel, and when. It is made on your server, in the station's language. Nothing is sent anywhere."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.6.0",
+    "date": "2026-11-21",
+    "groups": [
+     [
+      "Added",
+      [
+       "Language (English unless changed): the words drawn on the picture and in the guide, such as Coming up next, Series and episode and the day and time, in English, French, German, Spanish, Italian, Portuguese, Dutch, Swedish, Danish or Norwegian.",
+       "Sound track in your language: a programme with more than one sound track plays the one in the station's language, else its default track.",
+       "Titles in your language: film and series titles, and film descriptions, are read in the station's language from the film database for programmes about to be shown, a few each hour, and kept. Episode names stay as Jellyfin has them."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.5.7",
+    "date": "2026-11-21",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "Moving a programme with the keyboard on the schedule grid: focus goes straight to the programme at its new time, so a screen reader no longer reads the old time first, and the reason a move cannot be made is said once the actions have closed."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.5.6",
+    "date": "2026-11-20",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Busy buttons on the schedule grid show a turning ring while Starboard works, such as Suggest a week, the same as the rest of Starboard."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.5.5",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Added",
+      [
+       "Leave out 3D films (Yes unless changed): a film Jellyfin or its file name says is 3D is left out of channels, and each film is checked once in quiet hours for two pictures side by side or one over the other."
+      ]
+     ],
+     [
+      "Fixed",
+      [
+       "Reading the channels again updates each programme's details, such as which sound track it plays, its title and its picture, even when the programmes are the same. The schedule does not change."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.5.4",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "A programme with a subtitle file beside it showed only the channel's name card: the plug-in asked for the subtitle in place of the sound. It now picks the sound among the file's own sound tracks."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.5.3",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "Pack logo check: a busy plug-in no longer refuses a logo as having no transparent parts; it tries again, then says to upload the pack again in a minute."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.5.2",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Added",
+      [
+       "The station's logo on promos: promos made with a channel's own pack, or a plain design, show the station pack's logo, small, in a corner. To leave it out, deactivate Show the station's logo on promos."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.5.1",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "Promos follow a new pack: when a channel's broadcast pack changes, its promos made with the old pack stop showing and are made again in the next quiet hour."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.5.0",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Added",
+      [
+       "Promos and clips in each break: up to 2, 3, 4 or 6, each once, on a channel's Breaks card. The holding slide fills the rest.",
+       "Extra videos: upload as many as you like for the station or one channel. One plays at random after the promos in each break."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Breaks: between programmes a bumper, promos, an extra video, the holding slide, then the ident. Inside a programme a bumper, promos, an extra video, the holding slide with Back soon, then a bumper."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.4.0",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Added",
+      [
+       "Bumpers: a broadcast pack may have short, silent bumpers in bumpers/. One opens and one closes every break.",
+       "Breaks inside programmes: where a programme fades to black for its adverts (found in quiet hours), a bumper, trailers or promos and a bumper play. Up to 1, 2 or 3 minutes, taken from the break after it."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "A break's order: a bumper, trailers and promos, the holding slide or cards, a bumper, then one ident with its music immediately before the next programme."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.3.2",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Added",
+      [
+       "Create initial schedule on a channel's What it shows card: a week from the channel's own series and films, in the hours you give, ready to change in the schedule grid and save.",
+       "This channel's line-up in Suggest a schedule: every series and film the channel shows, watched or not."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.3.1",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Preview a frame of a Coming up next card or a promo is taken 1.5 seconds into the pack's background video, so a background that opens with a movement, such as bands sweeping off, shows as it rests."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.3.0",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Added",
+      [
+       "Animation on and off: the cards, straps, on-screen logo, clock, label and holding slide words can fade, slide in from the left, right or bottom, wipe or grow, and go off the same ways, quick, normal or slow. Choose on the Animation page or a channel's Animation card, with a preview of each.",
+       "A broadcast pack can choose its animation in pack.json, under animation. A choice in the settings comes first.",
+       "Each channel remembers what it has played to someone watching: From the next episode not watched counts an episode it played, 70% or more of it, as watched, as well as what Jellyfin says. Jellyfin's watched marks are never changed.",
+       "Played on this channel: a new card on each channel lists the last few programmes it played, with a way to forget them.",
+       "Promos with the programme's sound: each clip plays with its own sound, and the music goes down to 20% under it (10%, 20%, 30% or 50% in Music under the programme's sound).",
+       "Promo length from 10 to 60 seconds, and Clips in each promo, about one every 5 seconds unless you choose 2 to 6.",
+       "Background loops for promos: upload several videos or pictures for the station or one channel; each promo chooses one at random with the pack's."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "From the next episode not watched finds the first episode, in the channel's order, that is not watched, where before it took the first not played in Jellyfin's order."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.2.1",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Added",
+      [
+       "Choose the hours a suggestion fills: Suggest a schedule asks for the hours to fill on weekdays and at the weekend, such as 18:00 to 23:00, and fills them one programme after another, leaving out one that would run past the end. The hours are remembered for each channel."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Longer holding slides: a holding slide's video may be up to 120 seconds and 90 MB. Starboard 0.24.1 or later takes files that big; an older Starboard stops at 60 MB."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.2.0",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Added",
+      [
+       "Choose from your library: with Starboard 0.24.0 and later, a slide-out lists every series, film, collection, playlist, genre and decade in Jellyfin, with search; tick several and add them to a channel at once. Those on the channel already show as added.",
+       "A holding slide: upload a picture or a short video, with Back soon or a countdown to the next programme and its name. It loops at the end of each break, after the promos, until the next programme starts, so the channel never shows black.",
+       "Music for promos: upload MP3, M4A, OGG or FLAC music for the station or for one channel, list it and remove it. Promos use it with, or in place of, the pack's music, and a channel with music but no pack promo gets plain promos on its colour.",
+       "Jellyfin's guide: the Guide page says when Jellyfin last read the guide and how many programmes it had, and Refresh Jellyfin's guide in Actions asks it to read it again.",
+       "Suggest a schedule asks what to make it from: Watch history, General watch history, All TV, All films or TV and Films, and remembers the choice for each channel.",
+       "Logos show on their rows: a channel's logo and the station pack's on-screen logo show as a small picture once uploaded."
+      ]
+     ],
+     [
+      "Changed",
+      [
+       "Channels in cards: with Starboard 0.24.0 and later, each channel is a card in the list, and an opened channel has a card each for its name and number, what it shows, its breaks, its on-screen logo and branding, its holding slide and promos, and its programmes for today and tomorrow.",
+       "Changes save in place: with Starboard 0.24.0 and later, a change answers with that channel only, so the page keeps the open channel, where you were and focus, and says what was saved, such as Corner: Bottom left.",
+       "Renaming the station renames its tuner in Jellyfin's Live TV."
+      ]
+     ],
+     [
+      "Fixed",
+      [
+       "The schedule grid opens: with Starboard 0.24.0 and later, Open the schedule grid uses the address you opened Starboard with, so it opens from any address that reaches the server. With no channels, the grid page says what to do."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.1.1",
+    "date": "2026-11-19",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Its address for Jellyfin fills in by itself: with Starboard 0.23.0 and later, Starboard gives it its address on your home network, so Jellyfin's Live TV works without opening its page first."
+      ]
+     ],
+     [
+      "Fixed",
+      [
+       "Channel names and numbers are accepted: with Starboard 0.23.0 and later, Add a channel, Rename and Change number take plain text, not only web addresses."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "0.1.0",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Added",
+      [
+       "Your own channels: name the station and each channel, with its number, logo and colour, and fill it from series, films, collections, playlists, genres or decades, in order or shuffled, with episodes of a series in a row.",
+       "Schedule grid: place films and series at set times on a week's grid, by dragging or with buttons and the keyboard; copy a day; stripe a series across weekdays; choose where a series starts; suggest a week from watch history.",
+       "In Jellyfin's Live TV, first: numbered from 1 in your order, with a 7-day guide of titles, episode names, synopses, pictures and New or Repeat. Tuning in joins part way through, as on television.",
+       "Breaks: idents, Jellyfin's trailers, your own clips, and Coming up next and Later cards with the programme's picture, title, date and time and a short synopsis.",
+       "Broadcast pack: your own branding from a zip made from the template: the on-screen logo, the logo with its music, idents in a random order, transitions, and Coming up next and promo backgrounds. Every file is checked first. Or try the example pack.",
+       "Promos: made in quiet hours from short clips of a programme coming up, a music bed from the pack and its day and time from the schedule, kept and replaced as the settings say, and shown on your other channels too.",
+       "Downloads: the template, with pack.json, its schema and a README, and placement guides for the Coming up next card, the promo and the on-screen logo.",
+       "On-screen logo: the channel's logo or name in a corner you choose, with its size, opacity, a clock, a New, Repeat or Live label and a backing plate, for the station or each channel, with a preview.",
+       "Light: nothing runs until someone chooses a channel, viewers of a channel share one stream, and it stops 30 seconds after the last one leaves."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Create your own TV channel logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5DcmVhdGUgeW91ciBvd24gVFYgY2hhbm5lbCBsb2dvPC90aXRsZT48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMSIgZmlsbD0iIzZhM2Q5YSIgLz48cGF0aCBkPSJNMTggOWw2IDYgNi02IiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjxyZWN0IHg9IjciIHk9IjE1IiB3aWR0aD0iMzQiIGhlaWdodD0iMjMiIHJ4PSIzIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIC8+PHJlY3QgeD0iMzAiIHk9IjE5IiB3aWR0aD0iNyIgaGVpZ2h0PSI0IiByeD0iMSIgZmlsbD0iI2ZmZmZmZiIgLz48L3N2Zz4=",
+ "logo_note": ""
+}

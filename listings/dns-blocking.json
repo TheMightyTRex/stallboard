@@ -1,0 +1,23 @@
+{
+ "id": "dns-blocking",
+ "name": "Ad blocking",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/dns-blocking/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.1.4"
+ },
+ "kind": "Network",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/dns-blocking/index.html",
+ "older_versions": [
+  {
+   "version": "1.0.0",
+   "starboard_api": ">=1.1 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/dns-blocking/starboard-plugin.json",
+   "manifest_sha256": "7e691567b0c354cdd45763c3dd5426b4eb5445f8eb9f8b55e374d89b8221e430"
+  }
+ ],
+ "pitch": "How many adverts and trackers were blocked today."
+}

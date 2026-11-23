@@ -1,0 +1,110 @@
+{
+ "id": "direct-play",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/direct-play/starboard-plugin.json",
+ "fetched_at": "2026-11-23T16:47Z",
+ "sha256": "ed535935eeef59f6f1f2d3169b36bb8d9f36a146454286d408bc10568fa953de",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "direct-play",
+  "name": "Direct play",
+  "version": "1.0.3",
+  "description": "Makes your films and series play directly on the devices you choose, so Jellyfin does not convert them as they play: one file at a time, in the hours you choose.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/direct-play",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [
+   "jellyfin:key",
+   "reelix:key",
+   "network:lan"
+  ],
+  "needs": [
+   "jellyfin"
+  ],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-direct-play@sha256:85773928d205f8026db5974684c77761ad0f89181c69d6bb5281b7c8e5b59a08",
+    "port": 8080,
+    "network": "lan",
+    "start": "always",
+    "idle_stop_minutes": null,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 512,
+    "cpus": 1.0,
+    "pids": null
+   }
+  },
+  "versions": [
+   {
+    "version": "1.0.3",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Clearer words: Look at the library now is now Check the library now, and the size settings are Shrink 1080p files over, Shrink 720p files over and Shrink smaller files over. Its messages put the settings they name in quotation marks.",
+       "Logo description: where its logo stands on its own, a screen reader says \"Direct play logo\", the plug-in's name, instead of a description of the symbol."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.2",
+    "date": "2026-11-17",
+    "groups": [
+     [
+      "Fixed",
+      [
+       "Jellyfin 12: it sends Jellyfin's key the way Jellyfin 12 asks for it, so Jellyfin no longer refuses its library refreshes and other requests where legacy authorisation is off. Older Jellyfin still works."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.1",
+    "date": "2026-11-16",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Lighter at rest: it wakes about once a minute while nothing asks it anything, not twice a second; its minute's look for work reads its settings once, not about ninety times; and it writes nothing to its folder when a run goes well.",
+       "Starts faster: its image comes with Python's modules already compiled, so a start takes about a quarter of the processor time.",
+       "Lighter dashboard card: the cards and the minute's look for work no longer read every file's details each time; with 50,000 files the card answers in about 4 ms instead of 230 ms, and about 45 MB less memory is held."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-14",
+    "groups": [
+     [
+      "Added",
+      [
+       "Plays directly on the devices you choose: Rokus, Fire TV Sticks, Chromecast, smart TV apps, web browsers, Apple TV and Nvidia Shield",
+       "Four fixes, cheapest first: repackages the wrong container, adds a sound track your devices play beside the original, shrinks very large H.264 files and converts old formats to H.264",
+       "Checked before it replaces: the length, the picture, the first sound track and where sound and picture start; a file that fails is left as it was",
+       "One file at a time, at the lowest priority: at weekends, in quiet hours or any time, with Pause and Resume",
+       "On the dashboard: what is being converted, what is next and how much space it has saved",
+       "A logo and a status on its cards: the grey band at the top of each card says whether it is converting, waiting, paused or done, and when it last changed.",
+       "Updates safely: before an update it stops the file being converted, which is converted again afterwards, and starts no new one."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Direct play logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5EaXJlY3QgcGxheSBsb2dvPC90aXRsZT48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHJ4PSIxMSIgZmlsbD0iIzFmNWY5OSIgLz48cmVjdCB4PSI4IiB5PSIxMSIgd2lkdGg9IjMyIiBoZWlnaHQ9IjIyIiByeD0iMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPjxwYXRoIGQ9Ik0yMSAxNi41djExbDktNS41eiIgZmlsbD0iI2ZmZmZmZiIgLz48cGF0aCBkPSJNMTcgMzhoMTQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgLz48L3N2Zz4=",
+ "logo_note": ""
+}

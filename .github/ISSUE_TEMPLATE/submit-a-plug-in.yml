@@ -1,0 +1,58 @@
+name: Submit a plug-in
+description: Ask for a Starboard plug-in to be listed in Stallboard, after checks and a review by a person.
+title: "Submit: "
+labels: ["submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for sharing a plug-in. **This issue is public**, so give only what you are happy to have public.
+        A robot will read the plug-in file as plain text (it never runs it), run the same manifest check Starboard runs, and comment here with what passed and what to fix. A person then reviews it, using the [review checklist](https://github.com/TheMightyTRex/stallboard/blob/main/REVIEWING.md).
+  - type: input
+    id: manifest
+    attributes:
+      label: Address of the plug-in file
+      description: The https address of its starboard-plugin.json. On GitHub, open the file and use the Raw button, then copy the address.
+      placeholder: https://raw.githubusercontent.com/your-name/your-plug-in/main/starboard-plugin.json
+    validations:
+      required: true
+  - type: input
+    id: maker
+    attributes:
+      label: Your name or GitHub name
+      description: So the listing can say who made it. It is public.
+    validations:
+      required: true
+  - type: input
+    id: contact
+    attributes:
+      label: How to reach you, if not through this issue (optional)
+      description: This issue is public, so anything you write here is public too. Leave it empty to be asked here.
+  - type: input
+    id: summary
+    attributes:
+      label: What it does, in one sentence
+      description: Up to 200 characters.
+    validations:
+      required: true
+  - type: textarea
+    id: asks
+    attributes:
+      label: What it asks to read or change, and why
+      description: For each permission in the file, say why the plug-in needs it. Say what it sends anywhere, if anything.
+    validations:
+      required: true
+  - type: input
+    id: licence
+    attributes:
+      label: Licence
+      description: The short licence name, such as MIT or Apache-2.0. It must be the one in the file.
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Confirmation
+      options:
+        - label: I wrote it or have the right to submit it.
+          required: true

@@ -1,0 +1,27 @@
+{
+ "id": "jellystat",
+ "name": "Jellystat",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/jellystat/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "1.1.4"
+ },
+ "kind": "Apps you can add",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/jellystat/index.html",
+ "older_versions": [
+  {
+   "version": "1.0.0",
+   "starboard_api": ">=1.13 <2.0",
+   "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/39b3778e6769dfc0b8e1fbf9c8f4e1271c791d62/jellystat/starboard-plugin.json",
+   "manifest_sha256": "b51e1cab07b2ab62e938865daf7f551adbfd1748c0ce2e78478700263a4bc0fb"
+  }
+ ],
+ "maker_figures": {
+  "memory_mib": 117,
+  "cpu_percent": 0.22
+ },
+ "pitch": "Full watch statistics for Jellyfin."
+}

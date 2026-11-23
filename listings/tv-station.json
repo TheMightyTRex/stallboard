@@ -1,0 +1,15 @@
+{
+ "id": "tv-station",
+ "name": "Create your own TV channel",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/main/tv-station/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-23",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-23",
+  "version": "0.8.0"
+ },
+ "kind": "Jellyfin",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/tv-station/index.html",
+ "pitch": "Make your own TV channels in Jellyfin."
+}
