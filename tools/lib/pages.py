@@ -180,15 +180,44 @@ def privacy_page(today=STATEMENT_DATE):
     return head("Privacy | Stallboard", "What Stallboard and its Send feedback button hold and never hold.", 0, "privacy.html", "privacy") + header(0, "") + wrap(inner) + footer(0) + tail(0)
 
 
+def R_APP_NAV():
+    import render
+    return render.APP_NAV
+
+
 def not_found_page():
     """Served at any address, so every link starts from the site's own path."""
     p = SITE_PATH
     h = head("That page is not here | Stallboard", "The page you asked for is not on Stallboard.", 0, "404.html", "404")
     h = h.replace('href="assets/', f'href="{p}assets/').replace('src="assets/', f'src="{p}assets/')
     hd = header(0, "").replace('href="index.html', f'href="{p}index.html').replace('href="starboard.html', f'href="{p}starboard.html').replace('href="submit.html', f'href="{p}submit.html')
+    for i, _n in R_APP_NAV():
+        hd = hd.replace(f'href="{i}.html', f'href="{p}{i}.html')
     ft = footer(0)
     for f in ("what-reviewed-means.html", "privacy.html", "starboard.html", "index.html", "submit.html", "accessibility.html"):
         ft = ft.replace(f'href="{f}', f'href="{p}{f}')
     t = tail(0).replace('src="assets/', f'src="{p}assets/')
     inner = f'<h1 class="display">That page is not here</h1><p class="lede">The address may have a typing mistake, or the plug-in may have been taken off.</p><p><a class="btn btn--primary" href="{p}index.html#all-plug-ins">Browse all plug-ins</a> <a class="btn" href="{p}index.html">Go to the home page</a></p>'
     return h + hd + wrap(inner) + ft + t
+
+
+def app_page(app):
+    """A page for an app Starboard works with, built from data/apps/<id>.json."""
+    def links_table(links):
+        rows = "".join(f'<tr><th scope="row"><a href="{addr(l["url"])}" target="_blank" rel="noopener">{esc(l["label"])}<span class="visually-hidden"> (opens in a new tab)</span></a></th>'
+                       f'<td data-label="What it is">{esc(l["what"])}</td></tr>' for l in links)
+        return rows
+    secs = ""
+    for sec in app["sections"]:
+        paras = "".join(f"<p>{esc(p)}</p>" for p in sec["paragraphs"])
+        lst = f"<ul>{''.join(f'<li>{esc(i)}</li>' for i in sec['list'])}</ul>" if sec["list"] else ""
+        ls = f'<ul>{"".join(f"""<li><a href="{addr(l["url"])}" target="_blank" rel="noopener">{esc(l["label"])}<span class="visually-hidden"> (opens in a new tab)</span></a></li>""" for l in sec["links"])}</ul>' if sec["links"] else ""
+        secs += f'<section id="{esc(sec["id"])}" aria-labelledby="{esc(sec["id"])}-h"><h2 id="{esc(sec["id"])}-h">{esc(sec["heading"])}</h2>{paras}{lst}{ls}</section>'
+    inner = f'''<h1 class="display">{esc(app["name"])}</h1>
+<p class="lede">{esc(app["tagline"])}</p>
+<p><span class="chip chip--wrap" data-tone="info">{icon("info")}An app Starboard works with, not a plug-in</span></p>
+{secs}
+<section id="links" aria-labelledby="links-h"><h2 id="links-h">Links</h2>
+<div class="table-wrap" data-stack role="region" aria-label="Links for {esc(app["name"])}" tabindex="0"><table class="table"><caption class="visually-hidden">Links for {esc(app["name"])}</caption><thead><tr><th scope="col">Link</th><th scope="col">What it is</th></tr></thead><tbody>{links_table(app["links"])}</tbody></table></div>
+<p class="muted">Every address on this page was checked on {esc(nice_date(app["checked_at"]))}.</p></section>'''
+    return head(f"{app['name']}: works with Starboard | Stallboard", f"{app['name']}: {app['tagline']} Details, help and links, and how Starboard uses it.", 0, f"{app['id']}.html", "app") + header(0, app["id"]) + wrap(inner) + footer(0) + tail(0)

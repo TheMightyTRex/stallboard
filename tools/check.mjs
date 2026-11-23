@@ -27,7 +27,7 @@ const BASE = `http://127.0.0.1:${server.address().port}${PREFIX}`;
 
 const pages = [
   ["home", "index.html"], ["plugin", "plugins/audio-description.html"], ["plugin-measured", "plugins/direct-play.html"], ["plugin-app", "plugins/calibre-web.html"],
-  ["starboard", "starboard.html"], ["category", "category/jellyfin.html"], ["submit", "submit.html"], ["reviewed", "what-reviewed-means.html"],
+  ["starboard", "starboard.html"], ["reelix", "reelix.html"], ["category", "category/jellyfin.html"], ["submit", "submit.html"], ["reviewed", "what-reviewed-means.html"],
   ["accessibility", "accessibility.html"], ["privacy", "privacy.html"], ["not-found", "no-such-page.html"],
 ];
 const browser = await chromium.launch();
@@ -202,7 +202,7 @@ if (MODE === "check") {
 }
 if (MODE === "shots") {
   fs.mkdirSync(OUT, { recursive: true });
-  const defs = [["home", "index.html"], ["plugin", "plugins/direct-play.html"], ["plugin-unmeasured", "plugins/kavita.html"], ["starboard", "starboard.html"], ["submit", "submit.html"], ["privacy", "privacy.html"], ["not-found", "missing.html"]];
+  const defs = [["home", "index.html"], ["plugin", "plugins/direct-play.html"], ["plugin-unmeasured", "plugins/kavita.html"], ["starboard", "starboard.html"], ["reelix", "reelix.html"], ["submit", "submit.html"], ["privacy", "privacy.html"], ["not-found", "missing.html"]];
   for (const theme of ["light", "dark"]) {
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     for (const [n, f] of defs) { const p = await open(ctx, f, theme); await p.screenshot({ path: `${OUT}/${n}-${theme}-1280.jpg`, type: "jpeg", quality: 72, fullPage: true }); await p.close(); }

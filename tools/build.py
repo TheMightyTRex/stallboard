@@ -21,6 +21,7 @@ import sys
 HERE = pathlib.Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path.insert(0, str(HERE / "lib"))
+import apps as appdata  # noqa: E402
 import listing as lst  # noqa: E402
 import manifest as mf  # noqa: E402
 import pages  # noqa: E402
@@ -90,7 +91,7 @@ def merge(listings, snaps_dir, measures, releases, today, max_age, warnings):
     return out
 
 
-def catalogue(plugins, sb, today):
+def catalogue(plugins, sb, today, apps=()):
     """catalogue.json in the schema Starboard's catalogue sources read (the same as starboard-plugins' catalogue.json)."""
     entries = []
     for p in sorted(plugins, key=lambda p: p["id"]):
@@ -111,6 +112,9 @@ def catalogue(plugins, sb, today):
             e["rest"] = {"memory_mb": round(p["mem_value"]), "cpu_percent": round(cpu or 0, 2)}
         entries.append(e)
     top = {"catalogue_version": 1, "name": "Stallboard", "site": R.SITE_URL, "generated": today.isoformat(), "plugins": entries}
+    # Apps Starboard works with that are not plug-ins. Starboard's reader ignores keys it does not know, so this cannot be installed as a plug-in.
+    top["apps"] = [{"id": a["id"], "name": a["name"], "kind": "app", "description": a["tagline"], "page": R.SITE_URL + a["id"] + ".html",
+                    "links": [{"label": l["label"], "url": l["url"]} for l in a["links"]]} for a in apps]
     if sb["latest"]:
         top["starboard"] = {"latest": sb["latest"]["version"], "plugin_api": sb["latest"]["api"], "releases": sb["latest"]["url"]}
     return top
@@ -136,6 +140,8 @@ def build(out, today, max_age=MAX_AGE_DAYS, root=ROOT):
     for k in measures:
         if k not in listings:
             warnings.append(f"data/resources/{k}.json is for a plug-in that is not listed, so it is not used yet")
+    apps = appdata.load_all(root / "data" / "apps")
+    R.APP_NAV[:] = [(a["id"], a["name"]) for a in apps.values()]
     plugins = merge(listings, root / "data" / "snapshots", measures, releases, today, max_age, warnings)
     shots = read_json(root / "data" / "starboard-screenshots.json", {}).get("screenshots", [])
     sb = {"releases": releases, "latest": releases[-1] if releases else None, "shots": [s for s in shots if re.match(r"^[\w.-]+\.(png|jpg)$", s.get("file", ""))]}
@@ -152,8 +158,10 @@ def build(out, today, max_age=MAX_AGE_DAYS, root=ROOT):
     check_label = "release " + mf.STARBOARD_RELEASE
     files = {}
     files["index.html"] = R.page("Stallboard: plug-ins for Starboard", "Find plug-ins for Starboard. Each one is checked and read by a person before it is listed.", 0, "index.html", "home", "home",
-                                 R.home(plugins, releases, sb))
+                                 R.home(plugins, releases, sb, list(apps.values())))
     files["starboard.html"] = pages.starboard_page(sb, plugins)
+    for a in apps.values():
+        files[f"{a['id']}.html"] = pages.app_page(a)
     files["submit.html"] = pages.submit_page(check_label)
     files["what-reviewed-means.html"] = pages.reviewed_page(check_label)
     files["accessibility.html"] = pages.accessibility_page("4.14", today)
@@ -168,7 +176,7 @@ def build(out, today, max_age=MAX_AGE_DAYS, root=ROOT):
                                                   f"plugins/{p['id']}.html", "plugin", "", R.plugin_page(p, sb))
     for name, html in files.items():
         (out / name).write_text(html, encoding="utf-8")
-    (out / "catalogue.json").write_text(json.dumps(catalogue(plugins, sb, today), indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
+    (out / "catalogue.json").write_text(json.dumps(catalogue(plugins, sb, today, list(apps.values())), indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     urls = [n for n in files if n != "404.html"] + ["catalogue.json"]
     (out / "sitemap.xml").write_text(sitemap(sorted(urls), today), encoding="utf-8")
     (out / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {R.SITE_URL}sitemap.xml\n", encoding="utf-8")
@@ -184,7 +192,7 @@ def main():
     a = ap.parse_args()
     try:
         plugins, warnings, files = build(a.out, dt.date.fromisoformat(a.today), a.max_age)
-    except lst.ListingError as e:
+    except (lst.ListingError, appdata.AppError) as e:
         sys.exit(f"A listing is broken: {e}")
     print(f"Built {len(files)} pages for {len(plugins)} plug-ins into {a.out}")
     if warnings:

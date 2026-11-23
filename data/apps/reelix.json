@@ -1,0 +1,95 @@
+{
+ "id": "reelix",
+ "name": "Reelix",
+ "tagline": "One app for films, series, books, audiobooks, music, radio and podcasts.",
+ "summary": "A self-hosted media manager that Starboard installs and sets up. It is an app Starboard works with, not a plug-in.",
+ "checked_at": "2026-11-23",
+ "sections": [
+  {
+   "id": "what",
+   "heading": "What Reelix is",
+   "paragraphs": [
+    "Reelix is a self-hosted media manager written in Rust. It does the jobs that usually take six separate apps: Radarr and Sonarr for films and series, Readarr for books, Lidarr for music, Prowlarr for indexers and Jellyseerr for requests. It runs as one service with one web page, one login, one database and one API."
+   ],
+   "list": [
+    "Films and series: it watches for the ones you choose, finds releases, downloads them and files them with tidy names.",
+    "Books and audiobooks: ebooks and audiobooks are two formats of one book.",
+    "Music: artists and albums, matched against MusicBrainz, with tags and names written for you.",
+    "Radio shows and podcasts: it follows them and files new episodes into an Audiobookshelf podcast library.",
+    "Indexers and downloads: Torznab and Newznab indexers, Soulseek through slskd, and the usual torrent and Usenet download apps.",
+    "Requests: people who share your server can ask for something, and you approve or decline it."
+   ]
+  },
+  {
+   "id": "who",
+   "heading": "Who makes it",
+   "paragraphs": [
+    "Reelix is made by the upstream project, demonzoned/Reelix on GitHub. Stallboard and Starboard are separate projects. They are not made by the Reelix project, and the Reelix project has not endorsed them. Starboard works with Reelix; it does not speak for it.",
+    "Its licence is stated in the upstream repository. Read it there before you rely on it."
+   ]
+  },
+  {
+   "id": "help",
+   "heading": "Where to get help",
+   "paragraphs": [
+    "For questions about Reelix itself, ask the people who make it. The Discord link is the link in the upstream repository's own description box on GitHub (its homepage field, checked on 23 November 2026), so it is the one the project publishes."
+   ],
+   "list": [
+    "Discord: the project's community server, for questions and chat.",
+    "Issues: for a bug or a request in the upstream project, open an issue in its repository.",
+    "Docs: the repository's docs folder has guides on the installers, Soulseek set-up, direct downloads, radio and podcasts, security and design.",
+    "API docs: every running Reelix serves its own interactive API documentation at /api/docs, on the address you open Reelix at.",
+    "A problem that only happens with Starboard's version of Reelix: use the fork's issues (see the fork, below)."
+   ]
+  },
+  {
+   "id": "starboard",
+   "heading": "How Starboard uses it",
+   "paragraphs": [
+    "Starboard can install Reelix for you. It offers two versions. Reelix Lite is the default: it has everything above and leaves out downloads from YouTube and Spotify, so it is smaller and lighter. The full version adds those downloads. You can switch between them later, either way.",
+    "When Starboard installs Reelix it also does the first set-up: the admin account, a key for Starboard, your library folders, your download apps, the sites to search and your TMDB key. After that, Starboard shows Reelix's status, your library, requests and updates on its own pages, so you rarely need to open Reelix itself."
+   ]
+  },
+  {
+   "id": "fork",
+   "heading": "The fork Starboard installs",
+   "paragraphs": [
+    "Starboard installs Reelix from a fork kept by the owner of Stallboard, TheMightyTRexUK, at TheMightyTRex/Reelix on GitHub. It publishes two images, ghcr.io/themightytrex/reelix:lite and ghcr.io/themightytrex/reelix:full.",
+    "The fork carries changes on top of the upstream project. Its changelog lists them, and they are not in the upstream changelog (compared on 23 November 2026). Examples are subtitles from OpenSubtitles, two built-in custom formats for audio description and British Sign Language, Knaben as an indexer, book import lists from Goodreads, Hardcover and StoryGraph, and unpacking of RAR, ZIP and 7z downloads. Read the changelog for the whole list and for what each change does.",
+    "The fork's interface is the upstream project's. Problems that are specific to the fork or to its images belong in the fork's issues."
+   ]
+  },
+  {
+   "id": "install",
+   "heading": "How to install it",
+   "paragraphs": [
+    "The easiest way is Starboard, which installs and sets it up. On its own, the upstream project offers these ways:"
+   ],
+   "list": [
+    "Docker: a compose file using the upstream image ghcr.io/demonzoned/reelix:latest.",
+    "Windows: an installer that can set Reelix up for one person or as a Windows service.",
+    "Linux: an install script that checks its download, installs a service and keeps data in its own folder, or a portable archive.",
+    "From source: build it with Rust's cargo and trunk."
+   ],
+   "links": [
+    {"label": "The upstream installation instructions", "url": "https://github.com/demonzoned/Reelix#installation"}
+   ]
+  }
+ ],
+ "links": [
+  {"label": "Upstream repository", "url": "https://github.com/demonzoned/Reelix", "what": "The Reelix project: code, README and licence"},
+  {"label": "Upstream releases", "url": "https://github.com/demonzoned/Reelix/releases", "what": "Downloads and release notes"},
+  {"label": "Upstream issues", "url": "https://github.com/demonzoned/Reelix/issues", "what": "Report a bug or ask for a feature in Reelix"},
+  {"label": "Upstream docs folder", "url": "https://github.com/demonzoned/Reelix/tree/master/docs", "what": "Installers, Soulseek, direct downloads, radio, security and design"},
+  {"label": "Reelix Discord", "url": "https://discord.gg/pFfUx9tyvc", "what": "The project's community server, linked from the upstream repository's homepage field"},
+  {"label": "The fork", "url": "https://github.com/TheMightyTRex/Reelix", "what": "The version Starboard installs"},
+  {"label": "The fork's issues", "url": "https://github.com/TheMightyTRex/Reelix/issues", "what": "Problems that are specific to the fork or its images"},
+  {"label": "The fork's changelog", "url": "https://github.com/TheMightyTRex/Reelix/blob/master/CHANGELOG.md", "what": "What the fork adds"},
+  {"label": "The fork's images", "url": "https://github.com/TheMightyTRex/Reelix/pkgs/container/reelix", "what": "The lite and full images"},
+  {"label": "What Reelix is, in Starboard's help", "url": "https://themightytrex.github.io/starboard/help/basics/what-is-reelix.html", "what": "Why Starboard installs it"},
+  {"label": "Switch between the two versions", "url": "https://themightytrex.github.io/starboard/help/topics/switch-reelix-version.html", "what": "Lite and full, in Starboard's help"},
+  {"label": "Install apps with Starboard", "url": "https://themightytrex.github.io/starboard/help/topics/install-apps.html", "what": "Starboard installs and sets up Reelix"},
+  {"label": "Change Reelix's settings in Starboard", "url": "https://themightytrex.github.io/starboard/help/topics/change-reelix-settings.html", "what": "Settings on Starboard's pages"},
+  {"label": "Move from Radarr, Sonarr and the others", "url": "https://themightytrex.github.io/starboard/help/topics/move-your-apps-to-reelix.html", "what": "Take over what you already run"}
+ ]
+}
