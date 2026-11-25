@@ -5,7 +5,7 @@
   "It runs as its own app with its own page on your home network, and Starboard chooses the port, 5690 when it is free. You make its admin account the first time you open it."
  ],
  "for": "People who share their Jellyfin with family and friends and do not want to make each account by hand, and who want to give each person the libraries they choose.",
- "needs": "Jellyfin, and an API key you make in Jellyfin's Dashboard, API keys, because Starboard does not hand Wizarr its own key. Invitation links used from outside your home network need Remote access.",
+ "needs": "Jellyfin, and an API key you make in Jellyfin's Dashboard, API keys, because Starboard does not hand Wizarr its own key. Invitation links only work from outside your home network if Wizarr itself can be reached from outside. Remote access 1.1.4 shares only Starboard, Jellyfin and Audiobookshelf, so it does not forward Wizarr today.",
  "shows": "No dashboard card and no settings in Starboard. Its tab in Settings, Plug-ins has an Open Wizarr button for its own page, plus Activate, Deactivate, Try again, Check for an update and Remove. Invitations are made in Wizarr itself.",
  "tags": [
   "invitations",
@@ -18,9 +18,7 @@
   "sign up",
   "onboarding"
  ],
- "unclear": [
-  "Remote access forwards only Starboard, Jellyfin and Audiobookshelf. Does it reach Wizarr's invitation links, or should the store say something else?"
- ],
+ "unclear": [],
  "sources": [
   "wizarr/README.md",
   "wizarr/starboard-plugin.json",
