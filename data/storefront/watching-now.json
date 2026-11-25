@@ -1,0 +1,37 @@
+{
+ "summary": "Shows who is watching what in Jellyfin right now, and how far through they are.",
+ "does": [
+  "Watching now lists each person playing something in Jellyfin, up to 10 lines. Each line has the film or episode, who is watching, on which device, how far through they are, and whether they have paused.",
+  "It only reads from Jellyfin and keeps nothing. It uses the Jellyfin key that Starboard keeps, so you never enter an address or key. When nobody is watching, the card says so."
+ ],
+ "for": "People who share a Jellyfin server and want to glance at the dashboard to check who is playing what, for example before restarting the server.",
+ "needs": "Jellyfin added to Starboard first, in Settings, Apps. Starboard gives the plug-in Jellyfin's address and key. It has no settings of its own.",
+ "shows": "One list card, Watching now, with a status of Running or Idle. It updates every 30 seconds while the dashboard is open. There are no settings and no buttons.",
+ "tags": [
+  "jellyfin",
+  "now playing",
+  "who is watching",
+  "sessions",
+  "activity",
+  "streams",
+  "viewers",
+  "dashboard",
+  "playback"
+ ],
+ "unclear": [
+  "No README or manifest file lists Jellyfin under needs, though the help says it must be added first. Should the manifest say so?",
+  "The store snapshot says version 1.1.4 but the repository manifest says 1.1.3. Which is current?"
+ ],
+ "sources": [
+  "watching-now/README.md",
+  "watching-now/starboard-plugin.json",
+  "help/plugins/watching-now/settings.md",
+  "help/plugins/watching-now/dashboard-card.md",
+  "help/plugins/watching-now/install.md",
+  "help/plugins/watching-now/problems.md"
+ ],
+ "media_servers": [
+  "jellyfin"
+ ],
+ "media_servers_basis": "api"
+}

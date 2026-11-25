@@ -1,0 +1,33 @@
+{
+ "summary": "Finds films and series in Jellyfin with no poster, no description or no year, so you can fix them.",
+ "does": [
+  "Library health checks the films and series in Jellyfin and lists any with no poster, no description or no year. It says how many titles need fixing out of how many it checked, and what each one is missing.",
+  "It only reads from Jellyfin and changes nothing there. To fix a title, change it in Jellyfin, for example by refreshing its metadata or adding a poster, then run the check again. It checks films and series, not episodes, music or books."
+ ],
+ "for": "For people who keep a Jellyfin library and want to know which titles are unfinished, with a missing poster, blurb or year, without scrolling through every title to find them.",
+ "needs": "Jellyfin added to Starboard first. It uses Jellyfin's key, which Starboard keeps. Starboard needs plug-in API 1.14 or later.",
+ "shows": "Two dashboard cards: Library health, a count of titles to fix out of those checked, and To fix in Jellyfin, a list of up to 10 titles with what each is missing. Its tab has a Check now button. It checks every 6 hours and has no other settings.",
+ "tags": [
+  "jellyfin",
+  "posters",
+  "metadata",
+  "missing artwork",
+  "library",
+  "description",
+  "year",
+  "check"
+ ],
+ "unclear": [
+  "The manifest needs list is empty, but the help says Jellyfin must be added first. Should the manifest list jellyfin?"
+ ],
+ "sources": [
+  "library-health/README.md",
+  "library-health/starboard-plugin.json",
+  "help/plugins/library-health/settings.md",
+  "help/plugins/library-health/dashboard-card.md"
+ ],
+ "media_servers": [
+  "jellyfin"
+ ],
+ "media_servers_basis": "api"
+}

@@ -1,0 +1,39 @@
+{
+ "summary": "Shows the address and country your downloads use through the VPN, and warns if it is your home address.",
+ "does": [
+  "VPN check asks ipinfo.io, through your VPN, which public address and place your downloads come from. It shows the address and place with how long the answer took, such as an address in Amsterdam.",
+  "If you enter your home's public address, it warns when the VPN ever shows that address, meaning downloads are not hidden. It only reads: it never changes the VPN or stops downloads."
+ ],
+ "for": "People who download through a VPN and want to know it is working, with a warning on the dashboard if their home address ever shows.",
+ "needs": "A VPN that your downloads run through. Your home's public address is optional, and is used for the warning. Each check sends one request to ipinfo.io.",
+ "shows": "One dashboard card, VPN, with a status of Protected, Checking soon, No answer or Home address showing, and the address and place. Settings are Your home's public address and Check every, from 5 to 240 minutes. Check now runs a check at once.",
+ "tags": [
+  "vpn",
+  "privacy",
+  "ip address",
+  "downloads",
+  "leak",
+  "protected",
+  "torrent",
+  "country",
+  "check ip"
+ ],
+ "unclear": [
+  "Which VPN set-ups does it work with? The sources say only that it runs inside your VPN.",
+  "The store snapshot says version 1.1.4 but the repository manifest says 1.1.3. Which is current?"
+ ],
+ "sources": [
+  "vpn-check/README.md",
+  "vpn-check/starboard-plugin.json",
+  "help/plugins/vpn-check/settings.md",
+  "help/plugins/vpn-check/dashboard-card.md",
+  "help/plugins/vpn-check/install.md",
+  "help/plugins/vpn-check/problems.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

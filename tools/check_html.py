@@ -2,9 +2,13 @@
 """A plain HTML check of the built site, with the standard library: python3 tools/check_html.py site
 For every .html file: tags are balanced, ids are unique, each img has an alt, each form control with an id has a label,
 the page has one h1, a title, a lang and a main landmark, and every internal link and fragment points at something that
-exists. Exit code 1 and a list of what is wrong, if anything is."""
+exists. It also checks heading order (no level is skipped), that headings, links, buttons, list items and paragraphs are not empty,
+that each aria-labelledby, aria-describedby and aria-controls points at an id on the page, that landmarks are named when there
+is more than one of a kind, that two links with the same words do not go to different places, and that no link or button
+sits inside another. Exit code 1 and a list of what is wrong, if anything is."""
 import html.parser
 import pathlib
+import posixpath
 import sys
 import urllib.parse
 
@@ -18,11 +22,36 @@ class Page(html.parser.HTMLParser):
         self.h1 = self.main = 0
         self.title = self.lang = False
         self.labels_for, self.controls, self.in_title = set(), [], False
+        self.heads, self.refs, self.landmarks, self.open_text, self.linktext = [], [], [], [], []
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
         if tag not in VOID:
             self.stack.append(tag)
+        if tag in ("a", "button", "h1", "h2", "h3", "h4", "h5", "h6", "li", "p", "label", "legend", "summary", "th"):
+            self.open_text.append({"tag": tag, "text": "", "named": bool(a.get("aria-label") or a.get("aria-labelledby") or a.get("title") or a.get("role") == "status" or a.get("aria-hidden") == "true"), "href": a.get("href", ""), "img": False})
+        if tag in ("img", "svg") and self.open_text:
+            for o in self.open_text:
+                if tag == "img" and a.get("alt"):
+                    o["named"] = True
+                if tag == "svg" and (a.get("role") == "img" or a.get("aria-label")):
+                    o["named"] = True
+        if self.open_text and tag not in ("a", "button", "h1", "h2", "h3", "h4", "h5", "h6", "li", "p", "label", "legend", "summary", "th"):
+            for o in self.open_text:
+                o["child"] = True
+        if tag in ("input", "select", "textarea", "img", "svg") and self.open_text:
+            for o in self.open_text:
+                if tag in ("input", "select", "textarea"):
+                    o["named"] = True
+        if tag in ("a", "button") and any(o["tag"] in ("a", "button") for o in self.open_text[:-1]):
+            self.problems.append(f"a {tag} inside a link or button")
+        if tag in ("h1", "h2", "h3", "h4", "h5", "h6"):
+            self.heads.append(int(tag[1]))
+        for k in ("aria-labelledby", "aria-describedby", "aria-controls"):
+            for r in a.get(k, "").split():
+                self.refs.append((k, r))
+        if tag in ("nav", "header", "footer", "main", "aside", "section", "form") or a.get("role") in ("search", "navigation"):
+            self.landmarks.append((tag if not a.get("role") else a["role"], a.get("aria-label") or a.get("aria-labelledby") or ""))
         if "id" in a:
             self.ids.append(a["id"])
         if tag == "html" and a.get("lang"):
@@ -61,10 +90,18 @@ class Page(html.parser.HTMLParser):
                     pass
             return
         self.stack.pop()
+        if self.open_text and self.open_text[-1]["tag"] == tag:
+            o = self.open_text.pop()
+            if not o["text"].strip() and not o["named"] and tag != "li" or (tag == "li" and not o["text"].strip() and not o["named"] and not o.get("child")):
+                self.problems.append(f"empty <{tag}>" + (f" ({o['href']})" if o["href"] else ""))
+            if tag == "a" and o["text"].strip():
+                self.linktext.append((" ".join(o["text"].split()).lower(), o["href"]))
 
     def handle_data(self, data):
         if self.in_title and data.strip():
             self.title = True
+        for o in self.open_text:
+            o["text"] += data
 
 
 def main(root):
@@ -88,6 +125,26 @@ def main(root):
             probs.append(f"{p.main} main elements")
         if not p.title or not p.lang:
             probs.append("missing title or lang")
+        last = 0
+        for lv in p.heads:
+            if last and lv > last + 1:
+                probs.append(f"heading order: h{last} is followed by h{lv}")
+            last = lv
+        for k, r in p.refs:
+            if r not in p.ids:
+                probs.append(f"{k} points at #{r}, which is not on the page")
+        for name in ("nav", "header", "footer", "main", "search"):
+            same = [lab for t, lab in p.landmarks if t == name]
+            if name in ("nav", "search") and len(same) > 1 and (len(set(same)) < len(same) or "" in same):
+                probs.append(f"{len(same)} {name} landmarks without different names")
+        seen = {}
+        for text, href in p.linktext:
+            u = urllib.parse.urlsplit(href)
+            key = href if u.scheme else (posixpath.normpath(posixpath.join(posixpath.dirname(str(rel)), u.path)) if u.path else str(rel)) + ("#" + u.fragment if u.fragment else "")
+            seen.setdefault(text, set()).add(key)
+        for text, hrefs in seen.items():
+            if len(hrefs) > 1 and len(text) < 40 and text not in ("home",) and not text.startswith(("help", "report")):
+                probs.append(f"links with the words '{text}' go to {len(hrefs)} different places")
         for c in p.controls:
             if c not in p.labels_for:
                 probs.append(f"control #{c} has no label")

@@ -1,0 +1,36 @@
+{
+ "summary": "What was watched, by whom and when, and the top titles, from Jellyfin's Playback Reporting.",
+ "does": [
+  "Watch statistics reads plays from Playback Reporting, a plug-in in Jellyfin's official catalogue, so it needs no second database. It shows plays this week, the top titles and who watched most, over a number of days you choose.",
+  "Its tab has tables you can search and sort: recent plays, top titles and people. You can leave out people, such as a test account. It only reads and cannot change anything."
+ ],
+ "for": "People who share Jellyfin with family or friends and want to know what gets watched and by whom, or which titles are worth keeping.",
+ "needs": "Jellyfin set up in Starboard. For hours, devices and times, it needs the Playback Reporting plug-in added to Jellyfin, and Jellyfin restarted. Without it, it shows only each person's last play of each title.",
+ "shows": "Four dashboard cards: Plays this week, Top titles, Who watched most and Watch statistics source. Its tab has Recent plays, Top titles and People tables, plus Over the last (default 30 days), Leave out these people and a Check now button.",
+ "tags": [
+  "statistics",
+  "stats",
+  "playback reporting",
+  "jellyfin",
+  "top titles",
+  "watch history",
+  "who watched",
+  "usage",
+  "reports"
+ ],
+ "unclear": [
+  "The store snapshot says version 1.1.4 but the repository manifest says 1.1.3. Which is current?"
+ ],
+ "sources": [
+  "watch-stats/README.md",
+  "watch-stats/starboard-plugin.json",
+  "help/plugins/watch-stats/settings.md",
+  "help/plugins/watch-stats/dashboard-card.md",
+  "help/plugins/watch-stats/install.md",
+  "help/plugins/watch-stats/problems.md"
+ ],
+ "media_servers": [
+  "jellyfin"
+ ],
+ "media_servers_basis": "api"
+}

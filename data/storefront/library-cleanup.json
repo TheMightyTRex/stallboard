@@ -1,0 +1,33 @@
+{
+ "summary": "Moves films and series everyone has watched to a holding folder so your disks do not fill up.",
+ "does": [
+  "Library clean-up moves films and series that everyone has watched, or that nobody has watched for a long time, to a holding folder, so a small server's disks do not fill up. It never deletes anything, and each item can be put back.",
+  "Rules have settings, such as how many days since anyone last watched. Anything marked as a favourite, part way through, in a collection or tagged keep stays. A Preview lists what would move before anything does, and nothing moves each day until you turn that on."
+ ],
+ "for": "For people with a small server whose disks are filling up with films and series that nobody is watching any more, and who want a careful clean-up they can undo instead of deleting.",
+ "needs": "Jellyfin added to Starboard first. It also uses the Reelix key and the holding folder in your media folder. Starboard needs plug-in API 1.14 or later.",
+ "shows": "One dashboard card, Holding folder, showing how much is in the holding folder, how many items are held and when it checks next. Its tab has the rules, a Libraries page, Always keep settings, a Preview page and a Holding folder page with a Put back button beside each item.",
+ "tags": [
+  "clean up",
+  "disk space",
+  "free space",
+  "old films",
+  "watched",
+  "holding folder",
+  "storage",
+  "jellyfin"
+ ],
+ "unclear": [
+  "Is Reelix required, or does the plug-in work with Jellyfin alone? The manifest needs list only Jellyfin but permissions include reelix:key."
+ ],
+ "sources": [
+  "library-cleanup/README.md",
+  "library-cleanup/starboard-plugin.json",
+  "help/plugins/library-cleanup/settings.md",
+  "help/plugins/library-cleanup/dashboard-card.md"
+ ],
+ "media_servers": [
+  "jellyfin"
+ ],
+ "media_servers_basis": "api"
+}

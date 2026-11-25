@@ -1,0 +1,35 @@
+{
+ "summary": "Finds films and series in Jellyfin with a described sound track, for blind and partially sighted people.",
+ "does": [
+  "Audio description is a second sound track in which a narrator says what is happening in the picture. Once a night, in quiet hours, this plug-in reads the sound tracks in Jellyfin and lists the films and episodes that have one. Commentary tracks never count.",
+  "It tags each described title in Jellyfin, can gather them into one Audio description collection, and for each person you choose it can ask their app to switch to the described track. It also checks whether Reelix prefers releases with audio description, and links to places that offer it."
+ ],
+ "for": "People who are blind or partially sighted, or who set up a server for someone who is, and want to find the described films and series in Jellyfin and keep the described track switched on.",
+ "needs": "Jellyfin added to Starboard. It also reads Reelix's Audio description format, so a Reelix key is useful for the Reelix check. It needs Starboard with plug-in API 1.14 or later. It never downloads from AudioVault or any other site.",
+ "shows": "Two dashboard cards: Audio description, a count of described titles, and Recently found with audio description, the newest ten. Its settings page has Titles with audio description, listing films and series, People who want audio description, Audio description elsewhere, and search links for AudioVault, YouDescribe, MovieReading and Earcatch.",
+ "tags": [
+  "audio description",
+  "accessibility",
+  "blind",
+  "partially sighted",
+  "described video",
+  "jellyfin",
+  "narration",
+  "sound track",
+  "screen reader",
+  "visually impaired"
+ ],
+ "unclear": [
+  "The README says Reelix is read with Reelix's key, but the help only says Reelix is checked: should the needs line say a Reelix key is required or optional?"
+ ],
+ "sources": [
+  "audio-description/README.md",
+  "audio-description/starboard-plugin.json",
+  "help/plugins/audio-description/dashboard-card.md",
+  "help/plugins/audio-description/accessibility.md"
+ ],
+ "media_servers": [
+  "jellyfin"
+ ],
+ "media_servers_basis": "api"
+}

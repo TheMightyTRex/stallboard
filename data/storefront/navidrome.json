@@ -1,0 +1,35 @@
+{
+ "summary": "A music server for your own music, played through Subsonic apps on phones and in the car.",
+ "does": [
+  "Navidrome is a music server. You connect to it with a Subsonic app on your phone or in the car, such as Symfonium, Substreamer, Amperfy or play:Sub, using the address Starboard shows.",
+  "It reads the music folder in your media folder and never changes it. Its accounts and settings are kept in its own folder in Starboard's data. It has its own page on your home network, where the first account you make is its admin."
+ ],
+ "for": "For people who listen to their own music on a phone, offline or in the car, with a Subsonic app. Jellyfin also plays music; Navidrome is for these apps.",
+ "needs": "Nothing else. It reads the music folder in your media folder, so put your music there. Starboard needs plug-in API 1.14 or later, and anyone on your home network can open its page.",
+ "shows": "There is no dashboard card. Navidrome has its own tab under Settings, then Plug-ins, showing its state, its versions, what it may do and an Open Navidrome button for its web page. It has no settings or buttons in Starboard.",
+ "tags": [
+  "music",
+  "subsonic",
+  "streaming",
+  "phone",
+  "car",
+  "symfonium",
+  "audio",
+  "songs"
+ ],
+ "unclear": [
+  "Media servers: Navidrome is a music server of its own, not related to Jellyfin, Plex or Emby. Show all three?"
+ ],
+ "sources": [
+  "navidrome/README.md",
+  "navidrome/starboard-plugin.json",
+  "help/plugins/navidrome/settings.md",
+  "help/plugins/navidrome/dashboard-card.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

@@ -1,0 +1,34 @@
+{
+ "summary": "Controls your Hue lights by room, zone and type through the Hue bridge on your home network.",
+ "does": [
+  "Philips Hue shows your lights by room, zone and device type. Each light has on and off, brightness, and a colour or a white named in words. You can switch a whole room, zone, type or the whole home at once.",
+  "It also covers scenes, and schedules written in words, such as Every weekday at 07:00, Kitchen to 80%, with sunrise and sunset. Nothing goes to the Hue cloud. Schedules are kept on the bridge."
+ ],
+ "for": "For people with Philips Hue lights who want to control them from Starboard, and to have a lighting scene start when someone plays something in Jellyfin.",
+ "needs": "A Hue bridge on your home network. You give its address, or choose one found on the network, then press its link button. Starboard needs plug-in API 1.16 or later.",
+ "shows": "Dashboard cards showing your rooms with their lights and which rooms have lights on, with buttons to turn every light off or on. This comes from the version notes, not help pages.",
+ "tags": [
+  "hue",
+  "lights",
+  "lighting",
+  "smart home",
+  "scenes",
+  "schedules",
+  "bridge",
+  "home automation"
+ ],
+ "unclear": [
+  "No README or help was found for this plug-in, so the text uses the store manifest only. Why does it ask for media:read, and does the When something plays feature need Jellyfin?",
+  "What does the screen look like, and what are its settings?",
+  "Media servers: No README was found, so it is shown as not related to a media server. Is that right?"
+ ],
+ "sources": [
+  "data/snapshots/philips-hue.json (manifest only)"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

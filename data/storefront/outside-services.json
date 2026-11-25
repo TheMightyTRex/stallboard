@@ -1,0 +1,35 @@
+{
+ "summary": "Shows whether things not on this server, such as your router, a NAS or a website, are up or down.",
+ "does": [
+  "Outside services checks the addresses you give it, such as your router, a NAS (network storage device) or a website, and tells you which ones answer. You can give each a name.",
+  "It opens each address and waits up to 8 seconds. Any answer counts, even a sign-in page, unless it is a server error. It checks every 5 minutes by default, and you can change that from 1 to 60 minutes."
+ ],
+ "for": "For people who want to know quickly whether a device on their network or a website they rely on is reachable, without checking each one by hand.",
+ "needs": "Nothing else beyond Starboard with plug-in API 1.14 or later. You give it the addresses to check, up to 20.",
+ "shows": "Two dashboard cards, both called Outside services: a one line summary, such as how many answer or which do not, and a list of up to 10 addresses with Up and the time taken, or Not answering. Its tab has Addresses to check and Check every.",
+ "tags": [
+  "uptime",
+  "monitor",
+  "router",
+  "nas",
+  "website",
+  "ping",
+  "status",
+  "up or down"
+ ],
+ "unclear": [
+  "The store listing describes ports, ping, DNS, heartbeats, 90 days of history, certificates, maintenance windows, a status page and alerts, but the README and help describe a simple address check. Which is right for the version in the store?"
+ ],
+ "sources": [
+  "outside-services/README.md",
+  "outside-services/starboard-plugin.json",
+  "help/plugins/outside-services/settings.md",
+  "help/plugins/outside-services/dashboard-card.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

@@ -28,6 +28,7 @@ import pages  # noqa: E402
 import releases as rl  # noqa: E402
 import render as R  # noqa: E402
 import resources as rs  # noqa: E402
+import storefront as sfm  # noqa: E402
 
 MAX_AGE_DAYS = 14
 PINNED = re.compile(r"/[0-9a-f]{40}/")
@@ -40,7 +41,8 @@ def read_json(path, default):
         return default
 
 
-def merge(listings, snaps_dir, measures, releases, today, max_age, warnings):
+def merge(listings, snaps_dir, measures, releases, today, max_age, warnings, text=None, shots=None):
+    text, shots = text or {}, shots or {}
     out = []
     for lid, l in listings.items():
         sp = snaps_dir / f"{lid}.json"
@@ -87,6 +89,7 @@ def merge(listings, snaps_dir, measures, releases, today, max_age, warnings):
             "needs_sb": need, "latest_date": (cur or sorted(dates, reverse=True) or [""])[0], "snapshot_date": s["fetched_at"][:10],
             "logo_data": mf.plugin_logo.as_data(logo[0], "image/svg+xml" if logo[1] == "svg" else "image/png") if logo else "", "logo_bytes": logo[0] if logo else b"", "logo_file": f"assets/logos/{lid}.{ext}" if logo else "assets/logo/no-logo.svg",
             "logo_alt": logo_alt if len(logo_alt) >= 3 else f"{m['name']} logo", "sha256": s["sha256"],
+            "sf": text.get(lid), "shots": shots.get(lid, []), "media": (text.get(lid) or {}).get("media_servers", ["jellyfin", "plex", "emby"]),
         })
     return out
 
@@ -115,6 +118,9 @@ def catalogue(plugins, sb, today, apps=()):
     # Apps Starboard works with that are not plug-ins. Starboard's reader ignores keys it does not know, so this cannot be installed as a plug-in.
     top["apps"] = [{"id": a["id"], "name": a["name"], "kind": "app", "description": a["tagline"], "page": R.SITE_URL + a["id"] + ".html",
                     "links": [{"label": l["label"], "url": l["url"]} for l in a["links"]]} for a in apps]
+    # Which media servers each plug-in works with (all three when it is not about one). Stallboard's own top-level key, beside "apps":
+    # Starboard's reader ignores it, and each entry keeps exactly the schema of the starboard-plugins catalogue. DASH-567 can read it.
+    top["media_servers"] = {p["id"]: p["media"] for p in sorted(plugins, key=lambda p: p["id"])}
     if sb["latest"]:
         top["starboard"] = {"latest": sb["latest"]["version"], "plugin_api": sb["latest"]["api"], "releases": sb["latest"]["url"]}
     return top
@@ -142,7 +148,15 @@ def build(out, today, max_age=MAX_AGE_DAYS, root=ROOT):
             warnings.append(f"data/resources/{k}.json is for a plug-in that is not listed, so it is not used yet")
     apps = appdata.load_all(root / "data" / "apps")
     R.APP_NAV[:] = [(a["id"], a["name"]) for a in apps.values()]
-    plugins = merge(listings, root / "data" / "snapshots", measures, releases, today, max_age, warnings)
+    text = sfm.load_all(root / "data" / "storefront")
+    for k in text:
+        if k not in listings:
+            warnings.append(f"data/storefront/{k}.json is for a plug-in that is not listed, so it is not used yet")
+    shots = sfm.load_shots(root / "data" / "shots.json", root / "assets" / "shots")
+    plugins = merge(listings, root / "data" / "snapshots", measures, releases, today, max_age, warnings, text, shots)
+    for p in plugins:
+        if not p["sf"]:
+            warnings.append(f"{p['id']}: has no storefront text (data/storefront/{p['id']}.json), so its page uses the manifest's description")
     shots = read_json(root / "data" / "starboard-screenshots.json", {}).get("screenshots", [])
     sb = {"releases": releases, "latest": releases[-1] if releases else None, "shots": [s for s in shots if re.match(r"^[\w.-]+\.(png|jpg)$", s.get("file", ""))]}
     out = pathlib.Path(out)
@@ -167,6 +181,7 @@ def build(out, today, max_age=MAX_AGE_DAYS, root=ROOT):
     files["accessibility.html"] = pages.accessibility_page("4.14", today)
     files["privacy.html"] = pages.privacy_page(today)
     files["404.html"] = pages.not_found_page()
+    files["category/index.html"] = R.page("Categories: plug-ins for Starboard | Stallboard", "Every category of plug-in for Starboard, each with a page and a search of its own.", 1, "category/index.html", "categories", "categories", R.category_index(plugins))
     for k in R.KINDS:
         if any(p["kind"] == k for p in plugins):
             files[f"category/{R.KINDS[k][0]}.html"] = R.page(f"{k}: plug-ins for Starboard | Stallboard", f"{R.KINDS[k][2]} Plug-ins for Starboard in the {k} category.", 1,
@@ -192,7 +207,7 @@ def main():
     a = ap.parse_args()
     try:
         plugins, warnings, files = build(a.out, dt.date.fromisoformat(a.today), a.max_age)
-    except (lst.ListingError, appdata.AppError) as e:
+    except (lst.ListingError, appdata.AppError, sfm.StorefrontError) as e:
         sys.exit(f"A listing is broken: {e}")
     print(f"Built {len(files)} pages for {len(plugins)} plug-ins into {a.out}")
     if warnings:

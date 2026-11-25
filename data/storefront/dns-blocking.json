@@ -1,0 +1,37 @@
+{
+ "summary": "Shows how many adverts and trackers Pi-hole or AdGuard Home blocked today.",
+ "does": [
+  "Ad blocking asks your Pi-hole or AdGuard Home for today's numbers and shows how many it blocked, with the share of the total, such as 12% of 35,000.",
+  "You choose which one you use, give its address and password, and the card updates once a minute while the dashboard is open. It only reads the numbers and never changes what Pi-hole or AdGuard Home blocks."
+ ],
+ "for": "People who already run Pi-hole or AdGuard Home on their network and want its blocked count on their Starboard dashboard.",
+ "needs": "Pi-hole or AdGuard Home already running on your home network, with its address and web password. For AdGuard Home, also its user name. Pi-hole 6 is the supported way of answering.",
+ "shows": "One dashboard card, Blocked today, with the number blocked and its share of the total. The band says Protected when it is working and Needs setting up when no address is given. Its settings are Which one, Its address, User name and Password.",
+ "tags": [
+  "pi-hole",
+  "pihole",
+  "adguard",
+  "adguard home",
+  "ad blocking",
+  "dns",
+  "trackers",
+  "privacy",
+  "adverts",
+  "network"
+ ],
+ "unclear": [
+  "The plug-in id is dns-blocking but its name is Ad blocking: which should the storefront show?"
+ ],
+ "sources": [
+  "dns-blocking/README.md",
+  "dns-blocking/starboard-plugin.json",
+  "help/plugins/dns-blocking/dashboard-card.md",
+  "help/plugins/dns-blocking/settings.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

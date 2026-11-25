@@ -13,25 +13,54 @@
   /* Everything marked js-only is hidden until a script runs. */
   $$(".js-only").forEach((el) => { el.hidden = false; });
 
-  /* ---------- Colour switch ---------- */
-  function initTheme() {
-    const btn = $("#theme");
-    if (!btn) return;
-    const apply = (dark) => { document.documentElement.dataset.theme = dark ? "dark" : "light"; btn.setAttribute("aria-pressed", String(dark)); };
-    apply(document.documentElement.dataset.theme === "dark");
-    btn.addEventListener("click", () => {
-      const dark = btn.getAttribute("aria-pressed") !== "true";
-      apply(dark);
-      try { localStorage.setItem("stallboard-theme", dark ? "dark" : "light"); } catch (e) { /* storage may be blocked */ }
+  /* ---------- Display and accessibility ----------
+     The design system's components.js applies each choice at once and keeps the set in this browser (localStorage,
+     inside try/catch). This adds a spoken line for each change, in the panel's live region. */
+  function initDisplay() {
+    const form = $("#display-form"), say = $("#display-status");
+    if (!form || !say) return;
+    const names = { theme: "Theme", text: "Text size", motion: "Reduce motion", contrast: "High contrast", underline: "Underline links", spacing: "Wider text spacing", shadows: "Remove drop shadows" };
+    const words = { system: "Match device", light: "Light", dark: "Dark", device: "Match device", on: "Active", off: "Inactive" };
+    form.addEventListener("change", (e) => {
+      const el = e.target.closest("[data-display]"); if (!el) return;
+      const k = el.dataset.display;
+      say.textContent = el.type === "checkbox" ? `${names[k]} ${el.checked ? "on" : "off"}.` : `${names[k]}: ${k === "text" ? el.value + "%" : words[el.value] || el.value}.`;
     });
+    const reset = $("[data-display-reset]");
+    if (reset) reset.addEventListener("click", () => { say.textContent = "All display choices are back to the defaults."; });
+  }
+
+  /* ---------- Search: every word typed must appear in a plug-in's name, summary, category or tags ---------- */
+  const words = (li) => (li.dataset.search || li.textContent).toLowerCase().replace(/\s+/g, " ");
+  const matches = (hay, t) => !t || t.split(/\s+/).every((w) => hay.includes(w));
+
+  /* ---------- A category page: the same search, over this category only ---------- */
+  function category() {
+    const mediaSel = $("#media");
+    const items = $$("#cat-list > li"), q = $("#q"), status = $("#results-status"), none = $("#none"), total = items.length;
+    const text = new Map(items.map((li) => [li, words(li)]));
+    const run = () => {
+      const t = q.value.trim().toLowerCase();
+      let n = 0;
+      const m = mediaSel.value, mt = m ? ` that work with ${mediaSel.options[mediaSel.selectedIndex].text}` : "";
+      items.forEach((li) => { const hit = matches(text.get(li), t) && (!m || li.dataset.media.split(" ").includes(m)); li.hidden = !hit; if (hit) n++; });
+      status.textContent = t || m ? (n ? `Showing ${n} of ${total} plug-ins${mt}${t ? ` matching "${q.value.trim()}"` : ""}.` : `No plug-ins${mt} match${t ? ` "${q.value.trim()}"` : ""}.`) : `Showing all ${total} plug-ins.`;
+      none.hidden = n > 0;
+    };
+    q.addEventListener("input", run);
+    mediaSel.addEventListener("change", run);
+    $("#search-form").addEventListener("submit", (e) => { e.preventDefault(); run(); });
+    $("#clear").addEventListener("click", () => { q.value = ""; mediaSel.value = ""; run(); q.focus(); });
+    run();
   }
 
   /* ---------- Home ---------- */
   function home() {
     const all = $("#all-list"), items = $$("#all-list > li");
     const total = items.length;
+    const mediaSel = $("#media");
     const q = $("#q"), status = $("#results-status"), chipsBox = $("#kind-chips"), sortBox = $("#sort"), mySb = $("#mysb");
-    const text = new Map(items.map((li) => [li, li.textContent.toLowerCase().replace(/\s+/g, " ")]));
+    const text = new Map(items.map((li) => [li, words(li)]));
     const original = [...items];
     let kind = "";
 
@@ -57,25 +86,21 @@
       const t = q.value.trim().toLowerCase();
       let n = 0;
       items.forEach((li) => {
-        const hit = (!kind || li.dataset.kind === kind) && (!t || text.get(li).includes(t));
+        const hit = (!kind || li.dataset.kind === kind) && matches(text.get(li), t) && (!mediaSel.value || li.dataset.media.split(" ").includes(mediaSel.value));
         li.hidden = !hit; if (hit) n++;
       });
       $$("button", chipsBox).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.kind === kind)));
       const sortWords = { name: "", mem: " Sorted by memory at rest, lowest first; those not measured yet come last.", new: " Sorted newest first." }[sortBox.value];
-      status.textContent = (n ? `Showing ${n} of ${total} plug-ins${kind ? " in " + kind : ""}${t ? ` matching "${q.value.trim()}"` : ""}.` : `No plug-ins match${t ? ` "${q.value.trim()}"` : ""}${kind ? " in " + kind : ""}. Clear the search or choose All.`) + (announceSort ? sortWords : "");
+      status.textContent = (n ? `Showing ${n} of ${total} plug-ins${kind ? " in " + kind : ""}${mediaSel.value ? " that work with " + mediaSel.options[mediaSel.selectedIndex].text : ""}${t ? ` matching "${q.value.trim()}"` : ""}.` : `No plug-ins match${t ? ` "${q.value.trim()}"` : ""}${kind ? " in " + kind : ""}. Clear the search or choose All.`) + (announceSort ? sortWords : "");
       $("#none").hidden = n > 0;
     };
     chipsBox.addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) { kind = b.dataset.kind; run(); } });
     q.addEventListener("input", () => run());
+    mediaSel.addEventListener("change", () => run());
     sortBox.addEventListener("change", () => { order(); run(true); });
     mySb.addEventListener("change", () => { mark(); status.textContent = mySb.value ? `Plug-ins that need a newer Starboard than ${mySb.value} are marked in words.` : "The marks for Starboard versions are off."; });
     $("#search-form").addEventListener("submit", (e) => { e.preventDefault(); run(); $("#all-plug-ins").scrollIntoView(); $("#all-h").focus(); });
-    $("#cats").addEventListener("click", (e) => {
-      const a = e.target.closest("a[data-kind]"); if (!a) return;
-      e.preventDefault(); kind = a.dataset.kind; q.value = ""; run();
-      $("#all-plug-ins").scrollIntoView(); $("#all-h").focus();
-    });
-    $("#clear").addEventListener("click", () => { q.value = ""; kind = ""; run(); q.focus(); });
+    $("#clear").addEventListener("click", () => { q.value = ""; kind = ""; mediaSel.value = ""; run(); q.focus(); });
 
     /* Made for you (a demo): the tiles are copies of the ones in the list below. */
     const checks = $("#apps-run"), mfyList = $("#mfy-list"), mfyStatus = $("#mfy-status");
@@ -144,9 +169,10 @@
     $("#again").addEventListener("click", () => { form.reset(); $("#success").hidden = true; $("#form-area").hidden = false; document.title = "Submit a plug-in | Stallboard"; $("#address").focus(); });
   }
 
-  initTheme();
+  initDisplay();
   const page = document.body.dataset.page;
   if (page === "home") home();
+  if (page === "category") category();
   if (page === "plugin") plugin();
   if (page === "submit") submit();
 })();
