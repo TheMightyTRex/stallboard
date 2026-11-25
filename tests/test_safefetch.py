@@ -189,3 +189,114 @@ class TotalDeadline(unittest.TestCase):
             self.assertTrue(all(t <= 0.31 for t in Sock.timeouts))
         finally:
             sf._PinnedHTTPS = orig
+
+
+class Token(unittest.TestCase):
+    """The workflow's token goes to api.github.com and nowhere else (24 and 25 November 2026: unauthenticated calls got a 403)."""
+    TOKEN = "ghs_exampletoken123"
+    H = {"Authorization": "Bearer ghs_exampletoken123", "Accept": "application/vnd.github+json"}
+    TABLE = {"api.github.com": ["140.82.112.5"], "github.com": ["140.82.112.3"], "raw.githubusercontent.com": ["185.199.108.133"],
+             "evil.example.com": ["8.8.4.4"]}
+
+    def run_fetch(self, url, replies, headers=None, **kw):
+        seen = []
+
+        def transport(host, ip, path, timeout, max_bytes, deadline, headers=None):
+            seen.append((host, headers))
+            return replies[len(seen) - 1]
+        out = sf.fetch(url, resolver=resolver_for(self.TABLE), transport=transport, headers=headers, **kw)
+        return out, seen
+
+    def test_sent_to_the_api_host(self):
+        _, seen = self.run_fetch("https://api.github.com/repos/a/b/releases", [(200, {}, b"[]")], self.H)
+        self.assertEqual(seen, [("api.github.com", self.H)])
+
+    def test_not_sent_to_any_other_host(self):
+        for url in ["https://github.com/a", "https://raw.githubusercontent.com/a/b", "https://evil.example.com/x"]:
+            _, seen = self.run_fetch(url, [(200, {}, b"{}")], self.H)
+            self.assertIsNone(seen[0][1], url)
+
+    def test_not_forwarded_on_a_redirect(self):
+        _, seen = self.run_fetch("https://api.github.com/x", [(302, {"location": "https://raw.githubusercontent.com/a/b"}, b""), (200, {}, b"ok")], self.H)
+        self.assertEqual([h for _, h in seen], [self.H, None])
+
+    def test_a_redirect_to_the_api_host_from_elsewhere_still_sends_it_only_there(self):
+        _, seen = self.run_fetch("https://github.com/x", [(302, {"location": "https://api.github.com/y"}, b""), (200, {}, b"ok")], self.H,
+                                 allowed_redirect_hosts=("github.com", "api.github.com"))
+        self.assertEqual([h for _, h in seen], [None, self.H])
+
+    def test_no_headers_means_the_old_call(self):
+        _, seen = self.run_fetch("https://api.github.com/x", [(200, {}, b"[]")])
+        self.assertIsNone(seen[0][1])
+
+    def test_only_allowed_headers_one_line_each(self):
+        for bad in [{"Cookie": "a=b"}, {"Host": "evil.example.com"}, {"Authorization": "Bearer x\r\nX-Evil: 1"}, {"Authorization": ""}]:
+            with self.assertRaises(sf.FetchError, msg=str(bad)):
+                self.run_fetch("https://api.github.com/x", [(200, {}, b"[]")], bad)
+
+    def test_the_token_is_never_in_a_message(self):
+        with self.assertRaises(sf.FetchError) as cm:
+            self.run_fetch("https://api.github.com/x", [(403, {"x-ratelimit-remaining": "0", "x-ratelimit-reset": "1764000000"}, b"")], self.H)
+        msg = str(cm.exception)
+        self.assertNotIn(self.TOKEN, msg)
+        self.assertIn("403", msg)
+        self.assertIn("rate limit: 0 calls left", msg)
+
+    def test_rate_limit_words_take_digits_only(self):
+        with self.assertRaises(sf.FetchError) as cm:
+            self.run_fetch("https://api.github.com/x", [(403, {"x-ratelimit-remaining": "0 ::error::x", "x-ratelimit-reset": "soon"}, b"")])
+        self.assertNotIn("::", str(cm.exception))
+        self.assertNotIn("rate limit", str(cm.exception))
+
+    def test_the_real_transport_sends_the_header(self):
+        import http.client
+        sent = {}
+
+        class Conn:
+            sock = None
+
+            def __init__(self, host, ip, timeout):
+                pass
+
+            def request(self, method, path, headers=None):
+                sent.update(headers)
+
+            def getresponse(self):
+                class R:
+                    status = 200
+                    def getheaders(self): return []
+                    def read(self, n): return b""
+                return R()
+
+            def close(self):
+                pass
+        real = sf._PinnedHTTPS
+        sf._PinnedHTTPS = Conn
+        try:
+            import time
+            sf._transport("api.github.com", "140.82.112.5", "/x", 5, 100, time.monotonic() + 5, headers=self.H)
+        finally:
+            sf._PinnedHTTPS = real
+        self.assertEqual(sent["Authorization"], "Bearer ghs_exampletoken123")
+        self.assertEqual(sent["Host"], "api.github.com")
+        self.assertEqual(sent["Accept"], "application/vnd.github+json")
+
+
+class ReleasesToken(unittest.TestCase):
+    def test_the_token_comes_from_the_environment_and_only_for_the_api(self):
+        import os
+        import refresh_releases as rr
+        old = {k: os.environ.pop(k, None) for k in ("GH_TOKEN", "GITHUB_TOKEN")}
+        try:
+            self.assertIsNone(rr.api_headers())
+            os.environ["GH_TOKEN"] = "ghs_abc"
+            self.assertEqual(rr.api_headers()["Authorization"], "Bearer ghs_abc")
+            import inspect
+            src = inspect.getsource(rr.main)
+            self.assertEqual(src.count("get_json("), 2)           # the releases and the tags: both with the token
+            self.assertNotIn("headers=", src.replace("get_json", ""))  # the raw.githubusercontent.com reads carry none
+        finally:
+            os.environ.pop("GH_TOKEN", None)
+            for k, v in old.items():
+                if v is not None:
+                    os.environ[k] = v

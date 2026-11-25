@@ -22,6 +22,9 @@ TIMEOUT = 10.0
 MAX_REDIRECTS = 3
 ALLOWED_REDIRECT_HOSTS = ("github.com", "raw.githubusercontent.com", "codeload.github.com",
                           "objects.githubusercontent.com")
+# Extra request headers (a token) are sent only to these hosts, and only on the first hop: never to a redirect, never to any other site.
+AUTH_HOSTS = ("api.github.com",)
+EXTRA_HEADERS = ("authorization", "accept", "x-github-api-version")
 USER_AGENT = "Stallboard-checks (+https://github.com/TheMightyTRex/stallboard)"
 
 
@@ -105,12 +108,13 @@ class _PinnedHTTPS(http.client.HTTPSConnection):
         self.sock = self._context.wrap_socket(sock, server_hostname=self.host)
 
 
-def _transport(host, ip, path, timeout, max_bytes, deadline):
+def _transport(host, ip, path, timeout, max_bytes, deadline, headers=None):
     """The real network step: (status, headers, body up to max_bytes + 1). Tests replace it."""
     conn = _PinnedHTTPS(host, ip, timeout)
     try:
-        conn.request("GET", path, headers={"Host": host, "User-Agent": USER_AGENT, "Accept": "*/*",
-                                           "Accept-Encoding": "identity", "Connection": "close"})
+        sent = {"Host": host, "User-Agent": USER_AGENT, "Accept": "*/*", "Accept-Encoding": "identity", "Connection": "close"}
+        sent.update(headers or {})
+        conn.request("GET", path, headers=sent)
         r = conn.getresponse()
         headers = {k.lower(): v for k, v in r.getheaders()}
         if r.status in (301, 302, 303, 307, 308):
@@ -138,9 +142,30 @@ def _transport(host, ip, path, timeout, max_bytes, deadline):
         conn.close()
 
 
+def clean_headers(headers):
+    """Only the few headers a caller may add, each one line of printable text. Anything else is a mistake and refused."""
+    out = {}
+    for k, v in (headers or {}).items():
+        if str(k).lower() not in EXTRA_HEADERS or not isinstance(v, str) or not v or len(v) > 600 or any(ord(c) < 32 or ord(c) == 127 for c in v):
+            raise FetchError("A request header that is not allowed was given")
+        out[str(k)] = v
+    return out
+
+
+def _limit_words(headers):
+    """' (rate limit: 0 left, resets at 1764000000)' from GitHub's own headers, digits only, so a plain sentence stays safe."""
+    left, reset = headers.get("x-ratelimit-remaining", ""), headers.get("x-ratelimit-reset", "")
+    if left.isdigit() and len(left) < 9:
+        return f" (rate limit: {left} calls left" + (f", resets at {reset} in seconds since 1970" if reset.isdigit() and len(reset) < 13 else "") + ")"
+    return ""
+
+
 def fetch(url, max_bytes=MAX_BYTES, timeout=TIMEOUT, resolver=socket.getaddrinfo, transport=_transport,
-          allowed_redirect_hosts=ALLOWED_REDIRECT_HOSTS):
-    """The body (bytes) at an https address. Raises FetchError with a plain sentence."""
+          allowed_redirect_hosts=ALLOWED_REDIRECT_HOSTS, headers=None):
+    """The body (bytes) at an https address. Raises FetchError with a plain sentence.
+    headers: optional extra headers (a token), sent only when the host of that hop is on AUTH_HOSTS, so never on a redirect to
+    another host, and never put in a message."""
+    extra = clean_headers(headers)
     deadline = time.monotonic() + timeout
     first = True
     for _ in range(MAX_REDIRECTS + 1):
@@ -150,15 +175,16 @@ def fetch(url, max_bytes=MAX_BYTES, timeout=TIMEOUT, resolver=socket.getaddrinfo
                              "of places Stallboard follows")
         first = False
         ip = resolve_once(host, resolver)
-        status, headers, body = transport(host, ip, path, max(0.5, deadline - time.monotonic()), max_bytes, deadline)
+        send = {"headers": extra} if extra and host in AUTH_HOSTS else {}
+        status, reply, body = transport(host, ip, path, max(0.5, deadline - time.monotonic()), max_bytes, deadline, **send)
         if status in (301, 302, 303, 307, 308):
-            loc = headers.get("location", "")
+            loc = reply.get("location", "")
             url = urllib.parse.urljoin("https://" + host + path, loc) if loc else ""
             if not url:
                 raise FetchError("The address redirected without saying where")
             continue
         if status != 200:
-            raise FetchError(f"The address answered with the error {status}")
+            raise FetchError(f"The address answered with the error {status}" + (_limit_words(reply) if status in (403, 429) else ""))
         if len(body) > max_bytes:
             raise FetchError("That file is too large")
         return body

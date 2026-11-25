@@ -5,6 +5,7 @@ screenshots (assets/starboard/ and data/starboard-screenshots.json, from the pic
 python3 tools/refresh_releases.py            fetch what is new (releases never change, so each is read once)
 Only https addresses on github.com's own hosts are read, as data, through tools/lib/safefetch.py."""
 import json
+import os
 import pathlib
 import re
 import sys
@@ -22,8 +23,18 @@ SHOTS = ROOT / "data" / "starboard-screenshots.json"
 SHOT_WANTED = ["apps.png", "storage.png", "install-apps.png", "library-phone-dark.png"]
 
 
+def api_headers():
+    """The workflow's own token (GH_TOKEN, read access to public data is enough), for GitHub's API only: GitHub limits calls
+    that carry no token, and the runners share addresses, so those calls fail with a 403 (24 and 25 November 2026). safefetch
+    sends it to api.github.com and nowhere else, and never prints it."""
+    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or ""
+    if not token:
+        return None
+    return {"Authorization": "Bearer " + token, "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
+
+
 def get_json(url):
-    return json.loads(safefetch.fetch(url, max_bytes=2 * 1024 * 1024).decode("utf-8"))
+    return json.loads(safefetch.fetch(url, max_bytes=2 * 1024 * 1024, headers=api_headers()).decode("utf-8"))
 
 
 def main():
