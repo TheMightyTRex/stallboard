@@ -17,9 +17,7 @@
   "plays",
   "household"
  ],
- "unclear": [
-  "The manifest needs list is empty, but the help says Jellyfin must be added first. Should the manifest list jellyfin?"
- ],
+ "unclear": [],
  "sources": [
   "most-watched/README.md",
   "most-watched/starboard-plugin.json",

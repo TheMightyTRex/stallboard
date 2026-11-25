@@ -6,7 +6,7 @@
  ],
  "for": "People who want to know before a film night that a file will not play, for example after a failing disk or a download that went wrong.",
  "needs": "Nothing else beyond Starboard with plug-in API 1.14 or later, and films and series in the movies and tv folders of your media folder. It is given no Reelix, Radarr or Sonarr.",
- "shows": "One dashboard card, Damaged files, with how many files failed the last check and how many were checked. Its tab has a Files that failed the check page, grouped into Films and Series with the reason, a Check now button, and an Open link to its own page.",
+ "shows": "One dashboard card, Damaged files, with how many files failed the last check and how many were checked. Its status says OK, the number of bad files, Checking, Not checked yet or Starting. Its tab has a Files that failed the check page, a Check now button and an Open link.",
  "tags": [
   "damaged files",
   "corrupt",
@@ -19,10 +19,7 @@
   "health check",
   "library"
  ],
- "unclear": [
-  "Its card status table lists Warning, Scanning, Idle and Waiting: are these the final names shown to users?",
-  "Media servers: Checkrr checks media files and is not tied to one server. Show all three?"
- ],
+ "unclear": [],
  "sources": [
   "checkrr/README.md",
   "checkrr/starboard-plugin.json",

@@ -17,9 +17,7 @@
   "seerr",
   "storage"
  ],
- "unclear": [
-  "Media servers: Maintainerr itself can also work with Plex. Its README here says Jellyfin only; is Jellyfin only right for the store?"
- ],
+ "unclear": [],
  "sources": [
   "maintainerr/README.md",
   "maintainerr/starboard-plugin.json",

@@ -4,7 +4,7 @@
   "Jellystat gives full watch statistics for Jellyfin: libraries, people, devices and a long history. It runs apart from the main Starboard install, with its own PostgreSQL database and its own web page on your home network.",
   "Starboard gives it your Jellyfin address and key, so you do not enter them. If you have a PostgreSQL backup of an earlier Jellystat, you can restore it from its tab. Your current figures are kept beside it, never deleted."
  ],
- "for": "People who want every figure Jellystat gives, and people who had Jellystat in the main install before 13 November 2026. The README says Watch statistics is lighter for the usual figures.",
+ "for": "People who want every figure Jellystat gives, and people who had Jellystat in the main install before 13 November 2026. For the usual figures, the Watch statistics plug-in in this store is lighter.",
  "needs": "Jellyfin added to Starboard. It gets Jellyfin's key, which can change users, libraries and settings. Starboard needs plug-in API 1.14 or later. It runs three containers and uses about 126 MB of memory at rest on an empty library.",
  "shows": "One dashboard card, Jellystat, with one line saying whether it is connected to Jellyfin. Its tab has an Open button for Jellystat's own page, a Restore a Jellystat backup page, a Backup file to restore setting and a Restore the backup button.",
  "tags": [
@@ -19,9 +19,7 @@
   "postgresql",
   "who watched what"
  ],
- "unclear": [
-  "Is Watch statistics a plug-in id or a name, and should the storefront link to it?"
- ],
+ "unclear": [],
  "sources": [
   "jellystat/README.md",
   "jellystat/starboard-plugin.json",
