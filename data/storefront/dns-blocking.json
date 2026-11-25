@@ -19,9 +19,7 @@
   "adverts",
   "network"
  ],
- "unclear": [
-  "The plug-in id is dns-blocking but its name is Ad blocking: which should the storefront show?"
- ],
+ "unclear": [],
  "sources": [
   "dns-blocking/README.md",
   "dns-blocking/starboard-plugin.json",

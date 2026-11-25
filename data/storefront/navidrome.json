@@ -17,9 +17,7 @@
   "audio",
   "songs"
  ],
- "unclear": [
-  "Media servers: Navidrome is a music server of its own, not related to Jellyfin, Plex or Emby. Show all three?"
- ],
+ "unclear": [],
  "sources": [
   "navidrome/README.md",
   "navidrome/starboard-plugin.json",

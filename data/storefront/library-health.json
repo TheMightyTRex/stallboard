@@ -17,9 +17,7 @@
   "year",
   "check"
  ],
- "unclear": [
-  "The manifest needs list is empty, but the help says Jellyfin must be added first. Should the manifest list jellyfin?"
- ],
+ "unclear": [],
  "sources": [
   "library-health/README.md",
   "library-health/starboard-plugin.json",

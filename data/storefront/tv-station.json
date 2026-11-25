@@ -2,7 +2,7 @@
  "summary": "Your own TV channels in Jellyfin's Live TV, made from your films and series, with your own branding.",
  "does": [
   "Create your own TV channel makes channels in Jellyfin's Live TV from your series, films, collections, playlists, genres or decades. Each runs to a schedule like broadcast television, so choosing a channel joins it part way through whatever is on.",
-  "Between programmes it can show idents, trailers, promos, your own clips and Coming up next cards. A broadcast pack adds your own on-screen logo, music and transitions. A schedule grid lets you plan a week for each channel."
+  "Between programmes it can show idents, trailers, promos, adverts, public service announcements, your own clips and Coming up next cards. A broadcast pack adds your own on-screen logo, music and transitions. A schedule grid lets you plan a week for each channel."
  ],
  "for": "People who like the feel of a TV channel and want to set up their own, with their own branding. Setting up is made for a computer, not a phone or tablet.",
  "needs": "Jellyfin set up in Starboard. Setting up the channels, the schedule grid and the broadcast pack need a desktop browser. A broadcast pack is optional, and an example pack, Example TV, is offered.",
@@ -18,11 +18,7 @@
   "epg",
   "nostalgia"
  ],
- "unclear": [
-  "The repository manifest says version 0.1.1 but the store snapshot says 0.8.0. Which is current?",
-  "Is the plug-in still named Create your own TV channel in the store, or TV station?",
-  "Does the on-screen logo and channel branding raise any rights wording to add?"
- ],
+ "unclear": [],
  "sources": [
   "tv-station/README.md",
   "tv-station/starboard-plugin.json",

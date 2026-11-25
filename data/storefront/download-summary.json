@@ -5,7 +5,7 @@
   "It only counts downloads that go through the queue from the apps added in Starboard. It keeps 14 days of totals in its own folder, sends nothing anywhere and never pauses, removes or changes a download."
  ],
  "for": "People who want to know how much their server has downloaded, for example to keep an eye on a data allowance.",
- "needs": "Download apps added to Starboard in Settings, Apps, so that there is a queue to read. Nothing else beyond Starboard with plug-in API 1.14 or later.",
+ "needs": "Reelix, Sonarr, Radarr, Lidarr or Readarr added to Starboard in Settings, Apps, so that there is a queue to read. It counts what their queues show, whichever download app they use. A download started straight in a download app is not counted. Needs plug-in API 1.14 or later.",
  "shows": "One dashboard card, Downloaded today, with today's total and this week's total under it. The status says OK while it is counting and Problem if it could not read the queue. It has no settings and no buttons.",
  "tags": [
   "downloads",
@@ -19,9 +19,7 @@
   "torrents",
   "usenet"
  ],
- "unclear": [
-  "Which download apps count towards the queue: all that Starboard supports, or only some?"
- ],
+ "unclear": [],
  "sources": [
   "download-summary/README.md",
   "download-summary/starboard-plugin.json",
