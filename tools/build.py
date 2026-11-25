@@ -185,10 +185,10 @@ def build(out, today, max_age=MAX_AGE_DAYS, root=ROOT):
     for k in R.KINDS:
         if any(p["kind"] == k for p in plugins):
             files[f"category/{R.KINDS[k][0]}.html"] = R.page(f"{k}: plug-ins for Starboard | Stallboard", f"{R.KINDS[k][2]} Plug-ins for Starboard in the {k} category.", 1,
-                                                              f"category/{R.KINDS[k][0]}.html", "category", "", R.category_page(k, plugins))
+                                                              f"category/{R.KINDS[k][0]}.html", "category", "", R.category_page(k, plugins, releases))
     for p in plugins:
         files[f"plugins/{p['id']}.html"] = R.page(f"{p['name']}: a plug-in for Starboard | Stallboard", f"{p['name']}: {R.pitch_of(p)} Reviewed by {p['reviewed']['by']}.", 1,
-                                                  f"plugins/{p['id']}.html", "plugin", "", R.plugin_page(p, sb))
+                                                  f"plugins/{p['id']}.html", "plugin", "", R.plugin_page(p, sb, plugins))
     for name, html in files.items():
         (out / name).write_text(html, encoding="utf-8")
     (out / "catalogue.json").write_text(json.dumps(catalogue(plugins, sb, today, list(apps.values())), indent=1, ensure_ascii=False) + "\n", encoding="utf-8")

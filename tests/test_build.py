@@ -58,7 +58,6 @@ class RealSite(unittest.TestCase):
         t = (self.out / "index.html").read_text()
         self.assertEqual(len(re.findall(r'<li class="tile ', t.split('id="all-list"', 1)[1])), 33)
         self.assertIn("Start here", t)
-        self.assertIn("Demo", t)
         self.assertNotIn("data:image", t)
 
     def test_nothing_is_loaded_from_outside(self):

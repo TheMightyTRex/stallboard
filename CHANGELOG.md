@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- The Shelf design (compact banner), replacing the Gallery look: a slim banner with search, a left rail of categories, Works with, the Starboard you have and sort, poster cards that are all one height with at most three chips, and a facts strip (Reviewed, Works with, Starboard, Memory use) on each plug-in page with more plug-ins from the same category. Every card gets the same picture treatment, the logo on a tint of its category colour, or a lettered tile when there is no logo. On a phone, Search and a Filters button sit together; Filters opens a bottom sheet with Works with first, and the filters that are on show as removable chips. One accent colour, an 8 px spacing scale, a calmer Display palette in light, dark, high contrast and forced colours. The Made for you demo, the picture collage and the New and updated strip are gone from the home page.
 - A page for each category and an index of categories, linked from the home page, the menu and every plug-in page, with breadcrumbs.
 - Search on the home page and on each category page: every word must be in a plug-in's name, summary, category or tags; the result count is announced; nothing is sent.
 - Better plug-in pages: What it does, Who it is for, What you will see, What it needs and its system tags, written for every plug-in from its own README and help pages; the summary on each card comes from the same text.

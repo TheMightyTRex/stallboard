@@ -106,13 +106,41 @@ if (MODE === "check") {
         if (!tagHit.includes("audio-description-tracks") || !tagHit.includes("audio-description")) fail(`${cname}: searching a tag found nothing`);
         if (!/Showing \d+ of \d+/.test(await page.evaluate(() => document.getElementById("results-status").textContent))) fail(`${cname}: home search count not announced`);
         await page.fill("#q", ""); await page.waitForTimeout(100);
-        await page.click('#kind-chips button[data-kind="Jellyfin"]'); await page.waitForTimeout(100);
+        const phone = (page.viewportSize()?.width || 1280) < 896;
+        if (phone) {
+          // The filter sheet: Filters opens it, focus goes to Works with first, Tab stays inside, Escape closes it and focus returns.
+          await page.click("#filters-open"); await page.waitForTimeout(150);
+          const sheet = await page.evaluate(() => ({ role: document.getElementById("filters").getAttribute("role"), modal: document.getElementById("filters").getAttribute("aria-modal"), inside: !!document.activeElement.closest("#filters"), name: document.activeElement.name, exp: document.getElementById("filters-open").getAttribute("aria-expanded") }));
+          if (sheet.role !== "dialog" || sheet.modal !== "true" || !sheet.inside || sheet.name !== "media" || sheet.exp !== "true") fail(`${cname}: the filter sheet did not open with focus on Works with ${JSON.stringify(sheet)}`);
+          record(cname, "home-filter-sheet-open", await axeRun(page), page);
+          for (let i = 0; i < 12; i++) await page.keyboard.press("Tab");
+          if (!(await page.evaluate(() => !!document.activeElement.closest("#filters")))) fail(`${cname}: Tab left the filter sheet`);
+          await page.keyboard.press("Escape"); await page.waitForTimeout(150);
+          const back = await page.evaluate(() => ({ id: document.activeElement.id, role: document.getElementById("filters").getAttribute("role"), shown: getComputedStyle(document.getElementById("filters")).display }));
+          if (back.id !== "filters-open" || back.role || back.shown !== "none") fail(`${cname}: Escape did not close the filter sheet and return focus ${JSON.stringify(back)}`);
+          await page.click("#filters-open"); await page.waitForTimeout(100);
+          await page.getByLabel("Plex", { exact: true }).check(); await page.waitForTimeout(100);
+          await page.click("#filters-close"); await page.waitForTimeout(150);
+          if ((await page.evaluate(() => document.activeElement.id)) !== "filters-open") fail(`${cname}: Show results did not return focus to Filters`);
+        } else {
+          await page.getByLabel("Jellyfin", { exact: true }).check(); await page.waitForTimeout(100);
+        }
+        const shownMedia = await page.evaluate(() => [...document.querySelectorAll("#all-list > li:not([hidden])")].every((l) => l.dataset.media.split(" ").includes(document.querySelector('input[name=media]:checked').value)));
+        if (!shownMedia) fail(`${cname}: the Works with filter shows a plug-in that does not work with it`);
+        const chipsOn = await page.evaluate(() => [...document.querySelectorAll("#active button")].map((b) => b.textContent.trim()));
+        if (chipsOn.length !== 1 || !/^Works with /.test(chipsOn[0])) fail(`${cname}: the active filter is not shown as a removable chip ${JSON.stringify(chipsOn)}`);
+        if (!/that work with/.test(await page.evaluate(() => document.getElementById("results-status").textContent))) fail(`${cname}: the filtered count is not announced`);
         record(cname, "home-filtered", await axeRun(page), page);
+        await page.click("#active button"); await page.waitForTimeout(100);
+        if ((await page.evaluate(() => document.querySelectorAll("#all-list > li:not([hidden])").length)) !== 33) fail(`${cname}: removing the chip did not bring every plug-in back`);
+        if (!(await page.evaluate(() => document.getElementById("active").hidden))) fail(`${cname}: the chip list is still shown when nothing is filtered`);
+        if (phone) { await page.click("#filters-open"); await page.waitForTimeout(100); }
         await page.selectOption("#sort", "mem"); await page.waitForTimeout(100);
         record(cname, "home-sorted", await axeRun(page), page);
         const first = await page.evaluate(() => [...document.querySelectorAll("#all-list > li:not([hidden])")].slice(0, 3).map((l) => l.dataset.id));
         if (!first.length) fail("home sorted by memory: nothing shown");
         await page.selectOption("#mysb", "0.20.0"); await page.waitForTimeout(100);
+        if (phone) { await page.click("#filters-close"); await page.waitForTimeout(100); }
         const marked = await page.evaluate(() => document.querySelectorAll('.sb-need[data-tone="danger"]').length);
         if (!marked) fail("home: no plug-in is marked as needing a newer Starboard than 0.20.0");
         record(cname, "home-marked", await axeRun(page), page);
@@ -140,6 +168,26 @@ if (MODE === "check") {
       await page.close();
     }
     await ctx.close();
+  }
+  // The full matrix the Shelf design is held to: light, dark, high contrast and forced colours, each at 1280, 1280 with 175% text, 320 and 320 with 175% text.
+  {
+    const modes = [["light", { theme: "light" }, {}], ["dark", { theme: "dark" }, {}], ["high-contrast", { theme: "light", contrast: true }, {}], ["forced", { theme: "light" }, { forcedColors: "active" }]];
+    const sizes = [["1280", 1280, 900, false], ["1280-175", 1280, 900, true], ["320", 320, 700, false], ["320-175", 320, 700, true]];
+    for (const [mname, prefs, extra] of modes) for (const [sname, w, h, big] of sizes) {
+      const ctx = await browser.newContext({ viewport: { width: w, height: h }, ...extra });
+      await ctx.addInitScript((p) => { try { localStorage.setItem("stallboard-display", JSON.stringify(p)); } catch (e) { /* fine */ } }, big ? { ...prefs, text: "175" } : prefs);
+      for (const [pname, file] of pages) {
+        const page = await ctx.newPage(); const errs = [];
+        page.on("pageerror", (e) => errs.push(String(e)));
+        await page.goto(BASE + file); await page.waitForTimeout(250);
+        page._errs = errs; page._reqs = [];
+        record(`matrix-${mname}-${sname}`, pname, await axeRun(page), page);
+        const o = await page.evaluate(() => ({ s: document.documentElement.scrollWidth, c: document.documentElement.clientWidth }));
+        if (o.s > o.c + 1) fail(`matrix-${mname}-${sname} / ${pname}: sideways scroll ${o.s} > ${o.c}`);
+        await page.close();
+      }
+      await ctx.close();
+    }
   }
   // Display and accessibility: the saved choices apply before paint; axe in every theme, at 175% text and on a phone with
   // everything on; and the panel itself: focus in, trap, Escape and return, the live region, saving and Reset.
