@@ -29,6 +29,7 @@ import releases as rl  # noqa: E402
 import render as R  # noqa: E402
 import resources as rs  # noqa: E402
 import storefront as sfm  # noqa: E402
+import testbench as tb  # noqa: E402
 
 MAX_AGE_DAYS = 14
 PINNED = re.compile(r"/[0-9a-f]{40}/")
@@ -41,8 +42,8 @@ def read_json(path, default):
         return default
 
 
-def merge(listings, snaps_dir, measures, releases, today, max_age, warnings, text=None, shots=None):
-    text, shots = text or {}, shots or {}
+def merge(listings, snaps_dir, measures, releases, today, max_age, warnings, text=None, shots=None, tests=None):
+    text, shots, tests = text or {}, shots or {}, tests or {}
     out = []
     for lid, l in listings.items():
         sp = snaps_dir / f"{lid}.json"
@@ -89,7 +90,7 @@ def merge(listings, snaps_dir, measures, releases, today, max_age, warnings, tex
             "needs_sb": need, "latest_date": (cur or sorted(dates, reverse=True) or [""])[0], "snapshot_date": s["fetched_at"][:10],
             "logo_data": mf.plugin_logo.as_data(logo[0], "image/svg+xml" if logo[1] == "svg" else "image/png") if logo else "", "logo_bytes": logo[0] if logo else b"", "logo_file": f"assets/logos/{lid}.{ext}" if logo else "assets/logo/no-logo.svg",
             "logo_alt": logo_alt if len(logo_alt) >= 3 else f"{m['name']} logo", "sha256": s["sha256"],
-            "sf": text.get(lid), "shots": shots.get(lid, []), "media": (text.get(lid) or {}).get("media_servers", ["jellyfin", "plex", "emby"]),
+            "sf": text.get(lid), "shots": shots.get(lid, []), "test": tests.get(lid), "test_mem": tb.sort_memory(tests.get(lid)), "media": (text.get(lid) or {}).get("media_servers", ["jellyfin", "plex", "emby"]),
         })
     return out
 
@@ -153,7 +154,11 @@ def build(out, today, max_age=MAX_AGE_DAYS, root=ROOT):
         if k not in listings:
             warnings.append(f"data/storefront/{k}.json is for a plug-in that is not listed, so it is not used yet")
     shots = sfm.load_shots(root / "data" / "shots.json", root / "assets" / "shots")
-    plugins = merge(listings, root / "data" / "snapshots", measures, releases, today, max_age, warnings, text, shots)
+    tests = tb.load_all(root / "data" / "resources-test")
+    for k in tests:
+        if k not in listings:
+            warnings.append(f"data/resources-test/{k}.json is for a plug-in that is not listed, so it is not used yet")
+    plugins = merge(listings, root / "data" / "snapshots", measures, releases, today, max_age, warnings, text, shots, tests)
     for p in plugins:
         if not p["sf"]:
             warnings.append(f"{p['id']}: has no storefront text (data/storefront/{p['id']}.json), so its page uses the manifest's description")

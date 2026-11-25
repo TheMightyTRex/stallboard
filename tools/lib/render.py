@@ -11,6 +11,7 @@ sys.path.insert(0, str(HERE))
 import manifest as mf  # noqa: E402
 import releases as rl  # noqa: E402
 import resources as rs  # noqa: E402
+import testbench as tb  # noqa: E402
 
 SITE_URL = "https://themightytrex.github.io/stallboard/"
 SITE_PATH = "/stallboard/"
@@ -285,7 +286,7 @@ def tile(p, depth, why=None):
     why_html = f'<p class="tile__why">{icon("plug")}<span>Works with {esc(join_words(why))}</span></p>' if why else ""
     sb, _ = sb_need_text(p)
     mem = p["mem_value"]
-    return f'''<li class="tile kind-{KINDS[p["kind"]][0]}" data-id="{esc(p["id"])}" data-kind="{esc(p["kind"])}" data-name="{esc(p["name"].lower())}" data-mem="{'' if mem is None else mem}" data-sb="{esc(p["needs_sb"].get("first_full") or "")}" data-works="{esc("|".join(works_with(p)))}" data-search="{esc(search_text(p))}" data-media="{" ".join(p["media"])}" data-date="{esc(p["latest_date"])}">
+    return f'''<li class="tile kind-{KINDS[p["kind"]][0]}" data-id="{esc(p["id"])}" data-kind="{esc(p["kind"])}" data-name="{esc(p["name"].lower())}" data-mem="{'' if mem is None else mem}" data-sb="{esc(p["needs_sb"].get("first_full") or "")}" data-works="{esc("|".join(works_with(p)))}" data-search="{esc(search_text(p))}" data-media="{" ".join(p["media"])}" data-testmem="{"" if p.get("test_mem") is None else p["test_mem"]}" data-date="{esc(p["latest_date"])}">
       <div class="tile__art"><span class="logo-plate">{logo_img(p, depth)}</span><span class="tile__kind">{esc(p["kind"])}</span></div>
       <div class="tile__body">
         <h3 class="tile__name"><a href="{rel(depth)}plugins/{esc(p["id"])}.html">{esc(p["name"])}</a></h3>
@@ -373,7 +374,7 @@ def home(plugins, depth_releases, sb, apps=()):
   <div class="toolbar js-only" hidden>
     <div class="filter-chips" id="kind-chips" role="group" aria-label="Show plug-ins for">{chips}</div>
     <div class="toolbar__row">
-      {media_select()}<div class="field"><label class="field__label" for="sort">Sort by</label><select class="select" id="sort"><option value="name">Name, A to Z</option><option value="mem">Memory at rest, lowest first</option><option value="new">Newest first</option></select></div>
+      {media_select()}<div class="field"><label class="field__label" for="sort">Sort by</label><select class="select" id="sort"><option value="name">Name, A to Z</option><option value="mem">Memory at rest, lowest first</option><option value="testmem">Memory on the test server, lowest first</option><option value="new">Newest first</option></select></div>
       <div class="field"><label class="field__label" for="mysb">The Starboard you have</label><select class="select" id="mysb"><option value="">Any, do not mark plug-ins</option>{"".join(f'<option value="{esc(r["version"])}">Starboard {esc(r["version"])}</option>' for r in sorted(depth_releases, key=lambda r: rl.ver(r["version"]), reverse=True)[:12])}</select></div>
     </div>
   </div>
@@ -419,7 +420,7 @@ def category_page(kind, plugins):
 <div class="wrap section"><header class="phead kind-{slug}"><span class="logo-plate logo-plate--lg phead__icon">{icon(ic)}</span><div><p class="kicker">Category</p><h1 class="display">{esc(kind)}</h1><p class="phead__pitch">{esc(line)} {n} plug-in{"" if n == 1 else "s"}.</p></div></header>
 <p data-s="mt2">{esc(KIND_ABOUT[kind])}</p>
 {search_form("cat-list", "Try a name or a word such as backups.", "this category")}
-<div class="toolbar js-only" hidden><div class="toolbar__row">{media_select()}</div></div>
+<div class="toolbar js-only" hidden><div class="toolbar__row">{media_select()}<div class="field"><label class="field__label" for="sort">Sort by</label><select class="select" id="sort"><option value="name">Name, A to Z</option><option value="mem">Memory at rest, lowest first</option><option value="testmem">Memory on the test server, lowest first</option></select></div></div></div>
 <h2 class="visually-hidden" id="cat-h">Plug-ins in this category</h2>
 <p class="results-note" id="results-status" role="status" data-total="{n}"></p>
 <div class="blank" id="none" hidden><p data-s="mt0">Nothing in this category matches that.</p><button class="btn" type="button" id="clear">Clear the search</button> <a class="btn" href="../index.html#all-plug-ins">Search every category</a></div>
@@ -485,6 +486,27 @@ def issue_address(p):
     return ""
 
 
+def test_section(p):
+    """Memory use, Processor and Image size as measured on a test Starboard with made-up data (kept apart from figures from a real server)."""
+    t = p.get("test")
+    if not t:
+        return '<h3 id="test-h">On a test server</h3><p class="muted">Not measured on a test server yet.</p>'
+    when = esc(nice_date(t["measured_at"][:10]))
+    sb = f", Starboard {esc(t['starboard_version'])}" if t["starboard_version"] else ""
+    label = f'Measured on a test server with made-up data, {when}{sb}.' + (f' Machine: {esc(t["machine"])}.' if t["machine"] else "")
+    if t["no_container"]:
+        return f'<h3 id="test-h">Measured on a test server</h3><p><strong>No container.</strong> This plug-in runs nothing of its own, so it has no memory, processor or image to measure. Read from its manifest, {when}.</p>'
+    x = tb.totals(t)
+    f = lambda v, unit: ("<span class=muted>Not read</span>" if v is None else f"About {rs.fmt(v)} {unit}")  # noqa: E731
+    rows = [("Memory use, idle after start", f(x["memory_start"], "MB")), ("Memory use, after it was used", f(x["memory_used"], "MB")),
+            ("Processor, averaged over 60 seconds idle", f(x["cpu"], "% of one core")), ("Image size, unpacked", f(x["image"], "MB")),
+            ("Containers", str(x["count"]))]
+    body = "".join(f'<tr><th scope="row">{esc(a)}</th><td>{b}</td></tr>' for a, b in rows)
+    return (f'<h3 id="test-h">Measured on a test server</h3><p>{label} These are not figures from a real server.</p>'
+            f'<div class="table-wrap" role="region" aria-labelledby="test-h" tabindex="0"><table class="table"><caption class="visually-hidden">What {esc(p["name"])} used on a test server</caption>'
+            f'<thead><tr><th scope="col">What</th><th scope="col">Figure</th></tr></thead><tbody>{body}</tbody></table></div>')
+
+
 def use_section(p):
     """What it uses: a plain table, Declared and Measured kept apart, never invented."""
     m = p["manifest"]
@@ -540,6 +562,7 @@ def use_section(p):
         else:
             row("Runs", "All the time", "Declared", "")
     row("Asks to read or change", f'{len(perms)} thing{"" if len(perms) == 1 else "s"}: <a href="#access">the list above</a>', "Declared", "")
+    test_html = test_section(p)
     how = ""
     if meas:
         how = f'<p class="muted">Measured on {esc(nice_date(meas["measured_at"][:10]))}. {esc(meas["how"])}.</p>'
@@ -549,7 +572,7 @@ def use_section(p):
         how = '<p class="muted">Nobody has measured this plug-in on a running server yet, so no memory or processor figure is shown. The limits marked Declared are what its manifest allows, not what it uses.</p>'
     return f'''<section id="uses" aria-labelledby="uses-h"><h2 id="uses-h">What it uses</h2>
           <p>Two kinds of figure appear here, and each row says which. <strong>Measured</strong> figures were read from a running plug-in. <strong>Declared</strong> figures are limits written in its manifest. Where nothing is measured, it says so.</p>
-          <div class="table-wrap" data-stack role="region" aria-label="What {esc(m["name"])} uses" tabindex="0"><table class="table"><caption class="visually-hidden">What {esc(m["name"])} uses</caption><thead><tr><th scope="col">What</th><th scope="col">Figure</th><th scope="col">Kind</th><th scope="col">Note</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div>{how}</section>'''
+          <div class="table-wrap" data-stack role="region" aria-label="What {esc(m["name"])} uses" tabindex="0"><table class="table"><caption class="visually-hidden">What {esc(m["name"])} uses</caption><thead><tr><th scope="col">What</th><th scope="col">Figure</th><th scope="col">Kind</th><th scope="col">Note</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div>{how}{test_html}</section>'''
 
 
 def plugin_page(p, sb):

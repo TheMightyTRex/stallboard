@@ -1,0 +1,11 @@
+{
+ "plugin": "styles",
+ "measured_at": "2026-11-25",
+ "no_container": true,
+ "environment": {
+  "kind": "read from the manifest",
+  "starboard_version": "0.30.0",
+  "machine": ""
+ },
+ "how": "its manifest names no container, so it runs nothing of its own"
+}

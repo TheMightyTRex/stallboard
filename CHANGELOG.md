@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Memory use, processor and image size measured on a test Starboard with made-up data, on each plug-in page and as a sort on category pages; `tools/measure_plugins.py` takes the figures; Styles is recorded as having no container.
 - A page for each category and an index of categories, linked from the home page, the menu and every plug-in page, with breadcrumbs.
 - Search on the home page and on each category page: every word must be in a plug-in's name, summary, category or tags; the result count is announced; nothing is sent.
 - Better plug-in pages: What it does, Who it is for, What you will see, What it needs and its system tags, written for every plug-in from its own README and help pages; the summary on each card comes from the same text.

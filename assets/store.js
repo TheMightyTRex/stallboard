@@ -47,6 +47,14 @@
       status.textContent = t || m ? (n ? `Showing ${n} of ${total} plug-ins${mt}${t ? ` matching "${q.value.trim()}"` : ""}.` : `No plug-ins${mt} match${t ? ` "${q.value.trim()}"` : ""}.`) : `Showing all ${total} plug-ins.`;
       none.hidden = n > 0;
     };
+    const sortBox = $("#sort"), list = $("#cat-list"), original = [...items];
+    const order = () => {
+      const how = sortBox.value, key = how === "mem" ? "mem" : "testmem";
+      const sorted = [...original];
+      if (how !== "name") sorted.sort((a, b) => { const x = a.dataset[key] === "" ? Infinity : +a.dataset[key], y = b.dataset[key] === "" ? Infinity : +b.dataset[key]; return (x === y ? 0 : x - y) || a.dataset.name.localeCompare(b.dataset.name); });
+      sorted.forEach((li) => list.appendChild(li));
+    };
+    sortBox.addEventListener("change", () => { order(); run(); status.textContent += { name: "", mem: " Sorted by memory at rest, lowest first; those not measured yet come last.", testmem: " Sorted by memory on the test server, lowest first; those not measured yet come last." }[sortBox.value]; });
     q.addEventListener("input", run);
     mediaSel.addEventListener("change", run);
     $("#search-form").addEventListener("submit", (e) => { e.preventDefault(); run(); });
@@ -79,6 +87,7 @@
       const how = sortBox.value;
       const sorted = [...original];
       if (how === "mem") sorted.sort((a, b) => { const x = a.dataset.mem === "" ? Infinity : +a.dataset.mem, y = b.dataset.mem === "" ? Infinity : +b.dataset.mem; return (x === y ? 0 : x - y) || a.dataset.name.localeCompare(b.dataset.name); });
+      if (how === "testmem") sorted.sort((a, b) => { const x = a.dataset.testmem === "" ? Infinity : +a.dataset.testmem, y = b.dataset.testmem === "" ? Infinity : +b.dataset.testmem; return (x === y ? 0 : x - y) || a.dataset.name.localeCompare(b.dataset.name); });
       if (how === "new") sorted.sort((a, b) => (b.dataset.date || "").localeCompare(a.dataset.date || "") || a.dataset.name.localeCompare(b.dataset.name));
       sorted.forEach((li) => all.appendChild(li));
     };
@@ -90,7 +99,7 @@
         li.hidden = !hit; if (hit) n++;
       });
       $$("button", chipsBox).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.kind === kind)));
-      const sortWords = { name: "", mem: " Sorted by memory at rest, lowest first; those not measured yet come last.", new: " Sorted newest first." }[sortBox.value];
+      const sortWords = { name: "", mem: " Sorted by memory at rest, lowest first; those not measured yet come last.", testmem: " Sorted by memory on the test server, lowest first; those not measured yet come last.", new: " Sorted newest first." }[sortBox.value];
       status.textContent = (n ? `Showing ${n} of ${total} plug-ins${kind ? " in " + kind : ""}${mediaSel.value ? " that work with " + mediaSel.options[mediaSel.selectedIndex].text : ""}${t ? ` matching "${q.value.trim()}"` : ""}.` : `No plug-ins match${t ? ` "${q.value.trim()}"` : ""}${kind ? " in " + kind : ""}. Clear the search or choose All.`) + (announceSort ? sortWords : "");
       $("#none").hidden = n > 0;
     };
