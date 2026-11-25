@@ -22,9 +22,12 @@ def clean(d):
         return None
     env = d.get("environment") if isinstance(d.get("environment"), dict) else {}
     out = {"plugin": mf.text(d.get("plugin"), 40), "measured_at": at, "how": mf.text(d.get("how"), 400),
-           "starboard_version": mf.text(env.get("starboard_version"), 20), "machine": mf.text(env.get("machine"), 120), "containers": [], "no_container": False}
+           "starboard_version": mf.text(env.get("starboard_version"), 20), "machine": mf.text(env.get("machine"), 120), "containers": [], "no_container": False, "problem": ""}
+    out["problem"] = mf.text(d.get("problem"), 300)
     if d.get("no_container") is True:
         out["no_container"] = True
+        return out
+    if out["problem"] and not d.get("containers"):
         return out
     cs = d.get("containers")
     for c in (cs[:8] if isinstance(cs, list) else []):
@@ -59,7 +62,7 @@ def _sum(cs, key):
 
 def totals(t):
     """Sums over the containers, None where one has no figure (a partial sum would mislead); None for no figures at all."""
-    if not t or t["no_container"]:
+    if not t or t["no_container"] or not t["containers"]:
         return None
     cs = t["containers"]
     return {"memory_start": _sum(cs, "memory_mib_start"), "memory_used": _sum(cs, "memory_mib_used"), "cgroup_start": _sum(cs, "cgroup_mib_start"),

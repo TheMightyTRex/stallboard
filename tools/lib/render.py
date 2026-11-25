@@ -496,6 +496,8 @@ def test_section(p):
     label = f'Measured on a test server with made-up data, {when}{sb}.' + (f' Machine: {esc(t["machine"])}.' if t["machine"] else "")
     if t["no_container"]:
         return f'<h3 id="test-h">Measured on a test server</h3><p><strong>No container.</strong> This plug-in runs nothing of its own, so it has no memory, processor or image to measure. Read from its manifest, {when}.</p>'
+    if t.get("problem"):
+        return f'<h3 id="test-h">On a test server</h3><p><strong>It did not run cleanly on the test server.</strong> {esc(t["problem"])} {esc(label)}</p>'
     x = tb.totals(t)
     f = lambda v, unit: ("<span class=muted>Not read</span>" if v is None else f"About {rs.fmt(v)} {unit}")  # noqa: E731
     rows = [("Memory use, idle after start", f(x["memory_start"], "MB")), ("Memory use, after it was used", f(x["memory_used"], "MB")),

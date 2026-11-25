@@ -114,3 +114,24 @@ class Rendering(unittest.TestCase):
             self.assertIn("Not measured on a test server yet", files["plugins/kavita.html"])
             self.assertIn('data-testmem="20.1"', files["category/jellyfin.html"])
             self.assertIn('value="testmem"', files["category/jellyfin.html"])
+
+
+class Starting(unittest.TestCase):
+    def test_run_args_use_the_declared_limits_and_isolate(self):
+        m = {"resources": {"app": {"memory": 384, "cpus": 0.5, "pids": 128}}}
+        c = {"name": "app", "image": "docker.io/x/y@sha256:" + "a" * 64, "volumes": ["data", "media/music:ro"], "env": {"A": "1", "B": "{secret:token}"}, "tmpfs": ["/run"], "port": 80}
+        a = mp.run_args("demo", m, c)
+        j = " ".join(a)
+        for w in ("--memory 384m", "--cpus 0.5", "--pids-limit 128", "--cap-drop ALL", "no-new-privileges", "--network stallbench-demo", "-e B=example",
+                  "stallbench-demo-data:/data", "stallbench-demo-media-music:/media/music:ro", "--tmpfs /run"):
+            self.assertIn(w, j)
+        self.assertNotIn("--privileged", j)
+        self.assertNotIn("/var/run/docker.sock", j)
+        self.assertEqual(a[-1], c["image"])
+
+    def test_a_plugin_that_did_not_run_is_shown_as_such(self):
+        with tempfile.TemporaryDirectory() as d:
+            mp.record_problem("kavita", "Did not start on the test server: exit 1", folder=d)
+            t = tb.clean(json.loads((pathlib.Path(d) / "kavita.json").read_text()))
+            self.assertIn("Did not start", t["problem"])
+            self.assertIsNone(tb.totals(t))
