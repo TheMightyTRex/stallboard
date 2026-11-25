@@ -1,10 +1,10 @@
 {
- "summary": "Seerr, a requests page for Jellyfin users, for people who already know it.",
+ "summary": "Seerr, the successor to Jellyseerr: a requests page for Jellyfin users. Reelix already has requests.",
  "does": [
   "Seerr gives your Jellyfin users a page where they can ask for films and series. It runs as its own app, with its own page on your home network, and you sign in to it with your Jellyfin account.",
   "Starboard chooses the port, 5055 when it is free, and shows the address on the plug-in page with Open. Seerr keeps its users, requests and choices in its own folder in Starboard's data."
  ],
- "for": "People whose Jellyfin users already know Seerr's request page. The README says Reelix already has requests in Starboard, so most people do not need this plug-in. If you use both, choose one place to ask.",
+ "for": "People whose Jellyfin users already know Seerr's request page. Seerr succeeds Jellyseerr. Reelix already has requests in Starboard, so most people do not need this plug-in. If you use both, choose one place to ask.",
  "needs": "Jellyfin, which Seerr reaches on this computer. Its set-up asks for Jellyfin's address and your libraries, and you sign in with a Jellyfin account. It can be opened by anyone on your home network.",
  "shows": "No dashboard card and no settings in Starboard. Its tab in Settings, Plug-ins has an Open Seerr button for its own page, plus Activate, Deactivate, Try again, Check for an update and Remove. Everything else is set in Seerr itself.",
  "tags": [
@@ -17,11 +17,7 @@
   "media requests",
   "ask for films"
  ],
- "unclear": [
-  "Is Seerr the successor to Jellyseerr, and should the store text say so?",
-  "Is 'Reelix already has requests' the wording you want on the storefront, since it may put people off?",
-  "Media servers: Seerr itself can also work with Plex and Emby. Its README here says Jellyfin only; is Jellyfin only right for the store?"
- ],
+ "unclear": [],
  "sources": [
   "seerr/README.md",
   "seerr/starboard-plugin.json",

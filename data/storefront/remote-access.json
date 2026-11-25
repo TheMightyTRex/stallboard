@@ -18,10 +18,7 @@
   "port forwarding",
   "private network"
  ],
- "unclear": [
-  "Is there a Tailscale or Cloudflare free-plan limit worth stating beyond the Cloudflare video note in the README?",
-  "Media servers: Its README uses Jellyfin as the example of what it reaches from away from home. Is it right to show all three media servers?"
- ],
+ "unclear": [],
  "sources": [
   "remote-access/README.md",
   "remote-access/starboard-plugin.json",

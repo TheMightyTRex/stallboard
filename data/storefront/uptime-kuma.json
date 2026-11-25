@@ -18,9 +18,7 @@
   "downtime",
   "health checks"
  ],
- "unclear": [
-  "Which alert types (email, push) does it support, if you want any named on the store?"
- ],
+ "unclear": [],
  "sources": [
   "uptime-kuma/README.md",
   "uptime-kuma/starboard-plugin.json",

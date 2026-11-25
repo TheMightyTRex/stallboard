@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Facts settled in the storefront text (DASH-576), from the plug-ins' current code and READMEs and the owner's answers: Styles (17 of 22 change every part), Uptime and status (written from version 2.1.0), VPN check, Direct play, Library clean-up, Download summary, Notifications, Line speed, Tdarr, Checkrr, Audio description and Audio description tracks, Seerr, Wizarr, Backups watch and Philips Hue. Themearr now shows Jellyfin only. What is still unclear is in `python3 tools/open_questions.py`.
 - A page for each category and an index of categories, linked from the home page, the menu and every plug-in page, with breadcrumbs.
 - Search on the home page and on each category page: every word must be in a plug-in's name, summary, category or tags; the result count is announced; nothing is sent.
 - Better plug-in pages: What it does, Who it is for, What you will see, What it needs and its system tags, written for every plug-in from its own README and help pages; the summary on each card comes from the same text.

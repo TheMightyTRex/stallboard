@@ -5,8 +5,8 @@
   "It also covers scenes, and schedules written in words, such as Every weekday at 07:00, Kitchen to 80%, with sunrise and sunset. Nothing goes to the Hue cloud. Schedules are kept on the bridge."
  ],
  "for": "For people with Philips Hue lights who want to control them from Starboard, and to have a lighting scene start when someone plays something in Jellyfin.",
- "needs": "A Hue bridge on your home network. You give its address, or choose one found on the network, then press its link button. Starboard needs plug-in API 1.16 or later.",
- "shows": "Dashboard cards showing your rooms with their lights and which rooms have lights on, with buttons to turn every light off or on. This comes from the version notes, not help pages.",
+ "needs": "A Hue bridge on your home network, with its address or one found on the network, and its link button. No Hue account is needed. Starboard needs plug-in API 1.16 or later. It asks to read media only so that Starboard can tell it when something starts playing in Jellyfin.",
+ "shows": "Cards: Rooms, a list of your rooms and their lights, and Lights on. Its tabs are Bridge, Rooms, Zones, Device types, Scenes, Schedules and When something plays, which runs a scene when playback starts in Jellyfin. Turn every light off or on are under Actions.",
  "tags": [
   "hue",
   "lights",
@@ -17,13 +17,11 @@
   "bridge",
   "home automation"
  ],
- "unclear": [
-  "No README or help was found for this plug-in, so the text uses the store manifest only. Why does it ask for media:read, and does the When something plays feature need Jellyfin?",
-  "What does the screen look like, and what are its settings?",
-  "Media servers: No README was found, so it is shown as not related to a media server. Is that right?"
- ],
+ "unclear": [],
  "sources": [
-  "data/snapshots/philips-hue.json (manifest only)"
+  "data/snapshots/philips-hue.json (manifest only)",
+  "philips-hue/README.md",
+  "philips-hue/starboard-plugin.json"
  ],
  "media_servers": [
   "jellyfin",

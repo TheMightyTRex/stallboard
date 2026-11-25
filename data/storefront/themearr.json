@@ -18,11 +18,7 @@
   "reelix",
   "rapidapi"
  ],
- "unclear": [
-  "Is it acceptable to name RapidAPI and YouTube on the storefront?",
-  "Does fetching tunes from YouTube raise any licensing concern the store should mention?",
-  "Media servers: Themearr's README says the theme.mp3 files are found by Jellyfin, Plex, Emby and Kodi, but also that Jellyfin plays it on the film's page. Show all three?"
- ],
+ "unclear": [],
  "sources": [
   "themearr/README.md",
   "themearr/starboard-plugin.json",
@@ -32,9 +28,7 @@
   "help/plugins/themearr/problems.md"
  ],
  "media_servers": [
-  "jellyfin",
-  "plex",
-  "emby"
+  "jellyfin"
  ],
  "media_servers_basis": "text"
 }

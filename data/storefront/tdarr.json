@@ -1,10 +1,10 @@
 {
  "summary": "Tdarr converts films and series to H.265 to save space, in Starboard's quiet hours.",
  "does": [
-  "Tdarr converts your films and series to H.265 and keeps the new file only when it is smaller, so your library takes less space. You can choose to only check files for damage, or turn it off.",
+  "Tdarr converts your films and series to H.265 and keeps the new file only when it is smaller, so your library takes less space. Save space is the starting choice. You can choose Check files only, which changes nothing, or Off.",
   "By default it works in Starboard's download hours, or 01:00 to 06:00 when none are set, one conversion at a time. If you already ran Tdarr in the main install, it can copy that Tdarr with its libraries and history."
  ],
- "for": "People who want their films and series converted to save space, and people who ran Tdarr in the main install before. It changes, replaces and removes files in the movies and tv folders, so it suits those happy with that.",
+ "for": "People who want their films and series converted to save space, and people who ran Tdarr in the main install before. Tdarr is free to use but not open source. It changes, replaces and removes files in the movies and tv folders.",
  "needs": "Nothing else beyond Starboard. It works on your movies and tv folders, runs as the owner of the media folder, and uses up to 2 GB of memory and 2 processor cores. A new Tdarr is found with Search for new apps.",
  "shows": "No dashboard card. Its tab has a Settings section with Libraries, What Tdarr does, Conversions at once and When, plus Files Tdarr knows, showing files converted and space saved. Buttons include Connect Tdarr, Open Tdarr and Bring in the Tdarr you already have.",
  "tags": [
@@ -18,11 +18,7 @@
   "tdarr",
   "video library"
  ],
- "unclear": [
-  "Is 'What Tdarr does' really not set by default ('Not checked' in the help)? The wording in the help table is unclear.",
-  "Should the store say Tdarr is free but not open source, as the README does?",
-  "Media servers: Tdarr converts files for any media server. Show all three?"
- ],
+ "unclear": [],
  "sources": [
   "tdarr/README.md",
   "tdarr/starboard-plugin.json",

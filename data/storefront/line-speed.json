@@ -2,7 +2,7 @@
  "summary": "Tests your internet download speed once a night and keeps a week of results.",
  "does": [
   "Line speed downloads a test file once a night and times it, so you can tell how fast your internet line is. It measures download speed only, not upload, and uses Cloudflare's speed test.",
-  "You choose the hour of the test and the size of the file. A bigger file is more accurate on a fast line but uses more of any data allowance. It keeps the last 14 results and shows the newest 7. A Test now button runs one at once."
+  "You choose the hour of the test, 04:00 unless you change it, and the size of the file. It does not check whether anything is downloading, so choose an hour when nothing is. A bigger file is more accurate on a fast line but uses more of any data allowance. It keeps the last 14 results and shows the newest 7. A Test now button runs one at once."
  ],
  "for": "For people who want to know whether their internet line is delivering the speed they pay for, and to notice when it drops, without running tests by hand.",
  "needs": "Nothing else beyond Starboard with plug-in API 1.14 or later. It needs internet access to reach Cloudflare's speed test, and each test uses the chosen test size of any data allowance.",
@@ -17,9 +17,7 @@
   "network",
   "mbps"
  ],
- "unclear": [
-  "The README says it tests outside download hours, but the help says you choose the hour yourself. Does it check whether anything is downloading?"
- ],
+ "unclear": [],
  "sources": [
   "line-speed/README.md",
   "line-speed/starboard-plugin.json",
