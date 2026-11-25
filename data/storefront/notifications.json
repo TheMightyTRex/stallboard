@@ -1,0 +1,37 @@
+{
+ "summary": "Sends Starboard's events to email, Telegram, Discord and more in plain words, plus a weekly summary.",
+ "does": [
+  "Notifications sends messages about what happens on your server, in plain words. Channels are email, Telegram, Discord, Signal, Pushover, ntfy or a webhook, and you activate the ones you want.",
+  "You choose what to send: a request that is ready to watch, a failed download, an app that stops answering, a disk nearly full, disk changes, an update, and a weekly New this week with what arrived in the last 7 days."
+ ],
+ "for": "For people who want to hear about their server without opening it, such as when something they requested is ready, an app has stopped, or a disk is filling up.",
+ "needs": "At least one channel set up with its own details, such as an email server, a Telegram bot token or a Discord webhook. Starboard needs plug-in API 1.14 or later. Disk change messages need Starboard 0.23.0 or later.",
+ "shows": "Two dashboard cards: Notifications, the last message sent and by which channels, and Notifications sent, the last 10 messages newest first. Its tab has what to send, the day for New this week, and a section for each channel.",
+ "tags": [
+  "alerts",
+  "email",
+  "telegram",
+  "discord",
+  "push",
+  "ntfy",
+  "webhook",
+  "weekly digest",
+  "signal"
+ ],
+ "unclear": [
+  "The README lists reads of apps, downloads, library and system use, while the help covers Reelix and Seerr requests. Is a Reelix or Seerr needed for the ready-to-watch message?",
+  "Media servers: It asks to read media names for ready-to-watch messages. Is that tied to Jellyfin, or any media server?"
+ ],
+ "sources": [
+  "notifications/README.md",
+  "notifications/starboard-plugin.json",
+  "help/plugins/notifications/settings.md",
+  "help/plugins/notifications/dashboard-card.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

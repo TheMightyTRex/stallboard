@@ -153,7 +153,7 @@ def privacy_page(today=STATEMENT_DATE):
 <p class="lede">Stallboard keeps no account for you, sets no cookies and has no analytics. This page says what the Send feedback button holds and never holds, in the words of Snaglist, the tool that makes it.</p>
 <section aria-labelledby="p1"><h2 id="p1">The site itself</h2>
 <ul><li>No cookies, no analytics, no adverts, no web fonts and no requests to other sites when a page loads.</li>
-<li>If you choose dark colours, your choice is saved in your browser (in local storage under the name stallboard-theme) and nowhere else.</li>
+<li>If you change anything in Display and accessibility (theme, text size, motion, contrast, links, spacing or shadows), your choices are saved in your browser (in local storage under the name stallboard-display) and nowhere else. They are never sent anywhere. Reset to defaults removes them.</li>
 <li>The site is hosted on GitHub Pages, so GitHub receives what it receives for any page it serves, such as your internet address. We do not see it.</li></ul></section>
 <section aria-labelledby="p2"><h2 id="p2">What a feedback report holds, and what it never holds</h2>
 <p>Snaglist is built so that a report says what is wrong and where, and nothing about who found it.</p>

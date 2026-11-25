@@ -1,0 +1,36 @@
+{
+ "summary": "Fixes films and series so they play directly on your chosen devices, without Jellyfin converting them as they play.",
+ "does": [
+  "Direct play checks each film and series file and fixes what stops your chosen devices playing it directly: the wrong container, a sound track the device cannot play, very large H.264 files, or old picture formats. It fixes one file at a time, at the lowest priority, in the hours you choose.",
+  "Before a new file replaces the old one it checks the length, picture, first sound track, timing and subtitles. A file that fails is left as it was and listed with the reason. Then Reelix and Jellyfin are told the file changed."
+ ],
+ "for": "People whose televisions, sticks or browsers make Jellyfin convert films as they play, and who want that done once, quietly, instead of every time.",
+ "needs": "Jellyfin added to Starboard, and a Reelix key. It changes files in the movies and tv folders of your media folder, so you must choose which devices you play on. It needs Starboard with plug-in API 1.14 or later.",
+ "shows": "Two dashboard cards: Direct play, showing what is converting now, what is next and the totals, and Space saved by Direct play. Its settings have a Files page, a switch for each device, When it works, shrink limits, Keep the originals, and buttons to pause, resume and check the library.",
+ "tags": [
+  "direct play",
+  "transcoding",
+  "convert",
+  "roku",
+  "chromecast",
+  "fire tv",
+  "h264",
+  "dolby digital",
+  "save space",
+  "compatibility"
+ ],
+ "unclear": [
+  "Does Reelix have to be installed for it to work, or only to be told when present?",
+  "Does Keep the originals default to on, and where are originals kept?"
+ ],
+ "sources": [
+  "direct-play/README.md",
+  "direct-play/starboard-plugin.json",
+  "help/plugins/direct-play/dashboard-card.md",
+  "help/plugins/direct-play/settings.md"
+ ],
+ "media_servers": [
+  "jellyfin"
+ ],
+ "media_servers_basis": "api"
+}

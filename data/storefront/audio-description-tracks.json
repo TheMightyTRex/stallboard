@@ -1,0 +1,36 @@
+{
+ "summary": "Adds a description track you already have to its film or episode in Jellyfin, after checking the lengths match.",
+ "does": [
+  "You get a description track yourself, for example from AudioVault, and put the file in a folder or upload it on the plug-in's page. Name it as the film and its year. The plug-in checks that the track and the film are the same length, within 5 seconds unless you change that.",
+  "When they match, it adds the track beside the film as a new sound track named English (Audio Description) and asks Jellyfin to read the film again. A track of a different length is not added, because it was probably made for another cut. The film's own file is never changed."
+ ],
+ "for": "People who have a description track from a source such as AudioVault and want it to appear as a sound track in Jellyfin, without editing video files themselves.",
+ "needs": "Jellyfin added to Starboard, your films and series in the movies and tv folders of the media folder, and a description track you already have. It never downloads one. It needs Starboard with plug-in API 1.14 or later.",
+ "shows": "One dashboard card, Description tracks to check, showing how many added tracks wait for you to confirm they play in step. Its settings have the Description tracks to add page, the language, how close the lengths must be, and a Check the folder now button.",
+ "tags": [
+  "audio description",
+  "accessibility",
+  "blind",
+  "audiovault",
+  "extra audio track",
+  "sound track",
+  "jellyfin",
+  "description track",
+  "mka",
+  "visually impaired"
+ ],
+ "unclear": [
+  "The README says the plug-in goes with the Audio description plug-in; should this plug-in say it needs it, or only suggest it?"
+ ],
+ "sources": [
+  "audio-description-tracks/README.md",
+  "audio-description-tracks/starboard-plugin.json",
+  "help/plugins/audio-description-tracks/dashboard-card.md",
+  "help/plugins/audio-description-tracks/settings.md",
+  "help/plugins/audio-description-tracks/install.md"
+ ],
+ "media_servers": [
+  "jellyfin"
+ ],
+ "media_servers_basis": "api"
+}

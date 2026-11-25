@@ -1,0 +1,39 @@
+{
+ "summary": "22 accessible styles for Starboard's Display panel, six of which change every part of the interface.",
+ "does": [
+  "Styles adds 22 styles you can choose in Display, such as Midnight, Paper, Forest, Retro and Large and clear. Each changes colours, corner shapes, fonts already on your device, shadows and backgrounds, and has been checked for contrast in light and dark.",
+  "Six of them, Studio, Expressive, Swiss, Neon, Clay and Mica, change every part of Starboard, including cards, buttons, tabs and menus. Classic keeps the design from before Mica. It runs no code and has no network access."
+ ],
+ "for": "People who want Starboard to appear different, or who need stronger contrast or a calmer appearance. Large and clear is made for reading with low vision. Your Display choices for text size and contrast still win.",
+ "needs": "Nothing else.",
+ "shows": "No dashboard card and no settings of its own. A Style list appears in Display while the plug-in is active, with Starboard's own style as the standard. Your choice is kept per browser, and Reset style goes back to the standard.",
+ "tags": [
+  "themes",
+  "theme",
+  "colours",
+  "dark mode",
+  "appearance",
+  "display",
+  "accessibility",
+  "low vision",
+  "customise"
+ ],
+ "unclear": [
+  "The store snapshot says version 1.6.0 and a different description from the repository (1.5.0). Which is current?",
+  "The README says 22 styles, but the repository version may differ from the store version. Is the count still 22?"
+ ],
+ "sources": [
+  "styles/README.md",
+  "styles/starboard-plugin.json",
+  "help/plugins/styles/settings.md",
+  "help/plugins/styles/dashboard-card.md",
+  "help/plugins/styles/install.md",
+  "help/plugins/styles/problems.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

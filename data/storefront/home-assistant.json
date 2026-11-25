@@ -1,0 +1,35 @@
+{
+ "summary": "Shows the Home Assistant things you choose as one sentence on your dashboard, with a warning when one needs attention.",
+ "does": [
+  "Home Assistant asks your Home Assistant for the state of the things you choose and shows them in one sentence, such as Front door: closed. Lounge: 20.5 °C. It shows the first 8.",
+  "You can choose which states give a warning, such as open, on or unlocked. It only reads states and never changes anything in Home Assistant. The card updates once a minute while the dashboard is open."
+ ],
+ "for": "People who run Home Assistant and want a quick check on a door, a lock or a temperature from their media server dashboard.",
+ "needs": "Home Assistant running on your home network, its address, and a long-lived access token made in your Home Assistant profile under Security. You also need the entity ids of the things to show.",
+ "shows": "One dashboard card, Home, with the things you chose in one sentence. The status shows OK, Warning when one is in a state you chose, or Needs setting up. Its settings are the address, the token, What to show and Warn when any is.",
+ "tags": [
+  "home assistant",
+  "smart home",
+  "sensors",
+  "door",
+  "lock",
+  "temperature",
+  "home automation",
+  "entities",
+  "status",
+  "iot"
+ ],
+ "unclear": [],
+ "sources": [
+  "home-assistant/README.md",
+  "home-assistant/starboard-plugin.json",
+  "help/plugins/home-assistant/dashboard-card.md",
+  "help/plugins/home-assistant/settings.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

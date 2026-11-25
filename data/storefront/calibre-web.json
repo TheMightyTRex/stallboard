@@ -1,0 +1,38 @@
+{
+ "summary": "A browser page for your Calibre library: read, search and send books to an e-reader.",
+ "does": [
+  "Calibre-Web gives your Calibre book library its own page on your home network. From a browser you can read books, search the library and send books to an e-reader.",
+  "It reads your books folder and never changes it, so uploading or editing books in Calibre-Web does not work. You add and change books with Calibre itself. Starboard chooses the port, 8083 when it is free, and shows the address with an Open button."
+ ],
+ "for": "People who keep their books in a Calibre library and want to read, search and send them to an e-reader from any browser at home.",
+ "needs": "A Calibre library in the books folder of your media folder, a folder containing metadata.db. Nothing else beyond Starboard with plug-in API 1.14 or later. Change Calibre-Web's first sign-in password at once, as anyone on your home network can open the page.",
+ "shows": "No dashboard card and no settings in Starboard. Its tab in Settings, Plug-ins has an Open Calibre-Web button, and Activate, Deactivate and Remove buttons. Everything else is set in Calibre-Web's own page, where you give it the location of your Calibre database.",
+ "tags": [
+  "books",
+  "ebooks",
+  "calibre",
+  "e-reader",
+  "kindle",
+  "reading",
+  "library",
+  "epub",
+  "send to kindle",
+  "book server"
+ ],
+ "unclear": [
+  "Is it correct to name the first sign-in details in public text, or should the storefront only say to change the password at once?"
+ ],
+ "sources": [
+  "calibre-web/README.md",
+  "calibre-web/starboard-plugin.json",
+  "help/plugins/calibre-web/dashboard-card.md",
+  "help/plugins/calibre-web/settings.md",
+  "help/plugins/calibre-web/install.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

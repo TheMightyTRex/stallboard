@@ -1,0 +1,38 @@
+{
+ "summary": "Checks your films and series for damaged files each Sunday night and lists them, without changing anything.",
+ "does": [
+  "Checkrr reads each file in your movies and tv folders every Sunday night and checks that it is a film or episode that can be read. It lists the files that fail, with the reason.",
+  "It only reports. It never deletes, moves, renames or replaces a file, and it reads your folders read only. Replacing a damaged file is up to you. A file cut short part way through can still pass, because it does not play each file through."
+ ],
+ "for": "People who want to know before a film night that a file will not play, for example after a failing disk or a download that went wrong.",
+ "needs": "Nothing else beyond Starboard with plug-in API 1.14 or later, and films and series in the movies and tv folders of your media folder. It is given no Reelix, Radarr or Sonarr.",
+ "shows": "One dashboard card, Damaged files, with how many files failed the last check and how many were checked. Its tab has a Files that failed the check page, grouped into Films and Series with the reason, a Check now button, and an Open link to its own page.",
+ "tags": [
+  "damaged files",
+  "corrupt",
+  "file check",
+  "integrity",
+  "ffprobe",
+  "media check",
+  "broken files",
+  "sunday",
+  "health check",
+  "library"
+ ],
+ "unclear": [
+  "Its card status table lists Warning, Scanning, Idle and Waiting: are these the final names shown to users?",
+  "Media servers: Checkrr checks media files and is not tied to one server. Show all three?"
+ ],
+ "sources": [
+  "checkrr/README.md",
+  "checkrr/starboard-plugin.json",
+  "help/plugins/checkrr/dashboard-card.md",
+  "help/plugins/checkrr/settings.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

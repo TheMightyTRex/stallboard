@@ -1,0 +1,40 @@
+{
+ "summary": "Puts a theme tune, theme.mp3, in each film's folder so Jellyfin plays it on the film's page.",
+ "does": [
+  "Themearr reads the films Reelix has, finds each film's theme tune on YouTube and saves it as theme.mp3 beside the film. Jellyfin, Plex, Emby and Kodi then find it and can play it while you browse.",
+  "It fetches tunes through the youtube-mp36 service on RapidAPI, and by default does this by itself for new films. The tunes are full length unless you choose trimming, about 3.7 GB for every 1,000 films."
+ ],
+ "for": "People who like a film's music to play while they browse it in Jellyfin, and who are happy to make a RapidAPI account for the key.",
+ "needs": "Reelix and Jellyfin set up in Starboard. It also needs a RapidAPI key and user name, with a subscription to youtube-mp36 (the free plan has a monthly limit). Its image is about 1 GB to download.",
+ "shows": "One dashboard card, Film theme tunes, showing how many films have a theme and how many do not, with a status. Its settings tab has the RapidAPI key, user name, a switch to fetch tunes by itself and Sign in to Themearr, with the token for its own page.",
+ "tags": [
+  "theme tunes",
+  "theme music",
+  "theme.mp3",
+  "film music",
+  "movie themes",
+  "jellyfin",
+  "soundtrack",
+  "reelix",
+  "rapidapi"
+ ],
+ "unclear": [
+  "Is it acceptable to name RapidAPI and YouTube on the storefront?",
+  "Does fetching tunes from YouTube raise any licensing concern the store should mention?",
+  "Media servers: Themearr's README says the theme.mp3 files are found by Jellyfin, Plex, Emby and Kodi, but also that Jellyfin plays it on the film's page. Show all three?"
+ ],
+ "sources": [
+  "themearr/README.md",
+  "themearr/starboard-plugin.json",
+  "help/plugins/themearr/settings.md",
+  "help/plugins/themearr/dashboard-card.md",
+  "help/plugins/themearr/install.md",
+  "help/plugins/themearr/problems.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "text"
+}

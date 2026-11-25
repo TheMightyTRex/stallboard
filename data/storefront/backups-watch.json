@@ -1,0 +1,35 @@
+{
+ "summary": "Shows the last run, size and failures of your Backrest or Kopia backups, and warns when one is overdue.",
+ "does": [
+  "Backups watch puts one card on your dashboard for your backups. For each Backrest plan or Kopia source it shows the last run, the size and any failures.",
+  "It sends an alert through Starboard once when a backup is overdue or its last run failed, and once more when it is fine again. You choose the tool, its address and password, and how many hours count as overdue."
+ ],
+ "for": "People who already run Backrest or Kopia for backups and want to notice a missed or failed backup without opening each tool.",
+ "needs": "Backrest or Kopia already running, with its address and password. It needs Starboard with plug-in API 1.17 or later, and permission to reach your home network and to send alerts.",
+ "shows": "One dashboard card for your backups with the last run, size and failures of each Backrest plan or Kopia source. Its settings let you choose the tool, its address and password, and the number of hours after which a backup counts as overdue.",
+ "tags": [
+  "backups",
+  "backrest",
+  "kopia",
+  "backup alert",
+  "overdue",
+  "restic",
+  "monitoring",
+  "failed backup",
+  "snapshots",
+  "data protection"
+ ],
+ "unclear": [
+  "No README or help was found for backups-watch, only the snapshot manifest and its release notes.",
+  "The snapshot has no listing file: are the card name and exact setting labels final?",
+  "Does it need Starboard alerts to be set up, or are they on by default?",
+  "Media servers: No README was found, so it is shown as not related to a media server. Is that right?"
+ ],
+ "sources": [],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

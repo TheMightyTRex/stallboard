@@ -27,7 +27,7 @@ const BASE = `http://127.0.0.1:${server.address().port}${PREFIX}`;
 
 const pages = [
   ["home", "index.html"], ["plugin", "plugins/audio-description.html"], ["plugin-measured", "plugins/direct-play.html"], ["plugin-app", "plugins/calibre-web.html"],
-  ["starboard", "starboard.html"], ["reelix", "reelix.html"], ["category", "category/jellyfin.html"], ["submit", "submit.html"], ["reviewed", "what-reviewed-means.html"],
+  ["starboard", "starboard.html"], ["reelix", "reelix.html"], ["category", "category/jellyfin.html"], ["categories", "category/index.html"], ["plugin-gallery", "plugins/library-cleanup.html"], ["submit", "submit.html"], ["reviewed", "what-reviewed-means.html"],
   ["accessibility", "accessibility.html"], ["privacy", "privacy.html"], ["not-found", "no-such-page.html"],
 ];
 const browser = await chromium.launch();
@@ -101,6 +101,11 @@ if (MODE === "check") {
         const snag = await page.evaluate(() => [...document.querySelectorAll("snag-list, [class*=sl-], [role=dialog]")].some((e) => e.offsetParent !== null || e.tagName === "SNAG-LIST") && !!(document.querySelector("snag-list")?.shadowRoot?.querySelector("[role=dialog],dialog,.sl-panel") || document.querySelector("[role=dialog]")));
         if (!snag) fail(`${cname}: Snaglist did not open under the Content-Security-Policy`);
         await page.keyboard.press("Escape"); await page.waitForTimeout(200);
+        await page.fill("#q", "blind"); await page.waitForTimeout(100);
+        const tagHit = await page.evaluate(() => [...document.querySelectorAll("#all-list > li:not([hidden])")].map((l) => l.dataset.id));
+        if (!tagHit.includes("audio-description-tracks") || !tagHit.includes("audio-description")) fail(`${cname}: searching a tag found nothing`);
+        if (!/Showing \d+ of \d+/.test(await page.evaluate(() => document.getElementById("results-status").textContent))) fail(`${cname}: home search count not announced`);
+        await page.fill("#q", ""); await page.waitForTimeout(100);
         await page.click('#kind-chips button[data-kind="Jellyfin"]'); await page.waitForTimeout(100);
         record(cname, "home-filtered", await axeRun(page), page);
         await page.selectOption("#sort", "mem"); await page.waitForTimeout(100);
@@ -112,10 +117,173 @@ if (MODE === "check") {
         if (!marked) fail("home: no plug-in is marked as needing a newer Starboard than 0.20.0");
         record(cname, "home-marked", await axeRun(page), page);
       }
+      if (pname === "category") {
+        const total = await page.evaluate(() => document.querySelectorAll("#cat-list > li").length);
+        const say = async () => page.evaluate(() => document.getElementById("results-status").textContent);
+        if (!/^Showing all \d+ plug-ins/.test(await say())) fail(`${cname}: category count not announced at start: ${await say()}`);
+        await page.fill("#q", "jellyfin direct"); await page.waitForTimeout(100);
+        const shown = await page.evaluate(() => [...document.querySelectorAll("#cat-list > li")].filter((l) => !l.hidden).length);
+        if (shown !== 1 || !/Showing 1 of/.test(await say())) fail(`${cname}: category search "jellyfin direct" showed ${shown}: ${await say()}`);
+        record(cname, "category-searched", await axeRun(page), page);
+        await page.fill("#q", "zzzz"); await page.waitForTimeout(100);
+        if (await page.evaluate(() => document.getElementById("none").hidden)) fail(`${cname}: category search with no match shows no message`);
+        if (!(await page.evaluate(() => document.getElementById("results-status").getAttribute("role") === "status"))) fail(`${cname}: the count is not a live region`);
+        record(cname, "category-none", await axeRun(page), page);
+        await page.click("#clear"); await page.waitForTimeout(100);
+        if ((await page.evaluate(() => document.activeElement.id)) !== "q") fail(`${cname}: focus did not return to the search box after Clear`);
+        if (total < 1) fail("category page lists nothing");
+      }
       if (pname === "plugin") {
         await page.click('[data-dialog="install-dialog"]'); await page.waitForTimeout(200);
         record(cname, "plugin-dialog", await axeRun(page), page, { focus: await page.evaluate(() => document.activeElement.getAttribute("aria-label") || document.activeElement.textContent.trim().slice(0, 30)) });
       }
+      await page.close();
+    }
+    await ctx.close();
+  }
+  // Display and accessibility: the saved choices apply before paint; axe in every theme, at 175% text and on a phone with
+  // everything on; and the panel itself: focus in, trap, Escape and return, the live region, saving and Reset.
+  {
+    const sets = [
+      ["display-high-contrast", { theme: "light", contrast: true }, { width: 1280, height: 900 }],
+      ["display-high-contrast-dark", { theme: "dark", contrast: true }, { width: 1280, height: 900 }],
+      ["display-match-device", { theme: "system" }, { width: 1280, height: 900 }],
+      ["display-175-text", { theme: "light", text: "175" }, { width: 1280, height: 900 }],
+      ["display-175-text-dark", { theme: "dark", text: "175" }, { width: 1280, height: 900 }],
+      ["display-phone-everything", { theme: "dark", text: "175", contrast: true, underline: true, spacing: true, shadows: true, motion: "on" }, { width: 375, height: 812 }],
+      ["display-phone-light-175", { theme: "light", text: "175", spacing: true }, { width: 375, height: 812 }],
+    ];
+    for (const [cname, prefs, viewport] of sets) {
+      const ctx = await browser.newContext({ viewport, isMobile: viewport.width < 500, hasTouch: viewport.width < 500 });
+      await ctx.addInitScript((p) => { try { localStorage.setItem("stallboard-display", JSON.stringify(p)); } catch (e) { /* fine */ } }, prefs);
+      for (const [pname, file] of [["home", "index.html"], ["categories", "category/index.html"], ["category", "category/jellyfin.html"], ["plugin-gallery", "plugins/library-cleanup.html"], ["submit", "submit.html"]]) {
+        const page = await ctx.newPage();
+        const errs = [], reqs = [];
+        page.on("pageerror", (e) => errs.push(String(e)));
+        page.on("request", (r) => { const u = r.url(); if (!u.startsWith(BASE) && !u.startsWith("data:") && !u.startsWith("blob:")) reqs.push(u); });
+        await page.goto(BASE + file); await page.waitForTimeout(350);
+        page._errs = errs; page._reqs = reqs;
+        const st = await page.evaluate(() => ({ theme: document.documentElement.dataset.theme, cls: document.documentElement.className }));
+        if (prefs.contrast && !/pref-contrast/.test(st.cls)) fail(`${cname}: high contrast was not applied on ${pname}`);
+        if (prefs.text && !new RegExp("pref-text-" + prefs.text).test(st.cls)) fail(`${cname}: text size was not applied on ${pname}`);
+        record(cname, pname, await axeRun(page), page);
+        const o = await page.evaluate(() => ({ s: document.documentElement.scrollWidth, c: document.documentElement.clientWidth }));
+        if (o.s > o.c + 1) fail(`${cname} / ${pname}: sideways scroll ${o.s} > ${o.c}`);
+        if (pname === "home") {
+          await page.click("#display-open"); await page.waitForTimeout(250);
+          record(cname, "home-display-panel-open", await axeRun(page), page);
+          const o2 = await page.evaluate(() => { const a = document.querySelector("#display-panel .side-panel").getBoundingClientRect(); return { r: a.right, w: window.innerWidth, l: a.left }; });
+          if (o2.r > o2.w + 1 || o2.l < -1) fail(`${cname}: the Display panel does not fit the screen (${JSON.stringify(o2)})`);
+        }
+        await page.close();
+      }
+      await ctx.close();
+    }
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await ctx.newPage();
+    await page.goto(BASE + "index.html"); await page.waitForTimeout(300);
+    const w = {};
+    w.hiddenBefore = await page.evaluate(() => document.getElementById("display-panel").hidden);
+    await page.focus("#display-open"); await page.keyboard.press("Enter"); await page.waitForTimeout(200);
+    w.focusIn = await page.evaluate(() => !!document.activeElement.closest("#display-panel"));
+    w.expanded = await page.evaluate(() => document.getElementById("display-open").getAttribute("aria-expanded"));
+    for (let i = 0; i < 40; i++) await page.keyboard.press("Tab");
+    w.trapped = await page.evaluate(() => !!document.activeElement.closest("#display-panel"));
+    for (let i = 0; i < 40; i++) await page.keyboard.press("Shift+Tab");
+    w.trappedBack = await page.evaluate(() => !!document.activeElement.closest("#display-panel"));
+    await page.getByLabel("Dark", { exact: true }).check(); await page.waitForTimeout(100);
+    w.dark = await page.evaluate(() => document.documentElement.dataset.theme);
+    w.say1 = await page.evaluate(() => document.getElementById("display-status").textContent);
+    await page.getByLabel("150%", { exact: true }).check(); await page.waitForTimeout(100);
+    w.t150 = await page.evaluate(() => document.documentElement.classList.contains("pref-text-150"));
+    w.say2 = await page.evaluate(() => document.getElementById("display-status").textContent);
+    await page.getByRole("switch", { name: "High contrast" }).check(); await page.waitForTimeout(100);
+    w.contrast = await page.evaluate(() => document.documentElement.classList.contains("pref-contrast"));
+    w.say3 = await page.evaluate(() => document.getElementById("display-status").textContent);
+    w.liveRole = await page.evaluate(() => document.getElementById("display-status").getAttribute("role"));
+    w.saved = await page.evaluate(() => localStorage.getItem("stallboard-display"));
+    w.cookies = (await ctx.cookies()).length;
+    await page.keyboard.press("Escape"); await page.waitForTimeout(150);
+    w.closed = await page.evaluate(() => document.getElementById("display-panel").hidden);
+    w.focusBack = await page.evaluate(() => document.activeElement.id);
+    await page.reload(); await page.waitForTimeout(300);
+    w.persisted = await page.evaluate(() => [document.documentElement.dataset.theme, document.documentElement.classList.contains("pref-text-150"), document.documentElement.classList.contains("pref-contrast")]);
+    await page.click("#display-open"); await page.waitForTimeout(200);
+    w.restoredRadio = await page.evaluate(() => document.querySelector('input[data-display="text"][value="150"]').checked);
+    await page.getByRole("button", { name: "Reset to defaults" }).click(); await page.waitForTimeout(150);
+    w.reset = await page.evaluate(() => [document.documentElement.dataset.theme, document.documentElement.className.includes("pref-"), localStorage.getItem("stallboard-display")]);
+    w.say4 = await page.evaluate(() => document.getElementById("display-status").textContent);
+    await page.click(".side-panel-backdrop", { position: { x: 5, y: 5 } }); await page.waitForTimeout(150);
+    w.backdropCloses = await page.evaluate(() => document.getElementById("display-panel").hidden);
+    results.push({ cfg: "display-panel", page: "home", ...w });
+    if (!w.hiddenBefore || !w.focusIn || w.expanded !== "true" || !w.trapped || !w.trappedBack) fail("Display panel: focus does not move in and stay in " + JSON.stringify(w));
+    if (w.dark !== "dark" || !w.t150 || !w.contrast) fail("Display panel: choices do not apply at once " + JSON.stringify(w));
+    if (!/Theme: Dark/.test(w.say1) || !/Text size: 150%/.test(w.say2) || !/High contrast on/.test(w.say3) || w.liveRole !== "status") fail("Display panel: the live region does not say what changed " + JSON.stringify([w.say1, w.say2, w.say3]));
+    if (!w.saved || w.cookies) fail("Display panel: choices are not saved in the browser only " + JSON.stringify([w.saved, w.cookies]));
+    if (!w.closed || w.focusBack !== "display-open") fail("Display panel: Escape does not close it and return focus " + JSON.stringify([w.closed, w.focusBack]));
+    if (w.persisted[0] !== "dark" || !w.persisted[1] || !w.persisted[2] || !w.restoredRadio) fail("Display panel: choices are not kept after a reload " + JSON.stringify(w.persisted));
+    if (w.reset[0] !== "light" || w.reset[1] || w.reset[2] !== null || !/defaults/.test(w.say4)) fail("Display panel: Reset to defaults does not reset " + JSON.stringify(w.reset));
+    if (!w.backdropCloses) fail("Display panel: a press outside does not close it");
+    // Storage blocked: the page still works and the panel still changes the page.
+    const blocked = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    await blocked.addInitScript(() => { Object.defineProperty(window, "localStorage", { get() { throw new Error("blocked"); } }); });
+    const bp = await blocked.newPage(); const berrs = []; bp.on("pageerror", (e) => berrs.push(String(e)));
+    await bp.goto(BASE + "index.html"); await bp.waitForTimeout(300);
+    await bp.click("#display-open"); await bp.getByLabel("Dark", { exact: true }).check(); await bp.waitForTimeout(100);
+    if ((await bp.evaluate(() => document.documentElement.dataset.theme)) !== "dark" || berrs.length) fail("Display panel: it breaks when storage is blocked " + berrs.join(" ; "));
+    await blocked.close();
+    await ctx.close();
+  }
+  // WCAG 1.4.12 text spacing: line height 1.5, paragraphs 2em apart, letters 0.12em, words 0.16em must lose nothing (no text cut off by a
+  // box, no sideways scroll). Also at 320px wide with 175% text. And focus: a focused control is not cut off by a box with overflow
+  // set, and nothing fixed (Snaglist's button, the skip link) sits on top of it.
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, bypassCSP: true }); // only so the test can add its own style
+    const tight = [];
+    for (const [pname, file] of pages) {
+      for (const [label, w] of [["text spacing 1280", 1280], ["text spacing 320 + 175%", 320]]) {
+        const page = await ctx.newPage(); await page.setViewportSize({ width: w, height: 900 });
+        await page.goto(BASE + file); await page.waitForTimeout(150);
+        await page.addStyleTag({ content: "* { line-height: 1.5 !important; letter-spacing: 0.12em !important; word-spacing: 0.16em !important; } p { margin-bottom: 2em !important; }" + (w === 320 ? " html { font-size: 175% !important; }" : "") });
+        await page.waitForTimeout(150);
+        const r = await page.evaluate(() => {
+          const cut = [];
+          for (const el of document.querySelectorAll("body *")) {
+            const cs = getComputedStyle(el);
+            if (["hidden", "clip"].includes(cs.overflowY) && el.scrollHeight > el.clientHeight + 2 && el.clientHeight > 0 && !el.closest("svg,.visually-hidden,dialog,snag-list,[class*=sl-]") && el.children.length === 0) cut.push((el.className || el.tagName).toString().slice(0, 40));
+          }
+          return { cut, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth };
+        });
+        tight.push({ label, page: pname, ...r });
+        if (r.cut.length) fail(`${label} on ${pname}: text is cut off in ${r.cut.slice(0, 3).join(", ")}`);
+        if (r.sw > r.cw + 1) fail(`${label} on ${pname}: sideways scroll ${r.sw} > ${r.cw}`);
+        await page.close();
+      }
+    }
+    results.push({ cfg: "text-spacing", rows: tight.length });
+    for (const [pname, file] of pages) {
+      const page = await open(ctx, file, "light");
+      const problems = [];
+      for (let i = 0; i < 90; i++) {
+        await page.keyboard.press("Tab");
+        const d = await page.evaluate(() => {
+          const e = document.activeElement; if (!e || e === document.body) return null;
+          if (e.closest("[class*=sl-],#snaglist-root,snag-list")) return { skip: true };
+          const r = (e.getClientRects()[0] || e.getBoundingClientRect()); const out = [];
+          for (let a = e.parentElement; a && a !== document.body; a = a.parentElement) {
+            const cs = getComputedStyle(a);
+            if (/(hidden|clip)/.test(cs.overflowX + cs.overflowY)) { const b = a.getBoundingClientRect(); if (r.left - 3 < b.left - 1 && r.width < b.width || r.right + 3 > b.right + 1 && r.width < b.width) out.push("clipped by " + (a.className || a.tagName).toString().slice(0, 30)); }
+          }
+          const cx = Math.min(Math.max(r.left + r.width / 2, 1), innerWidth - 1), cy = Math.min(Math.max(r.top + Math.min(r.height / 2, 10), 1), innerHeight - 1);
+          const top = document.elementFromPoint(cx, cy);
+          const covered = top && !(e === top || e.contains(top) || top.contains(e)) ? (top.className || top.tagName).toString().slice(0, 30) : "";
+          return { n: (e.getAttribute("aria-label") || e.textContent.trim()).slice(0, 25), out, covered, same: e.id };
+        });
+        if (!d) break; if (d.skip) continue;
+        if (d.out.length) problems.push(`${d.n}: ${d.out[0]}`);
+        if (d.covered) problems.push(`${d.n}: covered by ${d.covered}`);
+      }
+      if (problems.length) fail(`focus on ${pname}: ${problems.slice(0, 4).join(" ; ")}`);
       await page.close();
     }
     await ctx.close();
@@ -216,6 +384,19 @@ if (MODE === "shots") {
   for (const theme of ["light", "dark"]) {
     const ctx = await browser.newContext({ viewport: { width: 375, height: 812 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 });
     for (const [n, f] of defs.slice(0, 5)) { const p = await open(ctx, f, theme); await p.screenshot({ path: `${OUT}/${n}-${theme}-375.jpg`, type: "jpeg", quality: 72, fullPage: true }); await p.close(); }
+    await ctx.close();
+  }
+}
+if (MODE === "shots") {
+  for (const [theme, w, h, mobile] of [["light", 1280, 900, false], ["dark", 1280, 900, false], ["light", 375, 812, true]]) {
+    const ctx = await browser.newContext({ viewport: { width: w, height: h }, isMobile: mobile, hasTouch: mobile, deviceScaleFactor: mobile ? 2 : 1 });
+    for (const [n, f] of [["category", "category/jellyfin.html"], ["categories", "category/index.html"], ["plugin-gallery", "plugins/library-cleanup.html"]]) {
+      if (theme === "dark" && n !== "category") continue;
+      const p = await open(ctx, f, theme); await p.screenshot({ path: `${OUT}/${n}-${theme}-${w}.jpg`, type: "jpeg", quality: 72, fullPage: true }); await p.close();
+    }
+    const p = await open(ctx, "index.html", theme);
+    await p.click("#display-open"); await p.waitForTimeout(400);
+    await p.screenshot({ path: `${OUT}/display-panel-${theme}-${w}.jpg`, type: "jpeg", quality: 80 });
     await ctx.close();
   }
 }

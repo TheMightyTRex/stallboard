@@ -1,0 +1,33 @@
+{
+ "summary": "Shrinks the posters and photos Jellyfin keeps so they take less disk space.",
+ "does": [
+  "Picture shrinker makes the posters and photos of cast and crew that Jellyfin keeps smaller, so they take less space. By default posters are shrunk to 900 pixels tall and photos of people to 400 pixels wide, and you can change both.",
+  "You choose whether to keep a backup copy of each original or shrink without one. Each picture is checked before it replaces the one Jellyfin saved. It runs on a schedule you choose, at the lowest priority, and other picture types can be included."
+ ],
+ "for": "For people whose Jellyfin metadata folder has grown large with artwork and who want to reclaim space, with the choice of keeping a backup so originals can be restored.",
+ "needs": "Jellyfin added to Starboard first. It uses Jellyfin's key and its metadata folder. If Jellyfin's own Picture shrinker is installed, this one stays idle. Nothing is shrunk until you choose a backup option.",
+ "shows": "Two dashboard cards: Space saved, with pictures shrunk, backup size and the next run, and Space saved by type. Its tab has When to shrink, size limits, Original pictures, Shrink now and Stop shrinking buttons, and pages for Space saved and Saved by type.",
+ "tags": [
+  "jellyfin",
+  "images",
+  "posters",
+  "disk space",
+  "artwork",
+  "metadata",
+  "compress",
+  "storage"
+ ],
+ "unclear": [
+  "Is the Jellyfin version of Picture shrinker named on its card the same as the one in the Jellyfin plug-ins repository, and should the store text mention it?"
+ ],
+ "sources": [
+  "picture-shrinker/README.md",
+  "picture-shrinker/starboard-plugin.json",
+  "help/plugins/picture-shrinker/settings.md",
+  "help/plugins/picture-shrinker/dashboard-card.md"
+ ],
+ "media_servers": [
+  "jellyfin"
+ ],
+ "media_servers_basis": "api"
+}

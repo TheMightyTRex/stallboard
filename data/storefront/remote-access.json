@@ -1,0 +1,39 @@
+{
+ "summary": "Reach Starboard, Jellyfin and Audiobookshelf away from home through Tailscale or Cloudflare Tunnel.",
+ "does": [
+  "Remote access lets you use Starboard, Jellyfin and Audiobookshelf when you are away from home, without opening a port on your router. You choose Tailscale, where your phone joins your own private network, or Cloudflare Tunnel, which gives a web address of your own.",
+  "Only those three apps can be shared, and you can switch each one off. Download apps such as qBittorrent, NZBGet, SABnzbd and Reelix are never reachable this way. With Cloudflare, it stops the tunnel if a route leads anywhere else."
+ ],
+ "for": "People who want to watch or listen away from home, or open Starboard from their phone, and do not want to open a port on the router. Tailscale is the recommended way, and the one to use for watching Jellyfin.",
+ "needs": "A Tailscale account, or a Cloudflare account with a tunnel. It also needs a 64-bit computer (amd64 or arm64). Audiobookshelf is shared only when it is among Starboard's apps. Cloudflare also needs the name added to Starboard's allowed hosts.",
+ "shows": "One dashboard card, Away from home, with a status in words and the address to use away from home. Its settings tab lets you choose how to connect, shows each shared app's address with a Test button, and has what to share. Buttons are Test remote access and Start remote access again.",
+ "tags": [
+  "remote access",
+  "away from home",
+  "tailscale",
+  "cloudflare",
+  "tunnel",
+  "outside",
+  "phone",
+  "port forwarding",
+  "private network"
+ ],
+ "unclear": [
+  "Is there a Tailscale or Cloudflare free-plan limit worth stating beyond the Cloudflare video note in the README?",
+  "Media servers: Its README uses Jellyfin as the example of what it reaches from away from home. Is it right to show all three media servers?"
+ ],
+ "sources": [
+  "remote-access/README.md",
+  "remote-access/starboard-plugin.json",
+  "help/plugins/remote-access/settings.md",
+  "help/plugins/remote-access/dashboard-card.md",
+  "help/plugins/remote-access/install.md",
+  "help/plugins/remote-access/problems.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

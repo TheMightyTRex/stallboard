@@ -14,6 +14,11 @@ The site is static: pages built from data in this repository, hosted on GitHub P
 - A home page with search, categories, new and updated, a demo row called Made for you, and every plug-in, sortable by memory use.
 - A page for each plug-in: what it does, what it can read and change, what it needs (including the Starboard release it needs), **what it uses** (declared limits and measured figures, kept apart), its versions and notes, its help, how to install it and a link to report a problem to its maker.
 - **Start here: Starboard**, a page for the platform: its version, how to install it, and which plug-in needs which release.
+- **Categories:** a page for each category (and an index of them), linked from the home page, the menu and every plug-in page, with breadcrumbs and a search of its own.
+- **Search** on the home page and on each category page: type words, and only plug-ins whose name, summary, category or tags hold every word stay. It runs in the page, needs no library, makes no request and tracks nothing. The count is in a live region.
+- **Storefront text** for every plug-in (`data/storefront/<id>.json`): what it does, who it is for, what you will see and what it needs, written from the plug-in's own README and help pages. `python3 tools/open_questions.py` lists what the owner still has to confirm.
+- **Pictures**: real screenshots from a test Starboard with made-up data, shown as a gallery on each plug-in page (`assets/shots/<id>/`, alt text in `data/shots.json`). `tools/plugin-shots.sh` takes them; plug-ins with none yet show drawings and say so.
+- **Display and accessibility** in the menu of every page (phones included): the design system's own panel with Theme (match device, light, dark), Text size up to 175%, Reduce motion, High contrast, Underline links, Wider text spacing and Remove drop shadows. Choices apply at once and are kept in this browser only (`localStorage` under `stallboard-display`, no cookie); the page works without them. The design system has no colour-blind, style or font choice, so there is none here (Atkinson Hyperlegible Next is used throughout).
 - Submit a plug-in, What Reviewed means, an accessibility statement and a privacy page.
 - `catalogue.json`, which Starboard reads (see below).
 

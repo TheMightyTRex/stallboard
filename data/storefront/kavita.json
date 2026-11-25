@@ -1,0 +1,35 @@
+{
+ "summary": "A reader for your comics, manga and books, in the browser and in e-reader apps.",
+ "does": [
+  "Kavita is a reader for comics, manga and books. You open it in a web browser on your home network, or connect an e-reader app that uses OPDS, a common way for reading apps to find books on a server.",
+  "It reads your books and comics folders and never changes, moves or deletes a file. Its accounts and settings are kept in its own folder in Starboard's data, and they stay when you update or deactivate it."
+ ],
+ "for": "For people who read comics, manga and books and want to do so in a browser or an e-reader app that speaks OPDS. Starboard's main install can also add Kavita, so use one or the other, not both.",
+ "needs": "Nothing else. It reads the books and comics folders in your media folder, so put your files there. Starboard needs plug-in API 1.14 or later, and anyone on your home network can open its page, so set its own password.",
+ "shows": "There is no dashboard card. Kavita has its own tab under Settings, then Plug-ins, showing its state, its versions, what it may do and an Open Kavita button for its web page. It has no settings or buttons in Starboard. The first account you make in Kavita is its admin.",
+ "tags": [
+  "books",
+  "comics",
+  "manga",
+  "ebooks",
+  "e-reader",
+  "opds",
+  "reading",
+  "library"
+ ],
+ "unclear": [],
+ "sources": [
+  "kavita/README.md",
+  "kavita/starboard-plugin.json",
+  "help/plugins/kavita/settings.md",
+  "help/plugins/kavita/dashboard-card.md",
+  "help/plugins/kavita/install.md",
+  "help/plugins/kavita/problems.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

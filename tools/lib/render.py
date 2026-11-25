@@ -90,7 +90,7 @@ def api_words(s):
 
 
 def pitch_of(p):
-    return p["pitch"] or mf.whole_words(re.split(r"(?<=\.)\s", p["description"])[0], 110)
+    return p["pitch"] or (p.get("sf") or {}).get("summary") or mf.whole_words(re.split(r"(?<=\.)\s", p["description"])[0], 110)
 
 
 # ------------------------------------------------------------------ the frame
@@ -144,10 +144,11 @@ def header(depth, current):
   <nav class="nav" aria-label="Main"><ul>
     {item("starboard.html", "Start here: Starboard", "starboard")}
     {"".join(item(f"{i}.html", esc(n), i) for i, n in APP_NAV)}
+    {item("category/index.html", "Categories", "categories")}
     {item("index.html#all-plug-ins", "Browse", "home")}
     {item("submit.html", "Submit a plug-in", "submit")}
     <li><a href="{HELP_CENTRE}" target="_blank" rel="noopener">Help centre {icon("help-new-tab")}<span class="visually-hidden"> (opens in a new tab)</span></a></li>
-    <li><button class="btn js-only" type="button" id="theme" aria-pressed="false" hidden>Dark colours</button></li>
+    <li><button class="btn js-only" type="button" id="display-open" data-opens="display-panel" aria-haspopup="dialog" aria-expanded="false" hidden>{icon("sun")}Display and accessibility</button></li>
   </ul></nav>
 </div></header>
 '''
@@ -160,6 +161,37 @@ def footer(depth):
   <div><h2>Feedback</h2><p>The Send feedback button is Snaglist. You choose what to send, check the whole report first, and it keeps no personal information.</p><p><a href="{p}privacy.html">What a report holds</a></p></div>
   <div><h2>Stallboard</h2><ul><li><a href="{p}starboard.html">Start here: Starboard</a></li><li><a href="{p}index.html#all-plug-ins">Browse plug-ins</a></li><li><a href="{p}submit.html">Submit a plug-in</a></li><li><a href="{p}accessibility.html">Accessibility statement</a></li><li><a href="{p}privacy.html">Privacy</a></li><li><a href="{HELP_CENTRE}" target="_blank" rel="noopener">Plug-in help centre<span class="visually-hidden"> (opens in a new tab)</span></a></li><li><a href="{REPO_URL}" target="_blank" rel="noopener">Source on GitHub<span class="visually-hidden"> (opens in a new tab)</span></a></li></ul></div>
 </div></footer>
+'''
+
+
+def seg(name, label, options, default):
+    items = "".join(f'<label><input type="radio" name="{name}" value="{v}" data-display="{name}"{" checked" if v == default else ""}><span>{esc(t)}</span></label>' for v, t in options)
+    return f'<fieldset><legend>{esc(label)}</legend><div class="segmented">{items}</div></fieldset>'
+
+
+def display_panel():
+    """Display and accessibility: the design system's own panel (docs/ACCESSIBILITY.md section 1) in its own words and order.
+    components.js applies the choices at once from the data-display inputs and keeps them in this browser (data-display-save)."""
+    return f'''
+<div class="side-panel-layer" id="display-panel" hidden>
+  <div class="side-panel-backdrop"></div>
+  <div class="side-panel" role="dialog" aria-modal="true" aria-labelledby="display-h">
+    <div class="panel-header"><h2 class="panel-header__title" id="display-h">Display and accessibility</h2><button class="icon-btn" type="button" data-closes aria-label="Close display and accessibility">{icon("x")}</button></div>
+    <form class="side-panel__body" id="display-form" data-display-save="stallboard-display">
+      {seg("theme", "Theme", [("system", "Match device"), ("light", "Light"), ("dark", "Dark")], "light")}
+      {seg("text", "Text size", [("100", "100%"), ("125", "125%"), ("150", "150%"), ("175", "175%")], "100")}
+      {seg("motion", "Reduce motion", [("device", "Match device"), ("on", "Active"), ("off", "Inactive")], "device")}
+      <label class="switch"><span>High contrast</span><input type="checkbox" role="switch" data-display="contrast"></label>
+      <label class="switch"><span>Underline links</span><input type="checkbox" role="switch" data-display="underline"></label>
+      <label class="switch"><span>Wider text spacing</span><input type="checkbox" role="switch" data-display="spacing"></label>
+      <label class="switch"><span>Remove drop shadows</span><input type="checkbox" role="switch" data-display="shadows" aria-describedby="display-shadows-note"></label>
+      <p class="small muted" id="display-shadows-note">Drop shadows cost a little processor on every scroll; turning them off helps small and older computers.</p>
+      <p class="small muted">Choices apply at once and are kept in this browser only. Stallboard sets no cookie and sends nothing.</p>
+      <p class="visually-hidden" id="display-status" role="status"></p>
+    </form>
+    <div class="side-panel__foot"><button class="btn btn--primary" type="button" data-closes>Close</button><button class="btn" type="button" data-display-reset="stallboard-display">Reset to defaults</button></div>
+  </div>
+</div>
 '''
 
 
@@ -176,7 +208,7 @@ def tail(depth, scripts=True):
 
 
 def page(title, desc, depth, path, pid, current, body, extra_head=""):
-    return head(title, desc, depth, path, pid, extra_head) + header(depth, current) + body + footer(depth) + tail(depth)
+    return head(title, desc, depth, path, pid, extra_head) + header(depth, current) + body + footer(depth) + display_panel() + tail(depth)
 
 
 # ------------------------------------------------------------------ pieces
@@ -223,16 +255,42 @@ def sb_need_text(p):
     return text, upto
 
 
+MEDIA = {"jellyfin": "Jellyfin", "plex": "Plex", "emby": "Emby"}
+
+
+def media_label(p):
+    """'Works with Jellyfin, Plex and Emby' (not related to a media server), or 'Works with Jellyfin only', or two of them."""
+    m = [MEDIA[x] for x in p["media"]]
+    return "Works with " + (join_words(m) + (" only" if len(m) == 1 else "" if len(m) == 3 else " only"))
+
+
+def media_chips(p, tag="ul"):
+    """One chip for each media server the plug-in supports. The words carry the meaning; the group has one spoken name."""
+    m = p["media"]
+    label = media_label(p)
+    chips = "".join(f'<li><span class="chip chip--media" data-server="{x}">{icon("tv")}{MEDIA[x]}{"<span class=visually-hidden> only</span>" if len(m) == 1 else ""}</span></li>' for x in m)
+    return f'<ul class="chiprow media-chips" aria-label="{esc(label)}">{chips}</ul>'
+
+
+def search_text(p):
+    """What the search reads: name, one line, category and tags (lower case, from this page's own data)."""
+    sf = p.get("sf") or {}
+    bits = [p["name"], pitch_of(p), sf.get("summary", ""), p["kind"], " ".join(sf.get("tags", [])), " ".join(works_with(p)), " ".join(p["manifest"].get("needs") or [])]
+    return " ".join(" ".join(bits).lower().split())
+
+
 def tile(p, depth, why=None):
+    media = media_chips(p)
     apps = needs_apps(p)
     why_html = f'<p class="tile__why">{icon("plug")}<span>Works with {esc(join_words(why))}</span></p>' if why else ""
     sb, _ = sb_need_text(p)
     mem = p["mem_value"]
-    return f'''<li class="tile kind-{KINDS[p["kind"]][0]}" data-id="{esc(p["id"])}" data-kind="{esc(p["kind"])}" data-name="{esc(p["name"].lower())}" data-mem="{'' if mem is None else mem}" data-sb="{esc(p["needs_sb"].get("first_full") or "")}" data-works="{esc("|".join(works_with(p)))}" data-date="{esc(p["latest_date"])}">
+    return f'''<li class="tile kind-{KINDS[p["kind"]][0]}" data-id="{esc(p["id"])}" data-kind="{esc(p["kind"])}" data-name="{esc(p["name"].lower())}" data-mem="{'' if mem is None else mem}" data-sb="{esc(p["needs_sb"].get("first_full") or "")}" data-works="{esc("|".join(works_with(p)))}" data-search="{esc(search_text(p))}" data-media="{" ".join(p["media"])}" data-date="{esc(p["latest_date"])}">
       <div class="tile__art"><span class="logo-plate">{logo_img(p, depth)}</span><span class="tile__kind">{esc(p["kind"])}</span></div>
       <div class="tile__body">
         <h3 class="tile__name"><a href="{rel(depth)}plugins/{esc(p["id"])}.html">{esc(p["name"])}</a></h3>
         <p class="tile__pitch">{esc(pitch_of(p))}</p>{why_html}
+        {media}
         <p class="tile__use">{esc(p["mem_line"])}</p>
         <ul class="tile__meta" aria-label="About {esc(p["name"])}"><li>{reviewed_chip()}</li><li><span class="chip">Version {esc(p["manifest"]["version"])}</span></li><li><span class="chip">{"Needs " + esc(join_words(apps)) if apps else "Needs nothing else"}</span></li><li><span class="chip sb-need">{esc(sb)}</span></li></ul>
       </div></li>'''
@@ -246,7 +304,7 @@ def home(plugins, depth_releases, sb, apps=()):
     counts = {k: sum(1 for p in P if p["kind"] == k) for k in KINDS}
     by_id = {p["id"]: p for p in P}
     cats = "".join(
-        f'<li><a class="cat kind-{KINDS[k][0]}" href="category/{KINDS[k][0]}.html" data-kind="{esc(k)}"><span>{icon(KINDS[k][1])}<span class="cat__name">{esc(k)}</span><span class="cat__line">{esc(KINDS[k][2])}</span></span><span class="cat__count">{counts[k]} plug-in{"" if counts[k] == 1 else "s"} {icon("chevron-right")}</span></a></li>'
+        f'<li><a class="cat kind-{KINDS[k][0]}" href="category/{KINDS[k][0]}.html"><span>{icon(KINDS[k][1])}<span class="cat__name">{esc(k)}</span><span class="cat__line">{esc(KINDS[k][2])}</span></span><span class="cat__count">{counts[k]} plug-in{"" if counts[k] == 1 else "s"} {icon("chevron-right")}</span></a></li>'
         for k in KINDS if counts[k])
     hero_ids = [i for i in ["audio-description", "home-assistant", "jellystat", "styles", "tv-station", "philips-hue"] if i in by_id] or [p["id"] for p in P[:6]]
     collage = "".join(f'<li>{logo_img(by_id[i], 0)}</li>' for i in hero_ids)
@@ -289,7 +347,7 @@ def home(plugins, depth_releases, sb, apps=()):
 </div></div></section>
 
 <section class="section" id="categories" aria-labelledby="cats-h" data-s="pt0"><div class="wrap">
-  <div class="section__head"><h2 class="display" id="cats-h">What do you want to do?</h2><p>Pick a colour to open its plug-ins.</p></div>
+  <div class="section__head"><h2 class="display" id="cats-h">What do you want to do?</h2><p>Each category has a page of its own. <a href="category/index.html">All categories</a></p></div>
   <ul class="cats" id="cats">{cats}</ul>
 </div></section>
 
@@ -315,7 +373,7 @@ def home(plugins, depth_releases, sb, apps=()):
   <div class="toolbar js-only" hidden>
     <div class="filter-chips" id="kind-chips" role="group" aria-label="Show plug-ins for">{chips}</div>
     <div class="toolbar__row">
-      <div class="field"><label class="field__label" for="sort">Sort by</label><select class="select" id="sort"><option value="name">Name, A to Z</option><option value="mem">Memory at rest, lowest first</option><option value="new">Newest first</option></select></div>
+      {media_select()}<div class="field"><label class="field__label" for="sort">Sort by</label><select class="select" id="sort"><option value="name">Name, A to Z</option><option value="mem">Memory at rest, lowest first</option><option value="new">Newest first</option></select></div>
       <div class="field"><label class="field__label" for="mysb">The Starboard you have</label><select class="select" id="mysb"><option value="">Any, do not mark plug-ins</option>{"".join(f'<option value="{esc(r["version"])}">Starboard {esc(r["version"])}</option>' for r in sorted(depth_releases, key=lambda r: rl.ver(r["version"]), reverse=True)[:12])}</select></div>
     </div>
   </div>
@@ -327,15 +385,58 @@ def home(plugins, depth_releases, sb, apps=()):
     return body
 
 
+KIND_ABOUT = {
+    "Apps you can add": "Each one adds a whole app to your server, with its own page, and Starboard keeps it up to date. Most of them need only a few steps and nothing else set up first.",
+    "Jellyfin": "These work with the films and series in Jellyfin: tidying the library, making files play directly, showing what people watch and making your own channels.",
+    "Network": "These look after speed, safety and reaching your home from outside: ad blocking, line speed, remote access and checks on the services you rely on.",
+    "System": "These watch the server itself: when disks will be full, whether backups ran, and how Starboard's alerts reach you.",
+    "Accessibility": "Made for blind and partially sighted people: descriptions of what happens on screen, and the tracks that carry them.",
+    "Downloads": "These show what is coming in, and check that downloads go out through your VPN.",
+    "Home": "These put your house on the Starboard dashboard, with lights and home automation beside your media.",
+    "Appearance": "These change how Starboard looks, with colours, shapes and text styles across every screen.",
+}
+
+
+def media_select():
+    return '''<div class="field"><label class="field__label" for="media">Works with</label><select class="select" id="media"><option value="">Any media server</option><option value="jellyfin">Jellyfin</option><option value="plex">Plex</option><option value="emby">Emby</option></select></div>'''
+
+
+def search_form(pid, hint, scope):
+    """The search box. It filters the list on the page as you type, reads only the page's own data and sends nothing anywhere."""
+    return f'''<form class="hero__form js-only" id="search-form" role="search" aria-label="Search {esc(scope)}" hidden>
+      <div class="field"><label class="field__label" for="q">Search {esc(scope)}</label><p class="hint" id="q-hint">{esc(hint)} It searches names, summaries, categories and tags. Results update as you type.</p><input class="input" id="q" type="search" autocomplete="off" aria-describedby="q-hint" aria-controls="{pid}"></div>
+    </form>'''
+
+
 def category_page(kind, plugins):
     slug, ic, line = KINDS[kind]
     ps = sorted([p for p in plugins if p["kind"] == kind], key=lambda p: p["name"].lower())
     tiles = "".join(tile(p, 1) for p in ps)
+    n = len(ps)
+    others = "".join(f'<li><a class="chip chip--link" href="{KINDS[k][0]}.html">{icon(KINDS[k][1])}{esc(k)}</a></li>' for k in KINDS if k != kind and any(p["kind"] == k for p in plugins))
     return f'''
-<main id="main"><nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><a href="../index.html#categories">Categories</a></li><li><span aria-current="page">{esc(kind)}</span></li></ol></nav>
-<div class="wrap section"><header class="phead kind-{slug}"><span class="logo-plate logo-plate--lg phead__icon">{icon(ic)}</span><div><p class="kicker">Category</p><h1 class="display">{esc(kind)}</h1><p class="phead__pitch">{esc(line)} {len(ps)} plug-in{"" if len(ps) == 1 else "s"}.</p></div></header>
-<h2 class="visually-hidden">Plug-ins in this category</h2><ul class="tiles" data-s="mt2">{tiles}</ul>
+<main id="main"><nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><a href="index.html">Categories</a></li><li><span aria-current="page">{esc(kind)}</span></li></ol></nav>
+<div class="wrap section"><header class="phead kind-{slug}"><span class="logo-plate logo-plate--lg phead__icon">{icon(ic)}</span><div><p class="kicker">Category</p><h1 class="display">{esc(kind)}</h1><p class="phead__pitch">{esc(line)} {n} plug-in{"" if n == 1 else "s"}.</p></div></header>
+<p data-s="mt2">{esc(KIND_ABOUT[kind])}</p>
+{search_form("cat-list", "Try a name or a word such as backups.", "this category")}
+<div class="toolbar js-only" hidden><div class="toolbar__row">{media_select()}</div></div>
+<h2 class="visually-hidden" id="cat-h">Plug-ins in this category</h2>
+<p class="results-note" id="results-status" role="status" data-total="{n}"></p>
+<div class="blank" id="none" hidden><p data-s="mt0">Nothing in this category matches that.</p><button class="btn" type="button" id="clear">Clear the search</button> <a class="btn" href="../index.html#all-plug-ins">Search every category</a></div>
+<ul class="tiles" id="cat-list" aria-labelledby="cat-h" data-s="mt2">{tiles}</ul>
+<h2 data-s="mt3">Other categories</h2><ul class="chiprow" aria-label="Other categories">{others}</ul>
 <p data-s="mt2"><a class="btn" href="../index.html#all-plug-ins">All plug-ins</a></p></div></main>'''
+
+
+def category_index(plugins):
+    cards = "".join(
+        f'<li><a class="cat kind-{KINDS[k][0]}" href="{KINDS[k][0]}.html"><span>{icon(KINDS[k][1])}<span class="cat__name">{esc(k)}</span><span class="cat__line">{esc(KIND_ABOUT[k])}</span></span><span class="cat__count">{n} plug-in{"" if n == 1 else "s"} {icon("chevron-right")}</span></a></li>'
+        for k in KINDS for n in [sum(1 for p in plugins if p["kind"] == k)] if n)
+    return f'''
+<main id="main"><nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><span aria-current="page">Categories</span></li></ol></nav>
+<div class="wrap section"><header class="phead"><div><p class="kicker">Browse</p><h1 class="display">Categories</h1><p class="phead__pitch">Every plug-in sits in one category. Each category has a page, with a search of its own.</p></div></header>
+<h2 class="visually-hidden">The categories</h2><ul class="cats" data-s="mt2">{cards}</ul>
+<p data-s="mt2"><a class="btn" href="../index.html#all-plug-ins">Search every plug-in</a></p></div></main>'''
 
 
 # ------------------------------------------------------------------ a plug-in
@@ -359,6 +460,14 @@ def pictures(p, depth):
               3, f"A drawing of the question Starboard asks before adding {p['name']}: the plug-in's logo, a list of what it asks for and two buttons.")
     caps = ["Its card on the Starboard home page.", "Its settings, where you choose how it behaves.", "The question Starboard asks before it is added."]
     return "".join(f"<figure>{s}<figcaption>{esc(c)}</figcaption></figure>" for s, c in zip((s1, s2, s3), caps))
+
+
+def gallery(p, depth):
+    shots = p.get("shots") or []
+    if not shots:
+        return f'''<section id="pictures" aria-labelledby="pictures-h"><h2 id="pictures-h">Pictures</h2><div class="pics">{pictures(p, depth)}</div><p class="muted">These are drawings of the screens, not screenshots. Real screenshots of this plug-in have not been added yet.</p></section>'''
+    figs = "".join(f'<figure><a href="{rel(depth)}{esc(x["file"])}"><img src="{rel(depth)}{esc(x["file"])}" alt="{esc(x["alt"])}" loading="lazy" decoding="async"{f" width={x["w"]} height={x["h"]}" if x.get("w") and x.get("h") else ""}></a>{f"<figcaption>{esc(x["caption"])}</figcaption>" if x.get("caption") else ""}</figure>' for x in shots)
+    return f'''<section id="pictures" aria-labelledby="pictures-h"><h2 id="pictures-h">Pictures</h2><div class="pics pics--wide" role="group" aria-label="Screenshots of {esc(p["name"])}">{figs}</div><p class="muted">Real screenshots from a test copy of Starboard that holds made-up data only. Select a picture to open it full size.</p></section>'''
 
 
 def issue_address(p):
@@ -476,6 +585,17 @@ def plugin_page(p, sb):
     else:
         report = f'<p>{esc(m["name"])} does not give a place to report problems, so there is no link here. Ask its maker, {esc(p["maker"])}, in the place you found it.</p>'
     mfy_line = esc(p["mem_line"])
+    sf = p.get("sf")
+    does_html = "".join(f"<p>{esc(x)}</p>" for x in sf["does"]) if sf else f'<p>{esc(m["description"])}</p>'
+    who_html = f'<section id="who" aria-labelledby="who-h"><h2 id="who-h">Who it is for</h2><p>{esc(sf["for"])}</p></section>' if sf else ""
+    sees_html = f'<section id="sees" aria-labelledby="sees-h"><h2 id="sees-h">What you will see</h2><p>{esc(sf["shows"])}</p></section>' if sf else ""
+    sys_tags = ", ".join(m.get("needs") or [])
+    needs_extra = ""
+    if sf:
+        needs_extra = f'<div><dt>In practice</dt><dd>{esc(sf["needs"])}</dd></div>'
+    if sys_tags:
+        needs_extra += f'<div><dt>System tags</dt><dd>{esc(sys_tags)}. These are the names in the manifest that Starboard checks before it adds the plug-in.</dd></div>'
+    tags_html = f'<ul class="chiprow" aria-label="Tags" data-s="pt1">{"".join(f"<li><span class=chip>{esc(t)}</span></li>" for t in sf["tags"])}</ul>' if sf and sf["tags"] else ""
     old = ""
     if p["older_versions"]:
         old = f'<p class="muted">Older versions Starboard can fall back to: {esc(", ".join(v["version"] for v in p["older_versions"]))}.</p>'
@@ -488,23 +608,24 @@ def plugin_page(p, sb):
         <p class="kicker">{esc(p["kind"])}</p>
         <h1 class="display">{esc(m["name"])}</h1>
         <p class="phead__pitch">{esc(pitch_of(p))}</p>
-        <ul class="tile__meta" data-s="pt1" aria-label="Marks and version"><li>{reviewed_chip()}</li>{f"<li>{own}</li>" if own else ""}<li><span class="chip">Version {esc(m["version"])}</span></li><li><a class="chip" href="../starboard.html#plugin-api">{esc(sb_text)}</a></li></ul>
-        <p class="phead__use">{mfy_line}</p>
+        <ul class="tile__meta" data-s="pt1" aria-label="Marks and version"><li><a class="chip chip--link" href="../category/{KINDS[p["kind"]][0]}.html">{icon(KINDS[p["kind"]][1])}Category: {esc(p["kind"])}</a></li><li>{reviewed_chip()}</li>{f"<li>{own}</li>" if own else ""}<li><span class="chip">Version {esc(m["version"])}</span></li><li><a class="chip" href="../starboard.html#plugin-api">{esc(sb_text)}</a></li></ul>
+        <div data-s="pt1">{media_chips(p)}</div><p class="phead__use">{mfy_line}</p>{tags_html}
         <div class="phead__actions"><a class="btn btn--primary btn--big" href="#install" data-dialog="install-dialog">{icon("plus")}How to install in Starboard</a>{help_btn}</div>
       </div></header>{notice}</div>
     <div class="wrap layout">
       <nav class="toc" aria-label="On this page"><h2>On this page</h2><ol>
-        <li><a href="#what">What it does</a></li><li><a href="#pictures">Pictures</a></li><li><a href="#access">What it can read and change</a></li><li><a href="#needs">What it needs</a></li><li><a href="#uses">What it uses</a></li><li><a href="#versions">Versions and notes</a></li><li><a href="#help">Help</a></li><li><a href="#install">How to install</a></li><li><a href="#review">Who reviewed it</a></li><li><a href="#report">Report a problem</a></li></ol></nav>
+        <li><a href="#what">What it does</a></li><li><a href="#who">Who it is for</a></li><li><a href="#sees">What you will see</a></li><li><a href="#pictures">Pictures</a></li><li><a href="#access">What it can read and change</a></li><li><a href="#needs">What it needs</a></li><li><a href="#uses">What it uses</a></li><li><a href="#versions">Versions and notes</a></li><li><a href="#help">Help</a></li><li><a href="#install">How to install</a></li><li><a href="#review">Who reviewed it</a></li><li><a href="#report">Report a problem</a></li></ol></nav>
       <div class="doc">
-        <section id="what" aria-labelledby="what-h"><h2 id="what-h">What it does</h2><p>{esc(m["description"])}</p><p class="muted">Made by {esc(p["maker"])}.{f" Licence: {esc(m['licence'])}." if m["licence"] else ""}</p>{f'<p>{esc(p["notes"])}</p>' if p["notes"] else ""}</section>
-        <section id="pictures" aria-labelledby="pictures-h"><h2 id="pictures-h">Pictures</h2><div class="pics">{pictures(p, depth)}</div><p class="muted">These are drawings of the screens, not screenshots. Real screenshots will come from each plug-in's maker.</p></section>
+        <section id="what" aria-labelledby="what-h"><h2 id="what-h">What it does</h2>{does_html}<p class="muted">Made by {esc(p["maker"])}.{f" Licence: {esc(m['licence'])}." if m["licence"] else ""}</p>{f'<p>{esc(p["notes"])}</p>' if p["notes"] else ""}</section>
+        {who_html}{sees_html}
+        {gallery(p, depth)}
         <section id="access" aria-labelledby="access-h"><h2 id="access-h">What it can read and change</h2>
           <p>Starboard asks you before it gives a plug-in any of these. You can take one away later in Settings, then Plug-ins.</p>
           {"<ul class=&quot;perm&quot;>".replace("&quot;", '"') + "".join(f'<li><span class="chip">{icon(x["li"])}{x["lw"]}</span><div><strong>{esc(x["t"])}</strong><p>{esc(x["d"])}</p></div><p><code>{esc(x["c"])}</code></p></li>' for x in perm_items) + "</ul>" if perm_items else "<p>It asks for nothing: it cannot read or change anything in Starboard.</p>"}
           <div class="rw"><div><h3>{icon("eye")} It can read</h3>{"<ul>" + "".join(f'<li>{esc(x["t"])}</li>' for x in perm_items if x["lv"] != "change") + "</ul>" if any(x["lv"] != "change" for x in perm_items) else "<p>Nothing.</p>"}</div><div><h3>{icon("pencil")} It can change</h3>{"<ul>" + "".join(f'<li>{esc(x["t"])}</li>' for x in perm_items if x["lv"] != "read") + "</ul>" if any(x["lv"] != "read" for x in perm_items) else "<p>Nothing.</p>"}</div></div></section>
         <section id="needs" aria-labelledby="needs-h"><h2 id="needs-h">What it needs</h2><dl class="spec">
           <div><dt>Starboard</dt><dd><a href="../starboard.html#plugin-api">{esc(sb_text)}</a>{f". {esc(sb_upto)}" if sb_upto else ""}. Its manifest asks for {api_words(m["starboard_api"])}.</dd></div>
-          <div><dt>Other apps</dt><dd>{esc(join_words(apps)) + ", already set up." if apps else "Nothing else."}</dd></div>
+          <div><dt>Other apps</dt><dd>{esc(join_words(apps)) + ", already set up." if apps else "Nothing else."}</dd></div>{needs_extra}
           <div><dt>A web page</dt><dd>{"It opens its own page on your server." if web else "No. It shows on the Starboard dashboard."}</dd></div></dl></section>
         {use_section(p)}
         <section id="versions" aria-labelledby="versions-h"><h2 id="versions-h">Versions and notes</h2><ul class="vers">{"".join(vers)}</ul>{old}</section>

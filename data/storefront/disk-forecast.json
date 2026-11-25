@@ -1,0 +1,35 @@
+{
+ "summary": "Forecasts when each disk will fill, from the rate it has been filling over the last month.",
+ "does": [
+  "Disk forecast measures how full each disk is once an hour and keeps one reading a day. It compares today with the oldest day it kept, up to 35 days back, and assumes the disk carries on filling at that rate.",
+  "The card gives one line for each disk, such as how many days until it is full. A disk that has not grown says how full it is instead. It only reads and never changes or deletes anything."
+ ],
+ "for": "People who run a home server and want early warning that a disk is filling, before downloads or recordings stop working.",
+ "needs": "Nothing else. It reads disk use from Starboard. A forecast needs readings from two different days, so the first day says measuring or not growing.",
+ "shows": "One dashboard card, Disk forecast, with a line for each disk. Its status shows OK, Filling fast when a disk fills in under 60 days, and Problem when a disk fills in under 14 days. It has no settings and no buttons.",
+ "tags": [
+  "disk",
+  "storage",
+  "forecast",
+  "space",
+  "full disk",
+  "capacity",
+  "monitoring",
+  "pool",
+  "trend",
+  "server health"
+ ],
+ "unclear": [],
+ "sources": [
+  "disk-forecast/README.md",
+  "disk-forecast/starboard-plugin.json",
+  "help/plugins/disk-forecast/dashboard-card.md",
+  "help/plugins/disk-forecast/settings.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

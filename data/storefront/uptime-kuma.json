@@ -1,0 +1,38 @@
+{
+ "summary": "Uptime Kuma, status checks for websites and services, with alerts and status pages.",
+ "does": [
+  "Uptime Kuma checks whether websites, a router, ports and certificates are working, and can alert you when one is not. It also makes status pages. It runs as its own app, with its own page on your home network.",
+  "Starboard chooses the port, 3001 when it is free. You make its admin account the first time you open it, then add the checks you want. Starboard already watches your apps and sends alerts, so this is for more."
+ ],
+ "for": "People who want checks beyond their Starboard apps, such as websites, a router, ports and certificates, with status pages. The README says most people do not need it, because Starboard already watches the apps.",
+ "needs": "Nothing else. You make an admin account in Uptime Kuma itself. Its status pages are on your home network only, unless you share them yourself.",
+ "shows": "No dashboard card and no settings in Starboard. Its tab in Settings, Plug-ins has an Open Uptime Kuma button for its own page, plus Activate, Deactivate, Try again, Check for an update and Remove. Checks and alerts are set in the app.",
+ "tags": [
+  "uptime",
+  "monitoring",
+  "status page",
+  "alerts",
+  "website monitor",
+  "ping",
+  "certificates",
+  "downtime",
+  "health checks"
+ ],
+ "unclear": [
+  "Which alert types (email, push) does it support, if you want any named on the store?"
+ ],
+ "sources": [
+  "uptime-kuma/README.md",
+  "uptime-kuma/starboard-plugin.json",
+  "help/plugins/uptime-kuma/settings.md",
+  "help/plugins/uptime-kuma/dashboard-card.md",
+  "help/plugins/uptime-kuma/install.md",
+  "help/plugins/uptime-kuma/problems.md"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}

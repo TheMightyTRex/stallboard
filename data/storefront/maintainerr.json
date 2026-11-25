@@ -1,0 +1,33 @@
+{
+ "summary": "Clean-up rules for Jellyfin, such as films everyone has watched, shown as a list before anything is removed.",
+ "does": [
+  "Maintainerr lets you make rules for tidying a Jellyfin library, such as films everyone has watched and older than 90 days. It shows what a rule finds as a list first.",
+  "It changes nothing until you give it keys and a rule with an action that removes. Starboard gives it no key and no media folder, so anything it removes goes through Jellyfin or Seerr with the keys you give it. It has its own page on your home network."
+ ],
+ "for": "For people whose disks are filling up and who want to set their own clean-up rules in a full app, checking what each rule finds before it removes anything.",
+ "needs": "Jellyfin set up. You add Jellyfin, and Seerr if you have it, inside Maintainerr with keys you make in each app. Starboard needs plug-in API 1.14 or later.",
+ "shows": "There is no dashboard card. Maintainerr has its own tab under Settings, then Plug-ins, with an Open Maintainerr button for its web page, plus Activate, Deactivate and Remove buttons. Its rules and choices are set in the app itself, not in Starboard.",
+ "tags": [
+  "clean up",
+  "rules",
+  "disk space",
+  "old films",
+  "watched",
+  "jellyfin",
+  "seerr",
+  "storage"
+ ],
+ "unclear": [
+  "Media servers: Maintainerr itself can also work with Plex. Its README here says Jellyfin only; is Jellyfin only right for the store?"
+ ],
+ "sources": [
+  "maintainerr/README.md",
+  "maintainerr/starboard-plugin.json",
+  "help/plugins/maintainerr/settings.md",
+  "help/plugins/maintainerr/dashboard-card.md"
+ ],
+ "media_servers": [
+  "jellyfin"
+ ],
+ "media_servers_basis": "text"
+}

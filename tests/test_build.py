@@ -51,7 +51,7 @@ class RealSite(unittest.TestCase):
         for p in self.plugins:
             self.assertTrue((self.out / "plugins" / f"{p['id']}.html").exists())
             self.assertTrue((self.out / p["logo_file"]).exists(), p["id"])
-        self.assertEqual(len(list((self.out / "category").glob("*.html"))), 8)
+        self.assertEqual(len(list((self.out / "category").glob("*.html"))), 9)  # eight categories and the index
         self.assertIn("https://themightytrex.github.io/stallboard/plugins/direct-play.html", (self.out / "sitemap.xml").read_text())
 
     def test_the_home_page_lists_everything_without_a_script(self):

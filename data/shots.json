@@ -1,0 +1,614 @@
+{
+ "plugins": {
+  "library-cleanup": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Library clean-up row with its logo, a one-line description, its version and an Added mark. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   },
+   {
+    "file": "help-install-1-catalogue.webp",
+    "alt": "The Catalogue under Jellyfin, with Install… beside Library clean-up (step 2) outlined",
+    "caption": "The Catalogue under Jellyfin.",
+    "w": 1100,
+    "h": 688,
+    "kind": "help"
+   },
+   {
+    "file": "help-install-2-what-it-may-do.webp",
+    "alt": "The Install Library clean-up? slide-out, High risk, with the line about your media folder under It can change (step 3) outlined",
+    "caption": "The Install Library clean-up? slide-out, High risk.",
+    "w": 1100,
+    "h": 773,
+    "kind": "help"
+   },
+   {
+    "file": "help-install-3-password.webp",
+    "alt": "The foot of the install slide-out, with Your Starboard password filled in and Install Library clean-up (step 4) outlined",
+    "caption": "The foot of the install slide-out.",
+    "w": 1100,
+    "h": 773,
+    "kind": "help"
+   },
+   {
+    "file": "help-install-4-activate.webp",
+    "alt": "Library clean-up's own tab on State, with Activate (step 5) outlined",
+    "caption": "Library clean-up's own tab on State.",
+    "w": 1100,
+    "h": 688,
+    "kind": "help"
+   },
+   {
+    "file": "help-settings-1-rules.webp",
+    "alt": "Library clean-up's Rules, with Move items each day, deactivated, outlined",
+    "caption": "Library clean-up's Rules.",
+    "w": 1100,
+    "h": 859,
+    "kind": "help"
+   },
+   {
+    "file": "help-settings-2-preview.webp",
+    "alt": "Library clean-up's Preview, with the total it would free at the top and one film's row, with why it would move and its space, outlined",
+    "caption": "Library clean-up's Preview.",
+    "w": 1100,
+    "h": 773,
+    "kind": "help"
+   },
+   {
+    "file": "help-settings-3-holding-folder.webp",
+    "alt": "Library clean-up's Holding folder, three items in holding, with Put back beside the first outlined",
+    "caption": "Library clean-up's Holding folder, three items in holding.",
+    "w": 1100,
+    "h": 688,
+    "kind": "help"
+   },
+   {
+    "file": "help-settings-4-libraries.webp",
+    "alt": "Library clean-up's Libraries, with Children's films Left alone and Activate beside it outlined",
+    "caption": "Library clean-up's Libraries.",
+    "w": 1100,
+    "h": 688,
+    "kind": "help"
+   },
+   {
+    "file": "help-dashboard-card-1-add.webp",
+    "alt": "Edit dashboard, with Holding folder (Library clean-up) chosen in Add a card (step 2) and Save (step 3) outlined",
+    "caption": "Edit dashboard.",
+    "w": 1100,
+    "h": 688,
+    "kind": "help"
+   },
+   {
+    "file": "help-dashboard-card-2-light.webp",
+    "alt": "The Holding folder card in the light theme: the band with Library clean-up's logo and Deactivated, 38.7 GB in the holding folder and what Preview would move",
+    "caption": "The Holding folder card in the light theme: the band with Library clean-up's logo and Deactivated, 38.7 GB in the holding folder and what Preview would move.",
+    "w": 1100,
+    "h": 688,
+    "kind": "help"
+   },
+   {
+    "file": "help-dashboard-card-3-dark.webp",
+    "alt": "The same Holding folder card in the dark theme",
+    "caption": "The same Holding folder card in the dark theme.",
+    "w": 1100,
+    "h": 688,
+    "kind": "help"
+   }
+  ],
+  "audio-description-tracks": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Audio description tracks row with its logo, a one-line description, its version and an Added mark. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   }
+  ],
+  "audio-description": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Audio description row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Audio description: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "backups-watch": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Backups watch row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Backups watch: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "calibre-web": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Calibre-Web row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Calibre-Web: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "checkrr": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Checkrr row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 141,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Checkrr: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "direct-play": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Direct play row with its logo, a one-line description, its version and an Added mark. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 149,
+    "kind": "catalogue"
+   }
+  ],
+  "disk-forecast": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Disk forecast row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 107,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Disk forecast: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "dns-blocking": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Ad blocking row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Ad blocking: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "download-summary": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Download summary row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Download summary: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "home-assistant": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Home Assistant row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Home Assistant: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "jellystat": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Jellystat row with its logo, a one-line description, its version and an Added mark. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 141,
+    "kind": "catalogue"
+   }
+  ],
+  "kavita": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Kavita row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 141,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Kavita: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "library-health": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Library health row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Library health: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "line-speed": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Line speed row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Line speed: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "maintainerr": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Maintainerr row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Maintainerr: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "most-watched": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Most watched row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Most watched: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "navidrome": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Navidrome row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Navidrome: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "notifications": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Notifications row with its logo, a one-line description, its version and an Added mark. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 107,
+    "kind": "catalogue"
+   }
+  ],
+  "outside-services": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Uptime and status row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Uptime and status: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "philips-hue": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Philips Hue row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Philips Hue: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "picture-shrinker": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Picture shrinker row with its logo, a one-line description, its version and an Added mark. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 141,
+    "kind": "catalogue"
+   }
+  ],
+  "remote-access": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Remote access row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Remote access: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "seerr": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Seerr row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Seerr: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "styles": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Styles row with its logo, a one-line description, its version and an Added mark. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   }
+  ],
+  "tdarr": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Tdarr row with its logo, a one-line description, its version and an Added mark. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   }
+  ],
+  "themearr": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Themearr row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 141,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Themearr: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "tv-station": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Create your own TV channel row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 141,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Create your own TV channel: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "uptime-kuma": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Uptime Kuma row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Uptime Kuma: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "vpn-check": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the VPN check row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds VPN check: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "watch-stats": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Watch statistics row with its logo, a one-line description, its version and an Added mark. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   }
+  ],
+  "watching-now": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Watching now row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 99,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Watching now: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ],
+  "wizarr": [
+   {
+    "file": "catalogue.webp",
+    "alt": "The Catalogue in Starboard, showing the Wizarr row with its logo, a one-line description, its version and an Install button. The data is made up.",
+    "caption": "In the Catalogue",
+    "w": 1100,
+    "h": 120,
+    "kind": "catalogue"
+   },
+   {
+    "file": "install.webp",
+    "alt": "The panel Starboard opens before it adds Wizarr: what the plug-in may read and change, and a password box to confirm. The data is made up.",
+    "caption": "Before it is added",
+    "w": 1100,
+    "h": 859,
+    "kind": "install"
+   }
+  ]
+ }
+}

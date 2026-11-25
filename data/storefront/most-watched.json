@@ -1,0 +1,33 @@
+{
+ "summary": "Shows the films and series most people watched in Jellyfin over the last week.",
+ "does": [
+  "Most watched counts what each Jellyfin user has marked as played and lists the films and series watched by the most people. Each line says how many people watched it and how many plays it had.",
+  "A person counts once for each title, however many times they watched it. A series is one title, with each episode watched counted as a play. You choose how many days back to count, from 1 to 90. It only reads from Jellyfin."
+ ],
+ "for": "For households that share a Jellyfin server and want a quick view of what everyone has actually been watching lately.",
+ "needs": "Jellyfin added to Starboard first. It uses Jellyfin's address and key, which Starboard keeps. Starboard needs plug-in API 1.14 or later.",
+ "shows": "One dashboard card, Most watched, a list of up to 10 films and series with the number of people and plays for each. Its tab has one setting, Over the last, which is 7 days by default. The count runs once an hour.",
+ "tags": [
+  "jellyfin",
+  "popular",
+  "watch history",
+  "statistics",
+  "top films",
+  "what is popular",
+  "plays",
+  "household"
+ ],
+ "unclear": [
+  "The manifest needs list is empty, but the help says Jellyfin must be added first. Should the manifest list jellyfin?"
+ ],
+ "sources": [
+  "most-watched/README.md",
+  "most-watched/starboard-plugin.json",
+  "help/plugins/most-watched/settings.md",
+  "help/plugins/most-watched/dashboard-card.md"
+ ],
+ "media_servers": [
+  "jellyfin"
+ ],
+ "media_servers_basis": "api"
+}
