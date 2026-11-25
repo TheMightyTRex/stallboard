@@ -300,7 +300,8 @@ def tile(p, depth, data=True):
     return f'''<li class="tile kind-{KINDS[p["kind"]][0]}"{attrs}>
       <div class="tile__art">{plate(p, depth)}</div>
       <div class="tile__body">
-        <div><h3 class="tile__name"><a href="{rel(depth)}plugins/{esc(p["id"])}.html">{esc(p["name"])}</a></h3><p class="tile__kind">{esc(p["kind"])}</p></div>
+        <h3 class="tile__name"><a href="{rel(depth)}plugins/{esc(p["id"])}.html">{esc(p["name"])}</a></h3>
+        <p class="tile__kind">{esc(p["kind"])}</p>
         <p class="tile__pitch">{esc(pitch_of(p))}</p>
         {media_chips(p, icons=False)}
         <p class="tile__need"><span class="sb-need">{esc(sb)}</span></p>

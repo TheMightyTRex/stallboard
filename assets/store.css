@@ -305,8 +305,8 @@ a.chip[href] { background: var(--color-surface); color: var(--color-link, var(--
 .pics--wide img { max-width: 100%; height: auto; }
 
 /* High contrast: the brand colours that the design system does not know about go to plain black and white. */
-:root.pref-contrast { --ink: #000000; --halo: #FFFFFF; --card-edge: 2px solid #000000; --color-line: #000000; --color-text-muted: #000000; --color-border: #000000; }
-:root.pref-contrast[data-theme="dark"] { --ink: #FFFFFF; --halo: #000000; --card-edge: 2px solid #FFFFFF; --color-line: #FFFFFF; --color-text-muted: #FFFFFF; --color-border: #FFFFFF; }
+:root.pref-contrast { --ink: #000000; --halo: #FFFFFF; --card-edge: 2px solid #000000; --color-line: #000000; --color-text-muted: #000000; --color-border: #000000; --color-link: var(--color-accent); }
+:root.pref-contrast[data-theme="dark"] { --ink: #FFFFFF; --halo: #000000; --card-edge: 2px solid #FFFFFF; --color-line: #FFFFFF; --color-text-muted: #FFFFFF; --color-border: #FFFFFF; --color-link: var(--color-accent); }
 .media-chips { margin: var(--sp-1) 0; }
 .chip--media { font-weight: 700; }
 
@@ -360,12 +360,12 @@ h2.display { font-size: clamp(1.5rem, 1rem + 1.5vw, 2rem); }
 .filters .field { margin: 0; }
 .seg { border: 0; margin: 0; padding: 0; min-width: 0; }
 .seg legend { padding: 0; font-weight: 700; margin-bottom: var(--sp-1); }
-.seg__row { display: grid; grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr)); gap: 1px; border: 1px solid var(--color-border); border-radius: var(--radius); overflow: hidden; background: var(--color-border); }
-.seg__o { position: relative; display: block; background: var(--color-surface); }
+.seg__row { display: grid; grid-template-columns: repeat(auto-fit, minmax(4.5rem, 1fr)); gap: var(--sp-1); }
+.seg__o { position: relative; display: block; }
 .seg__o input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; width: 100%; height: 100%; }
-.seg__o span { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 var(--sp-3); font-weight: 600; }
-.seg__o input:checked + span { background: var(--color-accent); color: var(--color-accent-text); }
-.seg__o input:focus-visible + span { outline: 3px solid var(--color-focus); outline-offset: -3px; }
+.seg__o span { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 var(--sp-3); font-weight: 600; border: 1px solid var(--color-border); border-radius: var(--radius); background: var(--color-surface); }
+.seg__o input:checked + span { background: var(--color-accent); border-color: var(--color-accent); color: var(--color-accent-text); }
+.seg__o input:focus-visible + span { outline: 3px solid var(--color-focus); outline-offset: 2px; }
 .results-note { margin: 0 0 var(--sp-3); min-height: 1.5em; color: var(--color-text-muted); }
 .active { list-style: none; margin: 0 0 var(--sp-3); padding: 0; display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .active button { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: 44px; padding: 0 var(--sp-3); border: 1px solid var(--color-border); border-radius: 999px; background: var(--color-surface); color: var(--color-text); font: inherit; font-weight: 600; cursor: pointer; }
@@ -384,18 +384,17 @@ h2.display { font-size: clamp(1.5rem, 1rem + 1.5vw, 2rem); }
 
 /* Poster cards: the same parts in the same places, so every card is the same height */
 .grid, .tiles { display: grid; gap: var(--sp-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr)); grid-auto-rows: 1fr; list-style: none; margin: 0; padding: 0; }
-.tile { position: relative; display: grid; grid-template-rows: 7.5rem 1fr; min-width: 0; min-height: 22rem; background: var(--color-surface); border: var(--card-edge); border-radius: var(--radius); overflow: hidden; }
+.tile { position: relative; display: grid; grid-template-rows: 7.5rem 1fr; min-width: 0; min-height: 23rem; background: var(--color-surface); border: var(--card-edge); border-radius: var(--radius); overflow: hidden; }
 .tile__art { display: grid; place-items: center; background: color-mix(in srgb, var(--cat-bg, var(--color-accent)) 22%, var(--color-surface)); border-bottom: var(--card-edge); }
-.tile__body { display: grid; grid-template-rows: auto minmax(3em, auto) auto 1fr auto; gap: var(--sp-2); align-content: start; padding: var(--sp-4); min-width: 0; }
+.tile__body { display: grid; grid-template-rows: auto auto minmax(3em, auto) auto 1fr auto; gap: var(--sp-2); align-content: start; padding: var(--sp-4); min-width: 0; }
 .tile__name { margin: 0; font-size: 1.0625rem; line-height: 1.3; font-weight: 700; }
-.tile__name a { color: var(--color-text); text-decoration: none; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tile__name a { color: var(--color-text); text-decoration: none; }
 .tile__name a::after { content: ""; position: absolute; inset: 0; }
 .tile:hover .tile__name a { text-decoration: underline; text-decoration-thickness: 2px; }
-.tile__name a:focus-visible { outline: none; box-shadow: none; }
+.tile__name a:focus-visible { outline: none; box-shadow: none; text-decoration: underline; text-decoration-thickness: 3px; }
 .tile:has(.tile__name a:focus-visible) { outline: 3px solid var(--color-focus); outline-offset: 2px; box-shadow: 0 0 0 5px var(--halo); }
 .tile__kind, .tile__pitch, .tile__need, .tile__use { margin: 0; font-size: 0.875rem; }
-.tile__kind { color: var(--color-text-muted); }
-.tile__pitch { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.tile__kind { color: var(--color-text-muted); margin-top: calc(-1 * var(--sp-1)); }
 .tile__need { font-weight: 600; align-self: end; }
 .tile__use { color: var(--color-text-muted); }
 .sb-need[data-tone="danger"] { background: var(--status-danger-bg); color: var(--status-danger-fg); padding: 0 var(--sp-1); border-radius: var(--radius); }
@@ -518,3 +517,7 @@ code { overflow-wrap: anywhere; }
 }
 
 .crumbs li { display: flex; align-items: center; }
+
+.pics figure { border-width: 2px; }
+.cat, .cat__text, .cat__name, .cat__line, .cat__count { min-width: 0; overflow-wrap: anywhere; }
+.cat__count { flex-wrap: wrap; }
