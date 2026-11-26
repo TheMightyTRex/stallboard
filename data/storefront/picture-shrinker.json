@@ -5,7 +5,7 @@
   "You choose whether to keep a backup copy of each original or shrink without one. Each picture is checked before it replaces the one Jellyfin saved. It runs on a schedule you choose, at the lowest priority, and other picture types can be included."
  ],
  "for": "For people whose Jellyfin metadata folder has grown large with artwork and who want to reclaim space, with the choice of keeping a backup so originals can be restored.",
- "needs": "Jellyfin added to Starboard first. It uses Jellyfin's key and its metadata folder. If Jellyfin's own Picture shrinker is installed, this one stays idle. Nothing is shrunk until you choose a backup option.",
+ "needs": "Jellyfin added to Starboard first. It uses Jellyfin's key and its metadata folder. The version for Jellyfin itself (10.11 or 12, with or without Starboard) follows the same rules, and when it is installed this one stays idle. Nothing is shrunk until you choose a backup option.",
  "shows": "Two dashboard cards: Space saved, with pictures shrunk, backup size and the next run, and Space saved by type. Its tab has When to shrink, size limits, Original pictures, Shrink now and Stop shrinking buttons, and pages for Space saved and Saved by type.",
  "tags": [
   "jellyfin",
@@ -17,9 +17,7 @@
   "compress",
   "storage"
  ],
- "unclear": [
-  "Is the Jellyfin version of Picture shrinker named on its card the same as the one in the Jellyfin plug-ins repository, and should the store text mention it?"
- ],
+ "unclear": [],
  "sources": [
   "picture-shrinker/README.md",
   "picture-shrinker/starboard-plugin.json",

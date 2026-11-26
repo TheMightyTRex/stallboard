@@ -1,11 +1,11 @@
 {
- "summary": "22 accessible styles for Starboard's Display panel, six of which change every part of the interface.",
+ "summary": "22 accessible styles for Starboard's Display panel, 17 of which change every part of the interface.",
  "does": [
-  "Styles adds 22 styles you can choose in Display, such as Midnight, Paper, Forest, Retro and Large and clear. Each changes colours, corner shapes, fonts already on your device, shadows and backgrounds, and has been checked for contrast in light and dark.",
-  "Six of them, Studio, Expressive, Swiss, Neon, Clay and Mica, change every part of Starboard, including cards, buttons, tabs and menus. Classic keeps the design from before Mica. It runs no code and has no network access."
+  "Styles adds 22 styles you can choose in Display, such as Mica, Dusk, Liquid glass, Terminal and Large and clear. Each changes colours, corner shapes, fonts already on your device, shadows and backgrounds, and has been checked for contrast in light and dark.",
+  "Seventeen of them, Mica, eleven from Dusk to Piste and five from Studio to Clay, also change cards, buttons, tabs, the header, the side menu and chips. Classic keeps the design from before Mica. It runs no code and has no network access."
  ],
  "for": "People who want Starboard to appear different, or who need stronger contrast or a calmer appearance. Large and clear is made for reading with low vision. Your Display choices for text size and contrast still win.",
- "needs": "Nothing else.",
+ "needs": "Starboard with plug-in API 1.14 or later. An older Starboard is offered version 1.3.0.",
  "shows": "No dashboard card and no settings of its own. A Style list appears in Display while the plug-in is active, with Starboard's own style as the standard. Your choice is kept per browser, and Reset style goes back to the standard.",
  "tags": [
   "themes",
@@ -18,10 +18,7 @@
   "low vision",
   "customise"
  ],
- "unclear": [
-  "The store snapshot says version 1.6.0 and a different description from the repository (1.5.0). Which is current?",
-  "The README says 22 styles, but the repository version may differ from the store version. Is the count still 22?"
- ],
+ "unclear": [],
  "sources": [
   "styles/README.md",
   "styles/starboard-plugin.json",

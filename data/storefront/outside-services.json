@@ -1,12 +1,12 @@
 {
- "summary": "Shows whether things not on this server, such as your router, a NAS or a website, are up or down.",
+ "summary": "Checks your router, NAS and websites by address, port, ping, DNS or heartbeat, with 90 days of history and a status page.",
  "does": [
-  "Outside services checks the addresses you give it, such as your router, a NAS (network storage device) or a website, and tells you which ones answer. You can give each a name.",
-  "It opens each address and waits up to 8 seconds. Any answer counts, even a sign-in page, unless it is a server error. It checks every 5 minutes by default, and you can change that from 1 to 60 minutes."
+  "Uptime and status checks the things you list, one line each: a web address, words on a page, a port, ping, a DNS record, a certificate, or a heartbeat that a backup or script calls. It says when each is down and sends an alert through Starboard.",
+  "It keeps 90 days of response times and uptime, with no database. Checks can be put in groups, with maintenance windows that pause their alerts. Its status page, on your home network, shows each check as up or down without showing addresses."
  ],
- "for": "For people who want to know quickly whether a device on their network or a website they rely on is reachable, without checking each one by hand.",
- "needs": "Nothing else beyond Starboard with plug-in API 1.14 or later. You give it the addresses to check, up to 20.",
- "shows": "Two dashboard cards, both called Outside services: a one line summary, such as how many answer or which do not, and a list of up to 10 addresses with Up and the time taken, or Not answering. Its tab has Addresses to check and Check every.",
+ "for": "People who want to know quickly that a router, a NAS, a website, a certificate or a backup is still working, without checking each by hand.",
+ "needs": "Starboard with plug-in API 1.17 or later. An older Starboard is offered Outside services 1.1.4, which checks web addresses only. You write the checks yourself, in Settings, Plug-ins, Uptime and status, Checks.",
+ "shows": "Five dashboard cards: All checks, Checks (the ones down first), Groups, Response times over 24 hours and Certificates with the days left. Its tab has Checks, Groups and maintenance, alert settings and an Open button for the status page.",
  "tags": [
   "uptime",
   "monitor",
@@ -14,12 +14,12 @@
   "nas",
   "website",
   "ping",
-  "status",
+  "status page",
+  "heartbeat",
+  "certificate",
   "up or down"
  ],
- "unclear": [
-  "The store listing describes ports, ping, DNS, heartbeats, 90 days of history, certificates, maintenance windows, a status page and alerts, but the README and help describe a simple address check. Which is right for the version in the store?"
- ],
+ "unclear": [],
  "sources": [
   "outside-services/README.md",
   "outside-services/starboard-plugin.json",

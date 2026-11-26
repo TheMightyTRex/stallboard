@@ -5,7 +5,7 @@
   "If you enter your home's public address, it warns when the VPN ever shows that address, meaning downloads are not hidden. It only reads: it never changes the VPN or stops downloads."
  ],
  "for": "People who download through a VPN and want to know it is working, with a warning on the dashboard if their home address ever shows.",
- "needs": "A VPN that your downloads run through. Your home's public address is optional, and is used for the warning. Each check sends one request to ipinfo.io.",
+ "needs": "A VPN set up in Starboard (Gluetun, with WireGuard or OpenVPN, in Settings, Install apps), because it runs inside that VPN connection. Your home's public address is optional. Each check sends one request to ipinfo.io.",
  "shows": "One dashboard card, VPN, with a status of Protected, Checking soon, No answer or Home address showing, and the address and place. Settings are Your home's public address and Check every, from 5 to 240 minutes. Check now runs a check at once.",
  "tags": [
   "vpn",
@@ -18,10 +18,7 @@
   "country",
   "check ip"
  ],
- "unclear": [
-  "Which VPN set-ups does it work with? The sources say only that it runs inside your VPN.",
-  "The store snapshot says version 1.1.4 but the repository manifest says 1.1.3. Which is current?"
- ],
+ "unclear": [],
  "sources": [
   "vpn-check/README.md",
   "vpn-check/starboard-plugin.json",

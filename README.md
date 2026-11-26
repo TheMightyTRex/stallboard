@@ -11,7 +11,7 @@ The site is static: pages built from data in this repository, hosted on GitHub P
 
 ## What is in it
 
-- A home page with search, categories, new and updated, a demo row called Made for you, and every plug-in, sortable by memory use.
+- A home page with a slim banner and search, a rail of categories and filters (Works with, the Starboard you have, sort), and every plug-in as a poster card, sortable by memory use.
 - A page for each plug-in: what it does, what it can read and change, what it needs (including the Starboard release it needs), **what it uses** (declared limits and measured figures, kept apart), its versions and notes, its help, how to install it and a link to report a problem to its maker.
 - **Start here: Starboard**, a page for the platform: its version, how to install it, and which plug-in needs which release.
 - **Categories:** a page for each category (and an index of them), linked from the home page, the menu and every plug-in page, with breadcrumbs and a search of its own.

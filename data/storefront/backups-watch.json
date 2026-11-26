@@ -1,12 +1,12 @@
 {
  "summary": "Shows the last run, size and failures of your Backrest or Kopia backups, and warns when one is overdue.",
  "does": [
-  "Backups watch puts one card on your dashboard for your backups. For each Backrest plan or Kopia source it shows the last run, the size and any failures.",
-  "It sends an alert through Starboard once when a backup is overdue or its last run failed, and once more when it is fine again. You choose the tool, its address and password, and how many hours count as overdue."
+  "Backups watch puts cards on your dashboard for your backups. For each Backrest plan or Kopia source it shows the last run, the size and any failures, with a small chart of sizes.",
+  "It sends an alert through Starboard once when a backup is overdue or its last run failed, and once more when it is fine again. Its alerts are on by default. It only reads from Backrest or Kopia. It was written without trying it against the real programs, so read its Problems help before relying on it."
  ],
  "for": "People who already run Backrest or Kopia for backups and want to notice a missed or failed backup without opening each tool.",
- "needs": "Backrest or Kopia already running, with its address and password. It needs Starboard with plug-in API 1.17 or later, and permission to reach your home network and to send alerts.",
- "shows": "One dashboard card for your backups with the last run, size and failures of each Backrest plan or Kopia source. Its settings let you choose the tool, its address and password, and the number of hours after which a backup counts as overdue.",
+ "needs": "Backrest or Kopia already running, with its address and, if it asks, its user name and password. Alerts go to where Starboard sends its own, so set those up in Settings, Alerts to hear them. Needs plug-in API 1.17 or later.",
+ "shows": "Three dashboard cards: Backups (a status), Backup runs (each plan or source) and Backup sizes. Settings are Backup tool (Backrest or Kopia), Its address, User name, Password, Accept a self-signed certificate, Overdue after (36 hours) and Send alerts through Starboard.",
  "tags": [
   "backups",
   "backrest",
@@ -19,13 +19,13 @@
   "snapshots",
   "data protection"
  ],
- "unclear": [
-  "No README or help was found for backups-watch, only the snapshot manifest and its release notes.",
-  "The snapshot has no listing file: are the card name and exact setting labels final?",
-  "Does it need Starboard alerts to be set up, or are they on by default?",
-  "Media servers: No README was found, so it is shown as not related to a media server. Is that right?"
+ "unclear": [],
+ "sources": [
+  "backups-watch/README.md",
+  "backups-watch/starboard-plugin.json",
+  "help/plugins/backups-watch/install.md",
+  "help/plugins/backups-watch/problems.md"
  ],
- "sources": [],
  "media_servers": [
   "jellyfin",
   "plex",

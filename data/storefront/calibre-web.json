@@ -19,9 +19,7 @@
   "send to kindle",
   "book server"
  ],
- "unclear": [
-  "Is it correct to name the first sign-in details in public text, or should the storefront only say to change the password at once?"
- ],
+ "unclear": [],
  "sources": [
   "calibre-web/README.md",
   "calibre-web/starboard-plugin.json",

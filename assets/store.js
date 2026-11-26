@@ -1,12 +1,11 @@
 /* Stallboard: the extras that need a script. Every page already lists everything and reads without this file.
-   It adds search, filters, sorting and the "Starboard you have" mark on the home page, the colour switch, tabs and the
+   It adds search, filters, sorting and the "Starboard you have" mark on the home and category pages, the colour switch, tabs and the
    install dialog on a plug-in page, and the checking form on Submit. No requests are made. */
 (function () {
   "use strict";
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-  const list = (a) => (a.length < 2 ? a.join("") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1]);
   const ver = (s) => String(s || "").split(".").map((x) => parseInt(x, 10) || 0);
   const cmp = (a, b) => { const x = ver(a), y = ver(b); for (let i = 0; i < 3; i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) - (y[i] || 0); } return 0; };
 
@@ -33,100 +32,121 @@
   /* ---------- Search: every word typed must appear in a plug-in's name, summary, category or tags ---------- */
   const words = (li) => (li.dataset.search || li.textContent).toLowerCase().replace(/\s+/g, " ");
   const matches = (hay, t) => !t || t.split(/\s+/).every((w) => hay.includes(w));
+  const X = '<svg class="i" aria-hidden="true" focusable="false"><use href="#i-x"/></svg>';
 
-  /* ---------- A category page: the same search, over this category only ---------- */
-  function category() {
-    const mediaSel = $("#media");
-    const items = $$("#cat-list > li"), q = $("#q"), status = $("#results-status"), none = $("#none"), total = items.length;
+  /* ---------- The shelf: the home page and each category page ----------
+     One search, the Works with filter, the Starboard you have, and the sort, over the cards on the page. The categories are links and
+     work without this file. On a phone the filters are a sheet that the Filters button opens (Works with first); the filters that
+     are on are shown as removable chips under the search, so nothing is hidden behind the sheet. */
+  function shelf() {
+    const list = $("#all-list") || $("#cat-list");
+    if (!list) return;
+    const items = $$(":scope > li", list), total = items.length, original = [...items];
+    const q = $("#q"), status = $("#results-status"), none = $("#none"), sortBox = $("#sort"), mySb = $("#mysb"), active = $("#active");
+    const panel = $("#filters"), openBtn = $("#filters-open"), closeBtn = $("#filters-close"), count = $("#filters-n"), heading = $("#all-h") || $("#results-h");
+    const radios = $$('input[name="media"]');
     const text = new Map(items.map((li) => [li, words(li)]));
-    const run = () => {
-      const t = q.value.trim().toLowerCase();
-      let n = 0;
-      const m = mediaSel.value, mt = m ? ` that work with ${mediaSel.options[mediaSel.selectedIndex].text}` : "";
-      items.forEach((li) => { const hit = matches(text.get(li), t) && (!m || li.dataset.media.split(" ").includes(m)); li.hidden = !hit; if (hit) n++; });
-      status.textContent = t || m ? (n ? `Showing ${n} of ${total} plug-ins${mt}${t ? ` matching "${q.value.trim()}"` : ""}.` : `No plug-ins${mt} match${t ? ` "${q.value.trim()}"` : ""}.`) : `Showing all ${total} plug-ins.`;
-      none.hidden = n > 0;
-    };
-    const sortBox = $("#sort"), list = $("#cat-list"), original = [...items];
-    const order = () => {
-      const how = sortBox.value, key = how === "mem" ? "mem" : "testmem";
-      const sorted = [...original];
-      if (how !== "name") sorted.sort((a, b) => { const x = a.dataset[key] === "" ? Infinity : +a.dataset[key], y = b.dataset[key] === "" ? Infinity : +b.dataset[key]; return (x === y ? 0 : x - y) || a.dataset.name.localeCompare(b.dataset.name); });
-      sorted.forEach((li) => list.appendChild(li));
-    };
-    sortBox.addEventListener("change", () => { order(); run(); status.textContent += { name: "", mem: " Sorted by memory at rest, lowest first; those not measured yet come last.", testmem: " Sorted by memory on the test server, lowest first; those not measured yet come last." }[sortBox.value]; });
-    q.addEventListener("input", run);
-    mediaSel.addEventListener("change", run);
-    $("#search-form").addEventListener("submit", (e) => { e.preventDefault(); run(); });
-    $("#clear").addEventListener("click", () => { q.value = ""; mediaSel.value = ""; run(); q.focus(); });
-    run();
-  }
-
-  /* ---------- Home ---------- */
-  function home() {
-    const all = $("#all-list"), items = $$("#all-list > li");
-    const total = items.length;
-    const mediaSel = $("#media");
-    const q = $("#q"), status = $("#results-status"), chipsBox = $("#kind-chips"), sortBox = $("#sort"), mySb = $("#mysb");
-    const text = new Map(items.map((li) => [li, words(li)]));
-    const original = [...items];
-    let kind = "";
+    const media = () => (radios.find((r) => r.checked) || { value: "" }).value;
+    const mediaName = () => { const r = radios.find((x) => x.checked); return r && r.value ? r.nextElementSibling.textContent : ""; };
 
     const mark = () => {
       const mine = mySb.value;
-      $$(".tile").forEach((li) => {
-        const chip = $(".sb-need", li); if (!chip) return;
+      $$(".sb-need", list).forEach((chip) => {
+        const li = chip.closest("li");
         if (!chip.dataset.plain) chip.dataset.plain = chip.textContent;
         const need = li.dataset.sb;
         const tooOld = mine && need && cmp(mine, need) < 0;
-        chip.textContent = tooOld ? "Needs a newer Starboard than yours: " + chip.dataset.plain.replace(/^Needs /, "") : chip.dataset.plain;
+        chip.textContent = tooOld ? "Needs a newer Starboard: " + chip.dataset.plain.replace(/^Needs Starboard /, "") : chip.dataset.plain;
         if (tooOld) chip.setAttribute("data-tone", "danger"); else chip.removeAttribute("data-tone");
       });
     };
+    const num = (v) => (v === "" || v === undefined ? Infinity : +v);
     const order = () => {
-      const how = sortBox.value;
-      const sorted = [...original];
-      if (how === "mem") sorted.sort((a, b) => { const x = a.dataset.mem === "" ? Infinity : +a.dataset.mem, y = b.dataset.mem === "" ? Infinity : +b.dataset.mem; return (x === y ? 0 : x - y) || a.dataset.name.localeCompare(b.dataset.name); });
-      if (how === "testmem") sorted.sort((a, b) => { const x = a.dataset.testmem === "" ? Infinity : +a.dataset.testmem, y = b.dataset.testmem === "" ? Infinity : +b.dataset.testmem; return (x === y ? 0 : x - y) || a.dataset.name.localeCompare(b.dataset.name); });
+      const how = sortBox.value, sorted = [...original];
+      if (how === "mem" || how === "testmem") sorted.sort((a, b) => { const x = num(a.dataset[how]), y = num(b.dataset[how]); return (x === y ? 0 : x - y) || a.dataset.name.localeCompare(b.dataset.name); });
       if (how === "new") sorted.sort((a, b) => (b.dataset.date || "").localeCompare(a.dataset.date || "") || a.dataset.name.localeCompare(b.dataset.name));
-      sorted.forEach((li) => all.appendChild(li));
+      sorted.forEach((li) => list.appendChild(li));
+    };
+    const sortWords = { name: "", mem: " Sorted by memory at rest, lowest first; those not measured yet come last.", testmem: " Sorted by memory on the test server, lowest first; those not measured yet come last.", new: " Sorted newest first." };
+    const chips = () => {
+      const t = q.value.trim(), m = mediaName(), s = mySb.value;
+      const c = [];
+      if (t) c.push(["q", `Search: ${t}`]);
+      if (m) c.push(["media", `Works with ${m}`]);
+      if (s) c.push(["sb", `Starboard ${s}`]);
+      active.innerHTML = c.map(([k, w]) => `<li><button type="button" data-clear="${k}" aria-label="Remove filter: ${esc(w)}">${esc(w)} ${X}</button></li>`).join("");
+      active.hidden = !c.length;
+      count.textContent = c.length ? ` (${c.length})` : "";
+      return c.length;
     };
     const run = (announceSort) => {
-      const t = q.value.trim().toLowerCase();
+      const t = q.value.trim().toLowerCase(), m = media();
       let n = 0;
-      items.forEach((li) => {
-        const hit = (!kind || li.dataset.kind === kind) && matches(text.get(li), t) && (!mediaSel.value || li.dataset.media.split(" ").includes(mediaSel.value));
-        li.hidden = !hit; if (hit) n++;
-      });
-      $$("button", chipsBox).forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.kind === kind)));
-      const sortWords = { name: "", mem: " Sorted by memory at rest, lowest first; those not measured yet come last.", testmem: " Sorted by memory on the test server, lowest first; those not measured yet come last.", new: " Sorted newest first." }[sortBox.value];
-      status.textContent = (n ? `Showing ${n} of ${total} plug-ins${kind ? " in " + kind : ""}${mediaSel.value ? " that work with " + mediaSel.options[mediaSel.selectedIndex].text : ""}${t ? ` matching "${q.value.trim()}"` : ""}.` : `No plug-ins match${t ? ` "${q.value.trim()}"` : ""}${kind ? " in " + kind : ""}. Clear the search or choose All.`) + (announceSort ? sortWords : "");
-      $("#none").hidden = n > 0;
+      items.forEach((li) => { const hit = matches(text.get(li), t) && (!m || li.dataset.media.split(" ").includes(m)); li.hidden = !hit; if (hit) n++; });
+      const on = chips();
+      const where = m ? ` that work with ${mediaName()}` : "";
+      status.textContent = (on ? (n ? `Showing ${n} of ${total} plug-ins${where}${t ? ` matching "${q.value.trim()}"` : ""}.` : `No plug-ins${where} match${t ? ` "${q.value.trim()}"` : ""}. Clear the search or the filters.`) : `Showing all ${total} plug-ins.`) + (announceSort ? sortWords[sortBox.value] : "");
+      none.hidden = n > 0;
+      if (closeBtn) closeBtn.textContent = n ? `Show ${n} plug-in${n === 1 ? "" : "s"}` : "Show results";
     };
-    chipsBox.addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) { kind = b.dataset.kind; run(); } });
-    q.addEventListener("input", () => run());
-    mediaSel.addEventListener("change", () => run());
-    sortBox.addEventListener("change", () => { order(); run(true); });
-    mySb.addEventListener("change", () => { mark(); status.textContent = mySb.value ? `Plug-ins that need a newer Starboard than ${mySb.value} are marked in words.` : "The marks for Starboard versions are off."; });
-    $("#search-form").addEventListener("submit", (e) => { e.preventDefault(); run(); $("#all-plug-ins").scrollIntoView(); $("#all-h").focus(); });
-    $("#clear").addEventListener("click", () => { q.value = ""; kind = ""; mediaSel.value = ""; run(); q.focus(); });
 
-    /* Made for you (a demo): the tiles are copies of the ones in the list below. */
-    const checks = $("#apps-run"), mfyList = $("#mfy-list"), mfyStatus = $("#mfy-status");
-    const draw = () => {
-      const sel = $$("input", checks).filter((i) => i.checked).map((i) => i.value);
-      const hits = original.map((li) => ({ li, w: li.dataset.works.split("|").filter((a) => a && sel.includes(a)) })).filter((x) => x.w.length)
-        .sort((a, b) => b.w.length - a.w.length || a.li.dataset.name.localeCompare(b.li.dataset.name));
-      mfyList.innerHTML = "";
-      hits.slice(0, 6).forEach((x) => {
-        const c = x.li.cloneNode(true); c.hidden = false; c.removeAttribute("data-id");
-        $(".tile__pitch", c).insertAdjacentHTML("afterend", `<p class="tile__why"><svg class="i" aria-hidden="true" focusable="false"><use href="#i-plug"/></svg><span>Works with ${esc(list(x.w))}</span></p>`);
-        mfyList.appendChild(c);
-      });
-      mfyStatus.textContent = sel.length ? (hits.length ? `Showing ${Math.min(6, hits.length)} of ${hits.length} plug-ins that work with ${list(sel)}.` : "No plug-ins work with those apps yet.") : "Choose at least one app to get plug-ins for it.";
-      mark();
+    /* The sheet (a phone): it is a dialog only while it is open, focus goes in and comes back, Tab stays inside, Escape closes. */
+    const narrow = window.matchMedia("(max-width: 55.99rem)");
+    const outside = () => $$(".top, .foot, .banner, .shelf__main, .catnav, .skip-link");
+    let backdrop = null;
+    const openSheet = () => {
+      if (!narrow.matches) return;
+      panel.classList.add("is-open");
+      panel.setAttribute("role", "dialog"); panel.setAttribute("aria-modal", "true");
+      openBtn.setAttribute("aria-expanded", "true");
+      backdrop = document.createElement("div"); backdrop.className = "sheet-backdrop"; backdrop.addEventListener("click", () => closeSheet());
+      panel.before(backdrop);
+      outside().forEach((e) => { e.inert = true; });
+      (radios.find((r) => r.checked) || radios[0]).focus();
     };
-    checks.addEventListener("change", draw);
+    const closeSheet = (noFocus) => {
+      if (!panel.classList.contains("is-open")) return;
+      panel.classList.remove("is-open");
+      panel.removeAttribute("role"); panel.removeAttribute("aria-modal");
+      openBtn.setAttribute("aria-expanded", "false");
+      if (backdrop) { backdrop.remove(); backdrop = null; }
+      outside().forEach((e) => { e.inert = false; });
+      if (!noFocus) openBtn.focus();
+    };
+    openBtn.addEventListener("click", openSheet);
+    closeBtn.addEventListener("click", () => closeSheet());
+    panel.addEventListener("keydown", (e) => {
+      if (!panel.classList.contains("is-open")) return;
+      if (e.key === "Escape") { e.preventDefault(); closeSheet(); return; }
+      if (e.key !== "Tab") return;
+      const f = $$("input, select, button", panel).filter((x) => !x.disabled && x.offsetParent !== null && !(x.type === "radio" && !x.checked));
+      const first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    narrow.addEventListener("change", () => closeSheet(true));
+    /* The category list is open on a wide screen and folded on a phone. */
+    const fold = $("#cat-fold"), wide = window.matchMedia("(min-width: 56rem)");
+    const setFold = () => { if (fold) fold.open = wide.matches; };
+    wide.addEventListener("change", setFold); setFold();
+
+    const clear = (what) => {
+      if (what === "q" || what === "all") q.value = "";
+      if (what === "media" || what === "all") radios[0].checked = true;
+      if (what === "sb" || what === "all") { mySb.value = ""; mark(); }
+    };
+    active.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      clear(b.dataset.clear); run();
+      const next = $("button", active); (next || heading).focus();
+    });
+    q.addEventListener("input", () => run());
+    radios.forEach((r) => r.addEventListener("change", () => run()));
+    sortBox.addEventListener("change", () => { order(); run(true); });
+    mySb.addEventListener("change", () => { mark(); run(); status.textContent = mySb.value ? `Plug-ins that need a newer Starboard than ${mySb.value} are marked in words.` : "The marks for Starboard versions are off."; });
+    $("#search-form").addEventListener("submit", (e) => { e.preventDefault(); run(); heading.scrollIntoView(); heading.focus(); });
+    $("#clear").addEventListener("click", () => { clear("all"); run(); q.focus(); });
+    $("#clear-filters").addEventListener("click", () => { clear("all"); run(); status.textContent += " The filters are cleared."; });
     order(); run(); mark();
   }
 
@@ -180,8 +200,7 @@
 
   initDisplay();
   const page = document.body.dataset.page;
-  if (page === "home") home();
-  if (page === "category") category();
+  if (page === "home" || page === "category") shelf();
   if (page === "plugin") plugin();
   if (page === "submit") submit();
 })();
