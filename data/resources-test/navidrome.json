@@ -1,0 +1,22 @@
+{
+ "plugin": "navidrome",
+ "measured_at": "2026-11-26T00:09+00:00",
+ "no_container": false,
+ "environment": {
+  "kind": "test server, made-up data",
+  "starboard_version": "0.30.0",
+  "machine": "Linux x86_64, 12 cores, 16 GB memory"
+ },
+ "how": "docker stats and cgroup memory.current, idle 0 s after start and again after the screenshots used it; processor over 0 s; image size is the unpacked local size",
+ "containers": [
+  {
+   "container": "plugin-navidrome-app",
+   "memory_mib_start": 19.8,
+   "cgroup_mib_start": 17.5,
+   "cpu_percent_60s": 0.04,
+   "image_size_mb": 238.4,
+   "memory_mib_used": 13.8,
+   "cgroup_mib_used": 18.4
+  }
+ ]
+}

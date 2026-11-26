@@ -11,6 +11,7 @@ sys.path.insert(0, str(HERE))
 import manifest as mf  # noqa: E402
 import releases as rl  # noqa: E402
 import resources as rs  # noqa: E402
+import testbench as tb  # noqa: E402
 
 SITE_URL = "https://themightytrex.github.io/stallboard/"
 SITE_PATH = "/stallboard/"
@@ -478,6 +479,43 @@ def issue_address(p):
     return ""
 
 
+def test_section(p):
+    """Memory use, Processor and Image size as measured on a test Starboard with made-up data (kept apart from figures from a real server)."""
+    t = p.get("test")
+    if not t:
+        return '<h3 id="test-h">On a test server</h3><p class="muted">Not measured on a test server yet.</p>'
+    when = esc(nice_date(t["measured_at"][:10]))
+    sb = f", Starboard {esc(t['starboard_version'])}" if t["starboard_version"] else ""
+    label = f'Measured on a test server with made-up data, {when}{sb}.' + (f' Machine: {esc(t["machine"])}.' if t["machine"] else "")
+    if t["no_container"]:
+        return f'<h3 id="test-h">Measured on a test server</h3><p><strong>No container.</strong> This plug-in runs nothing of its own, so it has no memory, processor or image to measure. Read from its manifest, {when}.</p>'
+    if t.get("problem"):
+        return f'<h3 id="test-h">On a test server</h3><p><strong>It did not run cleanly on the test server.</strong> {esc(t["problem"])} {esc(label)}</p>'
+    x = tb.totals(t)
+    f = lambda v, unit: ("<span class=muted>Not read</span>" if v is None else f"About {rs.fmt(v)} {unit}")  # noqa: E731
+    rows = [("Memory use, idle after start", f(x["memory_start"], "MB")), ("Memory use, after it was used", f(x["memory_used"], "MB")),
+            ("Processor, averaged over 60 seconds idle", f(x["cpu"], "% of one core")), ("Image size, unpacked", f(x["image"], "MB")),
+            ("Containers", str(x["count"]))]
+    body = "".join(f'<tr><th scope="row">{esc(a)}</th><td>{b}</td></tr>' for a, b in rows)
+    return (f'<h3 id="test-h">Measured on a test server</h3><p>{label} These are not figures from a real server.</p>'
+            f'<div class="table-wrap" role="region" aria-labelledby="test-h" tabindex="0"><table class="table"><caption class="visually-hidden">What {esc(p["name"])} used on a test server</caption>'
+            f'<thead><tr><th scope="col">What</th><th scope="col">Figure</th></tr></thead><tbody>{body}</tbody></table></div>')
+
+
+def test_line(p):
+    """One short line for the facts strip: what the test server showed, kept apart from the Memory use cell."""
+    t = p.get("test")
+    if not t:
+        return "Not measured on a test server yet"
+    if t["no_container"]:
+        return "No container, nothing to measure"
+    if t.get("problem"):
+        return "It did not run on the test server"
+    x = tb.totals(t)
+    v = x and (x["memory_used"] if x["memory_used"] is not None else x["memory_start"])
+    return "Not read on the test server" if v is None else f"About {rs.fmt(v)} MB of memory on a test server"
+
+
 def use_section(p):
     """What it uses: a plain table, Declared and Measured kept apart, never invented."""
     m = p["manifest"]
@@ -542,7 +580,7 @@ def use_section(p):
         how = '<p class="muted">Nobody has measured this plug-in on a running server yet, so no memory or processor figure is shown. The limits marked Declared are what its manifest allows, not what it uses.</p>'
     return f'''<section id="uses" aria-labelledby="uses-h"><h2 id="uses-h">What it uses</h2>
           <p>Two kinds of figure appear here, and each row says which. <strong>Measured</strong> figures were read from a running plug-in. <strong>Declared</strong> figures are limits written in its manifest. Where nothing is measured, it says so.</p>
-          <div class="table-wrap" data-stack role="region" aria-label="What {esc(m["name"])} uses" tabindex="0"><table class="table"><caption class="visually-hidden">What {esc(m["name"])} uses</caption><thead><tr><th scope="col">What</th><th scope="col">Figure</th><th scope="col">Kind</th><th scope="col">Note</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div>{how}</section>'''
+          <div class="table-wrap" data-stack role="region" aria-label="What {esc(m["name"])} uses" tabindex="0"><table class="table"><caption class="visually-hidden">What {esc(m["name"])} uses</caption><thead><tr><th scope="col">What</th><th scope="col">Figure</th><th scope="col">Kind</th><th scope="col">Note</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div>{how}{test_section(p)}</section>'''
 
 
 def plugin_page(p, sb, plugins=()):
@@ -613,7 +651,8 @@ def plugin_page(p, sb, plugins=()):
         <div><dt>Reviewed</dt><dd>{esc(nice_date(p["reviewed"]["at"]))}, version {esc(p["reviewed"]["version"])}</dd></div>
         <div><dt>Works with</dt><dd>{media_chips(p)}</dd></div>
         <div><dt>Starboard</dt><dd><a href="../starboard.html#plugin-api">{esc(sb_text)}</a></dd></div>
-        <div><dt>Memory use</dt><dd>{mfy_line}</dd></div></dl></section></div>
+        <div><dt>Memory use</dt><dd>{mfy_line}</dd></div>
+        <div><dt>On a test server</dt><dd><a href="#uses">{esc(test_line(p))}</a></dd></div></dl></section></div>
     <div class="wrap layout">
       <nav class="toc" aria-label="On this page"><h2>On this page</h2><ol>
         <li><a href="#what">What it does</a></li><li><a href="#who">Who it is for</a></li><li><a href="#sees">What you will see</a></li><li><a href="#pictures">Pictures</a></li><li><a href="#access">What it can read and change</a></li><li><a href="#needs">What it needs</a></li><li><a href="#uses">What it uses</a></li><li><a href="#versions">Versions and notes</a></li><li><a href="#help">Help</a></li><li><a href="#install">How to install</a></li><li><a href="#review">Who reviewed it</a></li><li><a href="#report">Report a problem</a></li></ol></nav>

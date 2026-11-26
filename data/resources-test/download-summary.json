@@ -1,0 +1,22 @@
+{
+ "plugin": "download-summary",
+ "measured_at": "2026-11-25T22:44+00:00",
+ "no_container": false,
+ "environment": {
+  "kind": "test server, made-up data",
+  "starboard_version": "0.30.0",
+  "machine": "Linux x86_64, 12 cores, 16 GB memory"
+ },
+ "how": "docker stats and cgroup memory.current, idle 0 s after start and again after the screenshots used it; processor over 0 s; image size is the unpacked local size",
+ "containers": [
+  {
+   "container": "plugin-download-summary-main",
+   "memory_mib_start": 13.2,
+   "cgroup_mib_start": 13.2,
+   "cpu_percent_60s": 0.0,
+   "image_size_mb": 61.6,
+   "memory_mib_used": 13.4,
+   "cgroup_mib_used": 13.4
+  }
+ ]
+}
