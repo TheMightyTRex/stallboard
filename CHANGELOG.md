@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- The design system copies in `assets/ds` are current and now come from the design system's own sync tool.
 - The Shelf design replaces the Gallery look. It has a slim banner, a rail of categories and filters, poster cards and a facts strip.
 - The storefront text now holds facts settled from the plug-ins' code and READMEs and the owner's answers (DASH-576). `python3 tools/open_questions.py` lists what is still unclear.
 - Each plug-in page now shows memory, processor and image size measured on a test Starboard with made-up data, and category pages can sort by memory.
