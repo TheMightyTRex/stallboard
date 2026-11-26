@@ -1,0 +1,22 @@
+{
+ "plugin": "seerr",
+ "measured_at": "2026-11-25T23:40+00:00",
+ "no_container": false,
+ "environment": {
+  "kind": "test server, made-up data",
+  "starboard_version": "0.30.0",
+  "machine": "Linux x86_64, 12 cores, 16 GB memory"
+ },
+ "how": "docker stats and cgroup memory.current, idle 0 s after start and again after the screenshots used it; processor over 0 s; image size is the unpacked local size",
+ "containers": [
+  {
+   "container": "plugin-seerr-app",
+   "memory_mib_start": 236.2,
+   "cgroup_mib_start": 244.3,
+   "cpu_percent_60s": 0.0,
+   "image_size_mb": 479.9,
+   "memory_mib_used": 228.6,
+   "cgroup_mib_used": 274.5
+  }
+ ]
+}

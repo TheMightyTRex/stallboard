@@ -181,8 +181,8 @@ except ValueError as err:
     def test_the_page_for_a_plugin_nobody_measured_invents_nothing(self):
         t = (self.out / "plugins" / "audio-description.html").read_text()
         self.assertIn("Not measured yet", t)
-        self.assertNotIn("Measured on", t)
-        self.assertIn("Memory use not measured yet", t)
+        self.assertIn("Memory use not measured yet", t)  # nothing from a real server
+        self.assertIn("Measured on a test server with made-up data", t)  # the test-server figures are labelled as such
 
     def test_page_weight(self):
         import gzip

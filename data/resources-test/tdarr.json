@@ -1,0 +1,12 @@
+{
+ "plugin": "tdarr",
+ "measured_at": "2026-11-25T23:56+00:00",
+ "no_container": false,
+ "problem": "Did not stay running on the test server (plugin-tdarr-server stopped; exit 126, killed by memory limit: false)",
+ "environment": {
+  "kind": "test server, made-up data",
+  "starboard_version": "0.30.0",
+  "machine": "Linux x86_64, 12 cores, 16 GB memory"
+ },
+ "containers": []
+}

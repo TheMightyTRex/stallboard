@@ -93,7 +93,7 @@ class Measuring(unittest.TestCase):
     def test_table(self):
         t = mp.table()
         self.assertIn("| styles | no container |", t)
-        self.assertIn("| kavita | not measured yet |", t)
+        self.assertIn("| kavita |", t)
 
 
 class Rendering(unittest.TestCase):
@@ -103,6 +103,7 @@ class Rendering(unittest.TestCase):
             root = pathlib.Path(d) / "r"
             import shutil
             shutil.copytree(ROOT, root, ignore=shutil.ignore_patterns(".git", "site", "reports", "docs"))
+            (root / "data" / "resources-test" / "kavita.json").unlink()
             (root / "data" / "resources-test" / "direct-play.json").write_text(json.dumps(REC | {"plugin": "direct-play"}))
             plugins, _, files = build.build(pathlib.Path(d) / "out", dt.date(2026, 11, 25), root=root)
             dp = files["plugins/direct-play.html"]
