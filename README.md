@@ -18,7 +18,9 @@ The site is static: pages built from data in this repository, hosted on GitHub P
 - **Search** on the home page and on each category page: type words, and only plug-ins whose name, summary, category or tags hold every word stay. It runs in the page, needs no library, makes no request and tracks nothing. The count is in a live region.
 - **Storefront text** for every plug-in (`data/storefront/<id>.json`). It says what the plug-in does, who it is for, what you will see and what it needs. It comes from the plug-in's own README and help pages. `python3 tools/open_questions.py` lists what the owner still has to confirm.
 - **Pictures**: real screenshots from a test Starboard with made-up data, shown as a gallery on each plug-in page. The pictures are in `assets/shots/<id>/` and the alt text is in `data/shots.json`. `tools/plugin-shots.sh` takes them. Plug-ins with no screenshots yet show drawings and say so.
-- **Display and accessibility** in the menu of every page, phones included. This is the design system's own panel. It has Theme (match device, light, dark), Text size up to 175%, Reduce motion, High contrast, Underline links, Wider text spacing and Remove drop shadows. Choices apply at once and stay in this browser only (`localStorage` under `stallboard-display`, no cookie). The page works without them. The design system has no colour-blind, style or font choice, so there is none here. Atkinson Hyperlegible Next is used throughout.
+- **Display and accessibility** in the menu of every page, phones included. This is the design system's own panel. It has Theme (match device, light, dark), Text size up to 175%, Reduce motion, High contrast, Underline links, Wider text spacing and Remove drop shadows. Choices apply at once and stay in this browser only (`localStorage` under `stallboard-display`, no cookie).
+
+  The page works without them. The design system has no colour-blind, style or font choice, so there is none here. Atkinson Hyperlegible Next is used throughout.
 - **Measured on a test server**: each plug-in page shows memory (idle after start and after use), processor over 60 seconds and image size. The figures come from a test Starboard with made-up data, and are kept apart from figures measured on a real server. Category pages sort by them. `tools/measure_plugins.py` takes the figures and writes `data/resources-test/` and `docs/PLUGIN-MEMORY.md`. It refuses this computer's own Docker unless told otherwise.
 - Submit a plug-in, What Reviewed means, an accessibility statement and a privacy page.
 - `catalogue.json`, which Starboard reads (see below).
@@ -34,7 +36,9 @@ Nothing you submit is ever run. [SECURITY.md](SECURITY.md) says how.
 
 ## How Starboard uses its catalogue
 
-In Starboard, open **Settings**, then **Plug-ins**, then **Catalogue**. Under **Catalogue sources**, paste `https://themightytrex.github.io/stallboard/catalogue.json` and select **Add catalogue**. Its plug-ins appear in the Catalogue, and each one shows what it asks for before you install it. `catalogue.json` has the same schema as the [starboard-plugins](https://github.com/TheMightyTRex/starboard-plugins) catalogue. The fields are id, name, description, kind, author, permissions, version, `starboard_api`, manifest address, logo as a small data address, versions and a measured `rest` figure. A test runs Starboard's own `fetch_catalogue` on it.
+In Starboard, open **Settings**, then **Plug-ins**, then **Catalogue**. Under **Catalogue sources**, paste `https://themightytrex.github.io/stallboard/catalogue.json` and select **Add catalogue**. Its plug-ins appear in the Catalogue, and each one shows what it asks for before you install it. `catalogue.json` has the same schema as the [starboard-plugins](https://github.com/TheMightyTRex/starboard-plugins) catalogue. The fields are id, name, description, kind, author, permissions, version, `starboard_api`, manifest address, logo as a small data address, versions and a measured `rest` figure.
+
+A test runs Starboard's own `fetch_catalogue` on it.
 
 ## How it is built
 
@@ -46,8 +50,12 @@ data/starboard-releases.json   each Starboard release and its plug-in API
 tools/build.py            writes the whole site into site/ (standard library only, works offline)
 ```
 
-- **Offline builds.** The build reads only the committed snapshots, so it never fails because a maker's server is down. The build leaves a listing out of the site when its snapshot is older than 14 days. It also leaves one out when its manifest fails Starboard's check or its snapshot or logo is broken. It says so in its output and its run summary. The daily refresh opens a pull request only when a file changed. It also opens one to move the read date of a file not read for 7 days.
-- **Refreshing.** `tools/refresh_snapshots.py` and `tools/refresh_releases.py` fetch again, as data, through `tools/lib/safefetch.py`. A daily workflow runs them. A `starboard-release` or `plugin-release` event runs it at once. A release workflow sends the event with `gh api repos/TheMightyTRex/stallboard/dispatches -f event_type=starboard-release`. The first job reads with a read-only token that goes to `api.github.com` only, because GitHub limits calls without one. A second job opens one pull request for a person to read. A third job opens an issue if the refresh fails. More permissions than before show in bold.
+- **Offline builds.** The build reads only the committed snapshots, so it never fails because a maker's server is down. The build leaves a listing out of the site when its snapshot is older than 14 days. It also leaves one out when its manifest fails Starboard's check or its snapshot or logo is broken.
+
+  It says so in its output and its run summary. The daily refresh opens a pull request only when a file changed. It also opens one to move the read date of a file not read for 7 days.
+- **Refreshing.** `tools/refresh_snapshots.py` and `tools/refresh_releases.py` fetch again, as data, through `tools/lib/safefetch.py`. A daily workflow runs them. A `starboard-release` or `plugin-release` event runs it at once. A release workflow sends the event with `gh api repos/TheMightyTRex/stallboard/dispatches -f event_type=starboard-release`.
+
+  The first job reads with a read-only token that goes to `api.github.com` only, because GitHub limits calls without one. A second job opens one pull request for a person to read. A third job opens an issue if the refresh fails. More permissions than before show in bold.
 - **The manifest check** is Starboard's own `check()`, copied unchanged into `vendor/starboard/` and pinned to a release (see `VENDORED.json`). It is copied, not downloaded, so a submission check never fetches code and the copy is reviewed in a pull request. To refresh it: `python3 tools/vendor_starboard.py v0.30.0`, run the tests and open a pull request.
 - **Resources.** Declared limits come from each manifest. Measured figures come from `tools/measure_resources.py`, which runs on a Starboard server and only reads (`docker ps`, `docker stats`, `docker inspect`). Where nothing is measured, the page says "Not measured yet". A maker's own figures show as "Maker's figures, not measured by the reviewer".
 

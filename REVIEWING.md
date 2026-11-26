@@ -6,7 +6,9 @@ Never run anything from the submission on your own computer. Read it on GitHub.
 
 ## The checklist
 
-1. **What it asks for against what it says it does.** Open the plug-in's `starboard-plugin.json`. For each permission, find the sentence in the description or the submitter's answer that needs it. A permission with no reason is a question to the submitter. High risk permissions (`jellyfin:key`, `reelix:key`, `usenet:servers`, `library:holding`) need a clear reason. A plug-in that reaches the internet should say what it sends and to whom. `network:lan` also lets a plug-in reach the internet.
+1. **What it asks for against what it says it does.** Open the plug-in's `starboard-plugin.json`. For each permission, find the sentence in the description or the submitter's answer that needs it. A permission with no reason is a question to the submitter.
+
+   High risk permissions (`jellyfin:key`, `reelix:key`, `usenet:servers`, `library:holding`) need a clear reason. A plug-in that reaches the internet should say what it sends and to whom. `network:lan` also lets a plug-in reach the internet.
 2. **The licence.** It is a real licence. It is the same in the file and in the form. It lets Stallboard list the plug-in and link to it.
 3. **The image is pinned by digest.** Each container's image is `name@sha256:...`. The image comes from the maker's own registry or repository, and the repository builds it (look for the workflow or Dockerfile). A digest the maker cannot explain is a reason to stop.
 4. **The maker's repository.** It exists and matches the manifest's home page. The code is the code the image is built from, and the maker is who they say they are. For a first submission from someone new, check their history.
@@ -29,7 +31,9 @@ Delete its `listings/<id>.json` in a pull request and say why on the issue. Do i
 
 ## The mark Starboard's own
 
-A submitter cannot claim it. The checks refuse any maker name that contains the owner's name, and they ignore spaces, case and look-alike letters. The mark comes only from `"own": true` in a listing file. Never add `own` to a listing unless the plug-in is the owner's. If a pull request from the approval workflow carries `own`, close it.
+A submitter cannot claim it. The checks refuse any maker name that contains the owner's name, and they ignore spaces, case and look-alike letters. The mark comes only from `"own": true` in a listing file. Never add `own` to a listing unless the plug-in is the owner's.
+
+If a pull request from the approval workflow carries `own`, close it.
 
 ## Addresses must be a commit
 
