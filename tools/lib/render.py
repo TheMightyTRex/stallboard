@@ -315,8 +315,8 @@ def tile(p, depth, data=True):
 
 KIND_ABOUT = {
     "Apps you can add": "Each one adds a whole app to your server, with its own page, and Starboard keeps it up to date. Most of them need only a few steps and nothing else set up first.",
-    "Jellyfin": "These work with the films and series in Jellyfin: tidying the library, making files play directly, showing what people watch and making your own channels.",
-    "Network": "These look after speed, safety and reaching your home from outside: ad blocking, line speed, remote access and checks on the services you rely on.",
+    "Jellyfin": "These work with the films and series in Jellyfin. They tidy the library, make files play directly, show what people watch and make your own channels.",
+    "Network": "These look after speed, safety and reaching your home from outside. They cover ad blocking, line speed, remote access and checks on the services you rely on.",
     "System": "These watch the server itself: when disks will be full, whether backups ran, and how Starboard's alerts reach you.",
     "Accessibility": "Made for blind and partially sighted people: descriptions of what happens on screen, and the tracks that carry them.",
     "Downloads": "These show what is coming in, and check that downloads go out through your VPN.",
