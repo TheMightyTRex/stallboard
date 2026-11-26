@@ -1,6 +1,6 @@
 # Plug-in memory, processor and image size on a test Starboard
 
-Written by `python3 tools/measure_plugins.py`. Measured on a test Starboard that holds made-up data, never on a real server. Memory is docker stats in MiB, idle after start and again after the screenshots used the plug-in; the cgroup column is memory.current for the same two moments. Processor is a percent of one core averaged over 60 seconds idle. Image size is the unpacked size in MB. Figures are summed over a plug-in's containers; a blank is a figure that could not be read.
+Written by `python3 tools/measure_plugins.py`. Measured on a test Starboard that holds made-up data, never on a real server. Memory is docker stats in MiB, idle after start and again after the screenshots used the plug-in. The cgroup column is memory.current for the same two moments. Processor is a percent of one core averaged over 60 seconds idle. Image size is the unpacked size in MB. Figures are summed over a plug-in's containers; a blank is a figure that could not be read.
 
 | Plug-in | Containers | Memory at start (MiB) | Memory after use (MiB) | cgroup start / after use (MiB) | Processor (% of a core) | Image (MB) |
 |---|---|---|---|---|---|---|

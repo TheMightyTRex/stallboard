@@ -381,7 +381,7 @@ def table(root=ROOT, folder=OUT):
             rows.append(f"| {pid} | {x['count']} | {f(x['memory_start'])} | {f(x['memory_used'])} | {f(x['cgroup_start'])} / {f(x['cgroup_used'])} | {f(x['cpu'])} | {f(x['image'])} |")
     body = ("# Plug-in memory, processor and image size on a test Starboard\n\n"
             "Written by `python3 tools/measure_plugins.py`. Measured on a test Starboard that holds made-up data, never on a real server. "
-            "Memory is docker stats in MiB, idle after start and again after the screenshots used the plug-in; the cgroup column is memory.current "
+            "Memory is docker stats in MiB, idle after start and again after the screenshots used the plug-in. The cgroup column is memory.current "
             "for the same two moments. Processor is a percent of one core averaged over 60 seconds idle. Image size is the unpacked size in MB. "
             "Figures are summed over a plug-in's containers; a blank is a figure that could not be read.\n\n"
             "| Plug-in | Containers | Memory at start (MiB) | Memory after use (MiB) | cgroup start / after use (MiB) | Processor (% of a core) | Image (MB) |\n"
