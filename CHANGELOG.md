@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- The two-column layout of the home and category pages is now `.store-layout`, so it no longer clashes with the design system's `.shelf` (a row of Discover covers).
 - The design system copies in `assets/ds` are current and now come from the design system's own sync tool.
 - The Shelf design replaces the Gallery look. It has a slim banner, a rail of categories and filters, poster cards and a facts strip.
 - The storefront text now holds facts settled from the plug-ins' code and READMEs and the owner's answers (DASH-576). `python3 tools/open_questions.py` lists what is still unclear.

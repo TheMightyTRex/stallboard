@@ -344,7 +344,7 @@ def rail(plugins, releases, current, depth, with_test_sort):
     media = "".join(f'<label class="seg__o"><input type="radio" name="media" value="{v}"{" checked" if v == "" else ""}><span>{t}</span></label>' for v, t in [("", "Any"), ("jellyfin", "Jellyfin"), ("plex", "Plex"), ("emby", "Emby")])
     sbs = "".join(f'<option value="{esc(r["version"])}">Starboard {esc(r["version"])}</option>' for r in sorted(releases, key=lambda r: rl.ver(r["version"]), reverse=True)[:12])
     sorts = '<option value="name">Name, A to Z</option><option value="mem">Memory at rest, lowest first</option>' + ('<option value="testmem">Memory on the test server, lowest first</option>' if with_test_sort else "") + '<option value="new">Newest first</option>'
-    return f'''<div class="shelf__rail">
+    return f'''<div class="store-layout__rail">
     <nav class="catnav" aria-label="Categories"><details id="cat-fold" open><summary>Categories</summary><ul>{"".join(items)}</ul></details></nav>
     <section class="filters js-only" id="filters" aria-labelledby="filters-h" hidden>
       <div class="filters__head"><h2 id="filters-h" tabindex="-1">Filters</h2><button class="btn btn--quiet filters__done" type="button" id="filters-close">Show results</button></div>
@@ -386,9 +386,9 @@ def home(plugins, depth_releases, sb, apps=()):
   <div><h1 id="hero-h">Plug-ins for Starboard</h1><p class="banner__sub">{n} plug-ins, each checked and then read by a person. New to Starboard? <a href="starboard.html">Start here{f", with release {esc(latest['version'])}" if latest else ""}</a>.{app_line}</p></div>
   <div class="banner__tools">{search_form("all-list", "Try backups, Jellyfin or lights.", "the plug-ins")}</div>
 </div></section>
-<div class="wrap shelf">
+<div class="wrap store-layout">
   {rail(P, depth_releases, "all", 0, has_test_sort(P))}
-  <section class="shelf__main" id="all-plug-ins" aria-labelledby="all-h"><h2 id="all-h" tabindex="-1">All plug-ins</h2>
+  <section class="store-layout__main" id="all-plug-ins" aria-labelledby="all-h"><h2 id="all-h" tabindex="-1">All plug-ins</h2>
     {results_block("all-list", n)}
     <ul class="grid tiles" id="all-list">{tiles}</ul>
   </section>
@@ -409,9 +409,9 @@ def category_page(kind, plugins, releases=()):
   <div><h1 id="hero-h">{esc(kind)}</h1><p class="banner__sub">{esc(KIND_ABOUT[kind])} {plural(n)}.</p></div>
   <div class="banner__tools">{search_form("cat-list", "Try a name or a word such as backups.", "this category")}</div></div>
 </div></section>
-<div class="wrap shelf">
+<div class="wrap store-layout">
   {rail(plugins, releases, kind, 1, has_test_sort(plugins))}
-  <section class="shelf__main" aria-labelledby="results-h"><h2 id="results-h" tabindex="-1">Plug-ins in this category</h2>
+  <section class="store-layout__main" aria-labelledby="results-h"><h2 id="results-h" tabindex="-1">Plug-ins in this category</h2>
     {results_block("cat-list", n)}
     <ul class="grid tiles" id="cat-list">{tiles}</ul>
   </section>

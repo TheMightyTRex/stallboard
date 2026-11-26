@@ -338,12 +338,12 @@ h2.display { font-size: clamp(1.5rem, 1rem + 1.5vw, 2rem); }
 .filters__open svg { width: 1.25rem; height: 1.25rem; }
 
 /* The page under the banner: a rail on the left, results on the right. On a phone the rail's filters become a sheet. */
-.shelf { display: grid; gap: var(--sp-5); grid-template-columns: minmax(0, 1fr); padding-block: var(--sp-5) var(--sp-7); }
-.shelf > * { min-width: 0; }
-.shelf__rail { display: grid; gap: var(--sp-4); align-content: start; }
-.shelf__main > h2 { font-size: 1.5rem; line-height: 1.25; margin: 0 0 var(--sp-3); }
+.store-layout { display: grid; gap: var(--sp-5); grid-template-columns: minmax(0, 1fr); padding-block: var(--sp-5) var(--sp-7); }
+.store-layout > * { min-width: 0; }
+.store-layout__rail { display: grid; gap: var(--sp-4); align-content: start; }
+.store-layout__main > h2 { font-size: 1.5rem; line-height: 1.25; margin: 0 0 var(--sp-3); }
 @media (min-width: 56rem) {
-  .shelf { grid-template-columns: 16rem minmax(0, 1fr); align-items: start; }
+  .store-layout { grid-template-columns: 16rem minmax(0, 1fr); align-items: start; }
   .filters__open, .filters__head .btn { display: none; }
 }
 .catnav, .filters { background: var(--color-surface); border: var(--card-edge); border-radius: var(--radius); }
@@ -455,9 +455,9 @@ code { overflow-wrap: anywhere; }
 
 /* Print: leave out what is not content */
 @media print {
-  .skip-link, .top, .foot, .shelf__rail, .banner__search, .filters__open, .active, .phead__actions, .toc, .side-panel-layer, [id^="snaglist"], snag-list { display: none !important; }
+  .skip-link, .top, .foot, .store-layout__rail, .banner__search, .filters__open, .active, .phead__actions, .toc, .side-panel-layer, [id^="snaglist"], snag-list { display: none !important; }
   body { background: #fff; color: #000; }
-  .shelf { display: block; }
+  .store-layout { display: block; }
   .tile, .cat, .strip > div, .doc > section, figure { break-inside: avoid; box-shadow: none; }
   .banner, .phead { background: none; }
   a[href^="https"]::after { content: " (" attr(href) ")"; font-size: 0.85em; overflow-wrap: anywhere; }

@@ -92,7 +92,7 @@
 
     /* The sheet (a phone): it is a dialog only while it is open, focus goes in and comes back, Tab stays inside, Escape closes. */
     const narrow = window.matchMedia("(max-width: 55.99rem)");
-    const outside = () => $$(".top, .foot, .banner, .shelf__main, .catnav, .skip-link");
+    const outside = () => $$(".top, .foot, .banner, .store-layout__main, .catnav, .skip-link");
     let backdrop = null;
     const openSheet = () => {
       if (!narrow.matches) return;
