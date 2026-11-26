@@ -210,6 +210,20 @@
    "date": "2026-11-23",
    "api": "1.17.0",
    "url": "https://github.com/TheMightyTRex/starboard/releases/tag/v0.29.0"
+  },
+  {
+   "version": "0.30.0",
+   "tag": "v0.30.0",
+   "date": "2026-11-24",
+   "api": "1.17.0",
+   "url": "https://github.com/TheMightyTRex/starboard/releases/tag/v0.30.0"
+  },
+  {
+   "version": "0.31.0",
+   "tag": "v0.31.0",
+   "date": "2026-11-25",
+   "api": "1.17.0",
+   "url": "https://github.com/TheMightyTRex/starboard/releases/tag/v0.31.0"
   }
  ]
 }
