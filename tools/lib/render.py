@@ -264,11 +264,12 @@ def media_label(p):
     return "Works with " + (join_words(m) + (" only" if len(m) == 1 else "" if len(m) == 3 else " only"))
 
 
-def media_chips(p, tag="ul"):
+def media_chips(p, tag="ul", icons=True):
     """One chip for each media server the plug-in supports. The words carry the meaning; the group has one spoken name."""
     m = p["media"]
     label = media_label(p)
-    chips = "".join(f'<li><span class="chip chip--media" data-server="{x}">{icon("tv")}{MEDIA[x]}{"<span class=visually-hidden> only</span>" if len(m) == 1 else ""}</span></li>' for x in m)
+    ic = icon("tv") if icons else ""
+    chips = "".join(f'<li><span class="chip chip--media" data-server="{x}">{ic}{MEDIA[x]}{"<span class=visually-hidden> only</span>" if len(m) == 1 else ""}</span></li>' for x in m)
     return f'<ul class="chiprow media-chips" aria-label="{esc(label)}">{chips}</ul>'
 
 
@@ -279,110 +280,36 @@ def search_text(p):
     return " ".join(" ".join(bits).lower().split())
 
 
-def tile(p, depth, why=None):
-    media = media_chips(p)
-    apps = needs_apps(p)
-    why_html = f'<p class="tile__why">{icon("plug")}<span>Works with {esc(join_words(why))}</span></p>' if why else ""
+def plate(p, depth, size=88):
+    """The picture on a card and on a plug-in page. Every plug-in gets the same treatment: its logo on a white tile, over a tint of its
+    category's colour. A plug-in with no logo gets its first letter on its category's colour, so no card is ever blank, stretched or cropped."""
+    if p["logo_bytes"]:
+        return f'<span class="plate plate--{size}"><img src="{rel(depth)}{p["logo_file"]}" alt="" width="{size}" height="{size}" loading="lazy" decoding="async"></span>'
+    return f'<span class="plate plate--{size} plate--mono" aria-hidden="true">{esc(p["name"][:1].upper())}</span>'
+
+
+def tile(p, depth, data=True):
+    """A poster card: the same parts in the same places on every card, so every card is the same height. At most three chips
+    (the media servers). The name is the one link and covers the card, so a card is one tab stop and one big target."""
     sb, _ = sb_need_text(p)
     mem = p["mem_value"]
-    return f'''<li class="tile kind-{KINDS[p["kind"]][0]}" data-id="{esc(p["id"])}" data-kind="{esc(p["kind"])}" data-name="{esc(p["name"].lower())}" data-mem="{'' if mem is None else mem}" data-sb="{esc(p["needs_sb"].get("first_full") or "")}" data-works="{esc("|".join(works_with(p)))}" data-search="{esc(search_text(p))}" data-media="{" ".join(p["media"])}" data-date="{esc(p["latest_date"])}">
-      <div class="tile__art"><span class="logo-plate">{logo_img(p, depth)}</span><span class="tile__kind">{esc(p["kind"])}</span></div>
+    attrs = ""
+    if data:
+        attrs = (f' data-id="{esc(p["id"])}" data-kind="{esc(p["kind"])}" data-name="{esc(p["name"].lower())}" data-mem="{"" if mem is None else mem}" data-sb="{esc(p["needs_sb"].get("first_full") or "")}"'
+                 f' data-works="{esc("|".join(works_with(p)))}" data-search="{esc(search_text(p))}" data-media="{" ".join(p["media"])}" data-testmem="{"" if p.get("test_mem") is None else p["test_mem"]}" data-date="{esc(p["latest_date"])}"')
+    return f'''<li class="tile kind-{KINDS[p["kind"]][0]}"{attrs}>
+      <div class="tile__art">{plate(p, depth)}</div>
       <div class="tile__body">
         <h3 class="tile__name"><a href="{rel(depth)}plugins/{esc(p["id"])}.html">{esc(p["name"])}</a></h3>
-        <p class="tile__pitch">{esc(pitch_of(p))}</p>{why_html}
-        {media}
+        <p class="tile__kind">{esc(p["kind"])}</p>
+        <p class="tile__pitch">{esc(pitch_of(p))}</p>
+        {media_chips(p, icons=False)}
+        <p class="tile__need"><span class="sb-need">{esc(sb)}</span></p>
         <p class="tile__use">{esc(p["mem_line"])}</p>
-        <ul class="tile__meta" aria-label="About {esc(p["name"])}"><li>{reviewed_chip()}</li><li><span class="chip">Version {esc(p["manifest"]["version"])}</span></li><li><span class="chip">{"Needs " + esc(join_words(apps)) if apps else "Needs nothing else"}</span></li><li><span class="chip sb-need">{esc(sb)}</span></li></ul>
       </div></li>'''
 
 
-# ------------------------------------------------------------------ home
-
-
-def home(plugins, depth_releases, sb, apps=()):
-    P = sorted(plugins, key=lambda p: p["name"].lower())
-    counts = {k: sum(1 for p in P if p["kind"] == k) for k in KINDS}
-    by_id = {p["id"]: p for p in P}
-    cats = "".join(
-        f'<li><a class="cat kind-{KINDS[k][0]}" href="category/{KINDS[k][0]}.html"><span>{icon(KINDS[k][1])}<span class="cat__name">{esc(k)}</span><span class="cat__line">{esc(KINDS[k][2])}</span></span><span class="cat__count">{counts[k]} plug-in{"" if counts[k] == 1 else "s"} {icon("chevron-right")}</span></a></li>'
-        for k in KINDS if counts[k])
-    hero_ids = [i for i in ["audio-description", "home-assistant", "jellystat", "styles", "tv-station", "philips-hue"] if i in by_id] or [p["id"] for p in P[:6]]
-    collage = "".join(f'<li>{logo_img(by_id[i], 0)}</li>' for i in hero_ids)
-    fresh = sorted([p for p in P if p["latest_date"]], key=lambda p: (p["latest_date"], p["name"]), reverse=True)[:6]
-    strip = "".join(
-        f'<li class="strip__item"><span class="logo-plate">{logo_img(p, 0, 52)}</span><div><h3 class="strip__name"><a href="plugins/{esc(p["id"])}.html">{esc(p["name"])}</a></h3><p class="strip__note"><span class="chip" data-tone="{"info" if len(p["manifest"]["versions"]) > 1 else "success"}">{"Updated" if len(p["manifest"]["versions"]) > 1 else "New"}</span> {esc(nice_date(p["latest_date"]))}, version {esc(p["manifest"]["version"])}</p></div></li>'
-        for p in fresh)
-    demo_apps = ["Jellyfin", "Reelix", "Home Assistant"]
-    hits = [(p, [a for a in works_with(p) if a in demo_apps]) for p in P]
-    hits = sorted([h for h in hits if h[1]], key=lambda h: (-len(h[1]), not h[0]["recommended"], h[0]["name"]))
-    mfy = "".join(tile(p, 0, w) for p, w in hits[:6])
-    checks = "".join(f'<label class="check"><input type="checkbox" value="{esc(a)}"{" checked" if a in demo_apps else ""}><span class="check__text">{esc(a)}</span></label>' for a in APPS)
-    chips = "".join(f'<button class="filter-chip" type="button" aria-pressed="{"true" if i == 0 else "false"}" data-kind="{"" if k == "All" else esc(k)}">{esc(k)}</button>' for i, k in enumerate(["All"] + [k for k in KINDS if counts[k]]))
-    tiles = "".join(tile(p, 0) for p in P)
-    n = len(P)
-    measured = sum(1 for p in P if p["mem_source"] == "measured")
-    latest = sb["latest"]
-    body = f'''
-<main id="main">
-<section class="hero" aria-labelledby="hero-h"><div class="wrap"><div class="hero__block">
-  <div>
-    <p class="kicker">Plug-ins for Starboard</p>
-    <h1 class="display" id="hero-h">Plug something good into your Starboard.</h1>
-    <p class="lede">{n} plug-ins for your media, your network and your home. Each one is checked, then read by a person, before it is listed.</p>
-    <form class="hero__form js-only" id="search-form" role="search" hidden>
-      <div class="field"><label class="field__label" for="q">Search the plug-ins</label><p class="hint" id="q-hint">Try backups, Jellyfin or lights.</p><input class="input" id="q" type="search" autocomplete="off" aria-describedby="q-hint"></div>
-    </form>
-  </div>
-  <ul class="collage" id="collage" aria-hidden="true">{collage}</ul>
-</div></div></section>
-
-<section class="section" id="start-here" aria-labelledby="start-h" data-s="pt0"><div class="wrap"><div class="startgrid">
-  <div class="startcard"><div>
-    <p class="kicker">New here? Start here</p>
-    <h2 class="display" id="start-h">Starboard</h2>
-    <p>The plug-ins need Starboard, a media server you set up from one dashboard. {f"The newest release is {esc(latest['version'])}, with plug-in API {esc(latest['api'])}." if latest else ""} Every plug-in says which Starboard it needs.</p>
-    <p class="startcard__actions"><a class="btn btn--primary btn--big" href="starboard.html">About Starboard and how to install it</a> <a class="btn" href="{addr(latest["url"]) if latest else REPO_URL}" target="_blank" rel="noopener">Release notes{f" for {esc(latest['version'])}" if latest else ""}<span class="visually-hidden"> (opens in a new tab)</span></a></p>
-  </div></div>
-  {"".join(f'<div class="startcard"><div><p class="kicker">An app, not a plug-in</p><h2 class="display" id="app-{esc(a["id"])}-h">Works with Starboard: {esc(a["name"])}</h2><p>{esc(a["summary"] or a["tagline"])}</p><p class="startcard__actions"><a class="btn btn--big" href="{esc(a["id"])}.html">About {esc(a["name"])}, with help and links</a></p></div></div>' for a in apps)}
-</div></div></section>
-
-<section class="section" id="categories" aria-labelledby="cats-h" data-s="pt0"><div class="wrap">
-  <div class="section__head"><h2 class="display" id="cats-h">What do you want to do?</h2><p>Each category has a page of its own. <a href="category/index.html">All categories</a></p></div>
-  <ul class="cats" id="cats">{cats}</ul>
-</div></section>
-
-<section class="section" id="fresh-section" aria-labelledby="fresh-h" data-s="pt0"><div class="wrap">
-  <div class="section__head"><h2 class="display" id="fresh-h">New and updated</h2><p>The latest from the makers, newest first.</p></div>
-  <ul class="strip" id="fresh">{strip}</ul>
-</div></section>
-
-<section class="band section" id="made-for-you" aria-labelledby="mfy-h"><div class="wrap">
-  <div class="section__head"><h2 class="display" id="mfy-h">Made for you <span class="chip" data-tone="info">Demo</span></h2><p>Works with the apps you run.</p></div>
-  <p class="muted" id="mfy-demo">This row is a demo. Stallboard cannot see your Starboard: nothing is linked, and nothing about you is sent. Here is what a Starboard that runs Jellyfin, Reelix and Home Assistant would be shown.</p>
-  <div class="linked js-only" id="linked" hidden>
-    <div class="linked__head"><h3>Demo: a Starboard that runs these apps</h3></div>
-    <p class="muted" data-s="m0">Change the ticks to try it. Nothing is saved or sent.</p>
-    <fieldset><legend>Apps the demo Starboard runs</legend><div class="checks" id="apps-run">{checks}</div></fieldset>
-  </div>
-  <p class="results-note" id="mfy-status" role="status">Showing {min(6, len(hits))} of {len(hits)} plug-ins that work with {esc(join_words(demo_apps))}.</p>
-  <ul class="tiles" id="mfy-list" aria-label="Plug-ins that work with the apps in the demo">{mfy}</ul>
-</div></section>
-
-<section class="section" id="all-plug-ins" aria-labelledby="all-h"><div class="wrap">
-  <div class="section__head"><h2 class="display" id="all-h" tabindex="-1">All plug-ins</h2><p>{n} listed. {measured} {"has" if measured == 1 else "have"} a memory figure measured on a real server; the rest say "not measured yet".</p></div>
-  <div class="toolbar js-only" hidden>
-    <div class="filter-chips" id="kind-chips" role="group" aria-label="Show plug-ins for">{chips}</div>
-    <div class="toolbar__row">
-      {media_select()}<div class="field"><label class="field__label" for="sort">Sort by</label><select class="select" id="sort"><option value="name">Name, A to Z</option><option value="mem">Memory at rest, lowest first</option><option value="new">Newest first</option></select></div>
-      <div class="field"><label class="field__label" for="mysb">The Starboard you have</label><select class="select" id="mysb"><option value="">Any, do not mark plug-ins</option>{"".join(f'<option value="{esc(r["version"])}">Starboard {esc(r["version"])}</option>' for r in sorted(depth_releases, key=lambda r: rl.ver(r["version"]), reverse=True)[:12])}</select></div>
-    </div>
-  </div>
-  <p class="results-note" id="results-status" role="status"></p>
-  <div class="blank" id="none" hidden><p data-s="mt0">Nothing matches that.</p><button class="btn" type="button" id="clear">Clear the search and choose All</button></div>
-  <ul class="tiles" id="all-list">{tiles}</ul>
-</div></section>
-</main>'''
-    return body
+# ------------------------------------------------------------------ the shelf: home and category pages
 
 
 KIND_ABOUT = {
@@ -397,45 +324,111 @@ KIND_ABOUT = {
 }
 
 
-def media_select():
-    return '''<div class="field"><label class="field__label" for="media">Works with</label><select class="select" id="media"><option value="">Any media server</option><option value="jellyfin">Jellyfin</option><option value="plex">Plex</option><option value="emby">Emby</option></select></div>'''
+def plural(n):
+    return f"{n} plug-in{'' if n == 1 else 's'}"
+
+
+def rail(plugins, releases, current, depth, with_test_sort):
+    """The rail: categories (links, they work without a script), then the filters (script only). On a phone the filters are a sheet
+    that a Filters button opens, with Works with first, and the categories fold up."""
+    p = rel(depth)
+    here = "" if depth == 0 else "../"
+    counts = {k: sum(1 for x in plugins if x["kind"] == k) for k in KINDS}
+    all_href = "#all-plug-ins" if depth == 0 else f"{here}index.html#all-plug-ins"
+    cat_href = (lambda k: f"category/{KINDS[k][0]}.html") if depth == 0 else (lambda k: f"{KINDS[k][0]}.html")
+    items = [f'<li><a href="{all_href}"{" aria-current=\"page\"" if current == "all" else ""}>All plug-ins <span class="n">{len(plugins)}</span></a></li>']
+    for k in KINDS:
+        if counts[k]:
+            items.append(f'<li><a href="{cat_href(k)}"{" aria-current=\"page\"" if current == k else ""}>{esc(k)} <span class="n">{counts[k]}</span></a></li>')
+    media = "".join(f'<label class="seg__o"><input type="radio" name="media" value="{v}"{" checked" if v == "" else ""}><span>{t}</span></label>' for v, t in [("", "Any"), ("jellyfin", "Jellyfin"), ("plex", "Plex"), ("emby", "Emby")])
+    sbs = "".join(f'<option value="{esc(r["version"])}">Starboard {esc(r["version"])}</option>' for r in sorted(releases, key=lambda r: rl.ver(r["version"]), reverse=True)[:12])
+    sorts = '<option value="name">Name, A to Z</option><option value="mem">Memory at rest, lowest first</option>' + ('<option value="testmem">Memory on the test server, lowest first</option>' if with_test_sort else "") + '<option value="new">Newest first</option>'
+    return f'''<div class="shelf__rail">
+    <nav class="catnav" aria-label="Categories"><details id="cat-fold" open><summary>Categories</summary><ul>{"".join(items)}</ul></details></nav>
+    <section class="filters js-only" id="filters" aria-labelledby="filters-h" hidden>
+      <div class="filters__head"><h2 id="filters-h" tabindex="-1">Filters</h2><button class="btn btn--quiet filters__done" type="button" id="filters-close">Show results</button></div>
+      <fieldset class="seg"><legend>Works with</legend><div class="seg__row">{media}</div></fieldset>
+      <div class="field"><label class="field__label" for="mysb">The Starboard you have</label><select class="select" id="mysb"><option value="">Any, do not mark plug-ins</option>{sbs}</select></div>
+      <div class="field"><label class="field__label" for="sort">Sort by</label><select class="select" id="sort">{sorts}</select></div>
+      <button class="btn" type="button" id="clear-filters">Clear the filters</button>
+    </section>
+  </div>'''
 
 
 def search_form(pid, hint, scope):
     """The search box. It filters the list on the page as you type, reads only the page's own data and sends nothing anywhere."""
-    return f'''<form class="hero__form js-only" id="search-form" role="search" aria-label="Search {esc(scope)}" hidden>
-      <div class="field"><label class="field__label" for="q">Search {esc(scope)}</label><p class="hint" id="q-hint">{esc(hint)} It searches names, summaries, categories and tags. Results update as you type.</p><input class="input" id="q" type="search" autocomplete="off" aria-describedby="q-hint" aria-controls="{pid}"></div>
-    </form>'''
+    return f'''<form class="banner__search js-only" id="search-form" role="search" aria-label="Search {esc(scope)}" hidden>
+      <div class="field"><label class="field__label" for="q">Search {esc(scope)}</label><input class="input" id="q" type="search" autocomplete="off" aria-describedby="q-hint" aria-controls="{pid}"><p class="hint" id="q-hint">{esc(hint)} Results update as you type.</p></div>
+    </form>
+    <button class="btn filters__open js-only" type="button" id="filters-open" aria-haspopup="dialog" aria-expanded="false" aria-controls="filters" hidden>{icon("sliders")}Filters<span id="filters-n"></span></button>'''
 
 
-def category_page(kind, plugins):
+def results_block(pid, total, heading_id="results-h"):
+    return f'''<ul class="active js-only" id="active" aria-label="Active filters" hidden></ul>
+    <p class="results-note" id="results-status" role="status" data-total="{total}"></p>
+    <div class="blank" id="none" hidden><p data-s="mt0">Nothing matches that.</p><button class="btn" type="button" id="clear">Clear the search and the filters</button></div>'''
+
+
+def has_test_sort(plugins):
+    return any(p.get("test_mem") is not None for p in plugins)
+
+
+def home(plugins, depth_releases, sb, apps=()):
+    P = sorted(plugins, key=lambda p: p["name"].lower())
+    tiles = "".join(tile(p, 0) for p in P)
+    n = len(P)
+    latest = sb["latest"]
+    app_line = (" Apps that work with Starboard: " + ", ".join(f'<a href="{esc(a["id"])}.html">Works with Starboard: {esc(a["name"])}</a>' for a in apps) + ".") if apps else ""
+    return f'''
+<main id="main">
+<section class="banner" aria-labelledby="hero-h"><div class="wrap banner__in">
+  <div><h1 id="hero-h">Plug-ins for Starboard</h1><p class="banner__sub">{n} plug-ins, each checked and then read by a person. New to Starboard? <a href="starboard.html">Start here{f", with release {esc(latest['version'])}" if latest else ""}</a>.{app_line}</p></div>
+  <div class="banner__tools">{search_form("all-list", "Try backups, Jellyfin or lights.", "the plug-ins")}</div>
+</div></section>
+<div class="wrap shelf">
+  {rail(P, depth_releases, "all", 0, has_test_sort(P))}
+  <section class="shelf__main" id="all-plug-ins" aria-labelledby="all-h"><h2 id="all-h" tabindex="-1">All plug-ins</h2>
+    {results_block("all-list", n)}
+    <ul class="grid tiles" id="all-list">{tiles}</ul>
+  </section>
+</div>
+</main>'''
+
+
+def category_page(kind, plugins, releases=()):
     slug, ic, line = KINDS[kind]
     ps = sorted([p for p in plugins if p["kind"] == kind], key=lambda p: p["name"].lower())
     tiles = "".join(tile(p, 1) for p in ps)
     n = len(ps)
-    others = "".join(f'<li><a class="chip chip--link" href="{KINDS[k][0]}.html">{icon(KINDS[k][1])}{esc(k)}</a></li>' for k in KINDS if k != kind and any(p["kind"] == k for p in plugins))
     return f'''
-<main id="main"><nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><a href="index.html">Categories</a></li><li><span aria-current="page">{esc(kind)}</span></li></ol></nav>
-<div class="wrap section"><header class="phead kind-{slug}"><span class="logo-plate logo-plate--lg phead__icon">{icon(ic)}</span><div><p class="kicker">Category</p><h1 class="display">{esc(kind)}</h1><p class="phead__pitch">{esc(line)} {n} plug-in{"" if n == 1 else "s"}.</p></div></header>
-<p data-s="mt2">{esc(KIND_ABOUT[kind])}</p>
-{search_form("cat-list", "Try a name or a word such as backups.", "this category")}
-<div class="toolbar js-only" hidden><div class="toolbar__row">{media_select()}</div></div>
-<h2 class="visually-hidden" id="cat-h">Plug-ins in this category</h2>
-<p class="results-note" id="results-status" role="status" data-total="{n}"></p>
-<div class="blank" id="none" hidden><p data-s="mt0">Nothing in this category matches that.</p><button class="btn" type="button" id="clear">Clear the search</button> <a class="btn" href="../index.html#all-plug-ins">Search every category</a></div>
-<ul class="tiles" id="cat-list" aria-labelledby="cat-h" data-s="mt2">{tiles}</ul>
-<h2 data-s="mt3">Other categories</h2><ul class="chiprow" aria-label="Other categories">{others}</ul>
-<p data-s="mt2"><a class="btn" href="../index.html#all-plug-ins">All plug-ins</a></p></div></main>'''
+<main id="main">
+<section class="banner banner--cat kind-{slug}" aria-labelledby="hero-h"><div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><a href="index.html">Categories</a></li><li><span aria-current="page">{esc(kind)}</span></li></ol></nav>
+  <div class="banner__in">
+  <div><h1 id="hero-h">{esc(kind)}</h1><p class="banner__sub">{esc(KIND_ABOUT[kind])} {plural(n)}.</p></div>
+  <div class="banner__tools">{search_form("cat-list", "Try a name or a word such as backups.", "this category")}</div></div>
+</div></section>
+<div class="wrap shelf">
+  {rail(plugins, releases, kind, 1, has_test_sort(plugins))}
+  <section class="shelf__main" aria-labelledby="results-h"><h2 id="results-h" tabindex="-1">Plug-ins in this category</h2>
+    {results_block("cat-list", n)}
+    <ul class="grid tiles" id="cat-list">{tiles}</ul>
+  </section>
+</div>
+</main>'''
 
 
 def category_index(plugins):
     cards = "".join(
-        f'<li><a class="cat kind-{KINDS[k][0]}" href="{KINDS[k][0]}.html"><span>{icon(KINDS[k][1])}<span class="cat__name">{esc(k)}</span><span class="cat__line">{esc(KIND_ABOUT[k])}</span></span><span class="cat__count">{n} plug-in{"" if n == 1 else "s"} {icon("chevron-right")}</span></a></li>'
+        f'<li><a class="cat kind-{KINDS[k][0]}" href="{KINDS[k][0]}.html"><span class="cat__icon">{icon(KINDS[k][1])}</span><span class="cat__text"><span class="cat__name">{esc(k)}</span><span class="cat__line">{esc(KIND_ABOUT[k])}</span></span><span class="cat__count">{plural(n)} {icon("chevron-right")}</span></a></li>'
         for k in KINDS for n in [sum(1 for p in plugins if p["kind"] == k)] if n)
     return f'''
-<main id="main"><nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><span aria-current="page">Categories</span></li></ol></nav>
-<div class="wrap section"><header class="phead"><div><p class="kicker">Browse</p><h1 class="display">Categories</h1><p class="phead__pitch">Every plug-in sits in one category. Each category has a page, with a search of its own.</p></div></header>
-<h2 class="visually-hidden">The categories</h2><ul class="cats" data-s="mt2">{cards}</ul>
+<main id="main">
+<section class="banner" aria-labelledby="hero-h"><div class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><span aria-current="page">Categories</span></li></ol></nav>
+  <h1 id="hero-h">Categories</h1><p class="banner__sub">Every plug-in sits in one category. Each category has a page, with a search of its own.</p>
+</div></section>
+<div class="wrap section"><h2 class="visually-hidden">The categories</h2><ul class="cats">{cards}</ul>
 <p data-s="mt2"><a class="btn" href="../index.html#all-plug-ins">Search every plug-in</a></p></div></main>'''
 
 
@@ -552,7 +545,7 @@ def use_section(p):
           <div class="table-wrap" data-stack role="region" aria-label="What {esc(m["name"])} uses" tabindex="0"><table class="table"><caption class="visually-hidden">What {esc(m["name"])} uses</caption><thead><tr><th scope="col">What</th><th scope="col">Figure</th><th scope="col">Kind</th><th scope="col">Note</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div>{how}</section>'''
 
 
-def plugin_page(p, sb):
+def plugin_page(p, sb, plugins=()):
     m = p["manifest"]
     depth = 1
     apps = needs_apps(p)
@@ -595,28 +588,37 @@ def plugin_page(p, sb):
         needs_extra = f'<div><dt>In practice</dt><dd>{esc(sf["needs"])}</dd></div>'
     if sys_tags:
         needs_extra += f'<div><dt>System tags</dt><dd>{esc(sys_tags)}. These are the names in the manifest that Starboard checks before it adds the plug-in.</dd></div>'
-    tags_html = f'<ul class="chiprow" aria-label="Tags" data-s="pt1">{"".join(f"<li><span class=chip>{esc(t)}</span></li>" for t in sf["tags"])}</ul>' if sf and sf["tags"] else ""
+    tags_html = f'<ul class="chiprow" aria-label="Tags">{"".join(f"<li><span class=chip>{esc(t)}</span></li>" for t in sf["tags"])}</ul>' if sf and sf["tags"] else ""
     old = ""
     if p["older_versions"]:
         old = f'<p class="muted">Older versions Starboard can fall back to: {esc(", ".join(v["version"] for v in p["older_versions"]))}.</p>'
+    same = [x for x in sorted(plugins, key=lambda x: x["name"].lower()) if x["kind"] == p["kind"] and x["id"] != p["id"]][:4]
+    more_html = f'<section class="wrap more" aria-labelledby="more-h"><h2 id="more-h">More in {esc(p["kind"])}</h2><ul class="grid tiles">{"".join(tile(x, 1, data=False) for x in same)}</ul></section>' if same else ""
     body = f'''
 <main id="main"><div id="plugin">
-    <nav class="wrap crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><a href="../category/{KINDS[p["kind"]][0]}.html">{esc(p["kind"])}</a></li><li><span aria-current="page">{esc(m["name"])}</span></li></ol></nav>
-    <div class="wrap"><header class="phead kind-{KINDS[p["kind"]][0]}">
-      <span class="logo-plate logo-plate--lg"><img src="../{p["logo_file"]}" alt="{esc(p["logo_alt"])}" width="112" height="112"></span>
-      <div>
-        <p class="kicker">{esc(p["kind"])}</p>
-        <h1 class="display">{esc(m["name"])}</h1>
-        <p class="phead__pitch">{esc(pitch_of(p))}</p>
-        <ul class="tile__meta" data-s="pt1" aria-label="Marks and version"><li><a class="chip chip--link" href="../category/{KINDS[p["kind"]][0]}.html">{icon(KINDS[p["kind"]][1])}Category: {esc(p["kind"])}</a></li><li>{reviewed_chip()}</li>{f"<li>{own}</li>" if own else ""}<li><span class="chip">Version {esc(m["version"])}</span></li><li><a class="chip" href="../starboard.html#plugin-api">{esc(sb_text)}</a></li></ul>
-        <div data-s="pt1">{media_chips(p)}</div><p class="phead__use">{mfy_line}</p>{tags_html}
+    <header class="phead kind-{KINDS[p["kind"]][0]}"><div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="../index.html">Home</a></li><li><a href="../category/{KINDS[p["kind"]][0]}.html">{esc(p["kind"])}</a></li><li><span aria-current="page">{esc(m["name"])}</span></li></ol></nav>
+      <div class="phead__in">
+        {plate(p, 1, 112)}
+        <div class="phead__text">
+          <p class="kicker">{esc(p["kind"])}</p>
+          <h1>{esc(m["name"])}</h1>
+          <p class="phead__pitch">{esc(pitch_of(p))}</p>
+          <ul class="chiprow" aria-label="Marks and version"><li>{reviewed_chip()}</li>{f"<li>{own}</li>" if own else ""}<li><span class="chip">Version {esc(m["version"])}</span></li></ul>
+        </div>
         <div class="phead__actions"><a class="btn btn--primary btn--big" href="#install" data-dialog="install-dialog">{icon("plus")}How to install in Starboard</a>{help_btn}</div>
-      </div></header>{notice}</div>
+      </div></div></header>
+    <div class="wrap">{notice}
+      <section class="glance" aria-labelledby="glance-h"><h2 class="visually-hidden" id="glance-h">At a glance</h2><dl class="strip">
+        <div><dt>Reviewed</dt><dd>{esc(nice_date(p["reviewed"]["at"]))}, version {esc(p["reviewed"]["version"])}</dd></div>
+        <div><dt>Works with</dt><dd>{media_chips(p)}</dd></div>
+        <div><dt>Starboard</dt><dd><a href="../starboard.html#plugin-api">{esc(sb_text)}</a></dd></div>
+        <div><dt>Memory use</dt><dd>{mfy_line}</dd></div></dl></section></div>
     <div class="wrap layout">
       <nav class="toc" aria-label="On this page"><h2>On this page</h2><ol>
         <li><a href="#what">What it does</a></li><li><a href="#who">Who it is for</a></li><li><a href="#sees">What you will see</a></li><li><a href="#pictures">Pictures</a></li><li><a href="#access">What it can read and change</a></li><li><a href="#needs">What it needs</a></li><li><a href="#uses">What it uses</a></li><li><a href="#versions">Versions and notes</a></li><li><a href="#help">Help</a></li><li><a href="#install">How to install</a></li><li><a href="#review">Who reviewed it</a></li><li><a href="#report">Report a problem</a></li></ol></nav>
       <div class="doc">
-        <section id="what" aria-labelledby="what-h"><h2 id="what-h">What it does</h2>{does_html}<p class="muted">Made by {esc(p["maker"])}.{f" Licence: {esc(m['licence'])}." if m["licence"] else ""}</p>{f'<p>{esc(p["notes"])}</p>' if p["notes"] else ""}</section>
+        <section id="what" aria-labelledby="what-h"><h2 id="what-h">What it does</h2>{does_html}<p class="muted">Made by {esc(p["maker"])}.{f" Licence: {esc(m['licence'])}." if m["licence"] else ""}</p>{f'<p>{esc(p["notes"])}</p>' if p["notes"] else ""}{tags_html}</section>
         {who_html}{sees_html}
         {gallery(p, depth)}
         <section id="access" aria-labelledby="access-h"><h2 id="access-h">What it can read and change</h2>
@@ -639,6 +641,7 @@ def plugin_page(p, sb):
         <section id="review" aria-labelledby="review-h"><h2 id="review-h">Who reviewed it</h2><p>Reviewed by <strong>{esc(p["reviewed"]["by"])}</strong> on {esc(nice_date(p["reviewed"]["at"]))}, version {esc(p["reviewed"]["version"])}. Listed on {esc(nice_date(p["listed_at"]))}. Its manifest was last read on {esc(nice_date(p["snapshot_date"]))}. <a href="../what-reviewed-means.html">What Reviewed means</a>.</p></section>
         <section id="report" aria-labelledby="report-h"><div class="callout"><h2 id="report-h" data-s="m0">Report a problem with this plug-in</h2>{report}<p class="muted">A problem with Stallboard, such as this page? Use the Send feedback button.</p></div></section>
       </div></div>
+    {more_html}
     <dialog class="dialog" id="install-dialog" aria-labelledby="install-dialog-h">
       <div class="panel-header"><h2 class="panel-header__title" id="install-dialog-h">Add {esc(m["name"])} to Starboard</h2><button class="icon-btn" type="button" data-closes aria-label="Close">{icon("x")}</button></div>
       <div class="dialog__body"><p>Stallboard cannot install anything: only your own Starboard can, and it asks for your password first. Add Stallboard to Starboard once, then install from its Catalogue.</p><ol class="how"><li>In Starboard, open Settings, then Plug-ins, then Catalogue.</li><li>Under Catalogue sources, paste <code>{esc(CATALOGUE_URL)}</code> and select Add catalogue.</li><li>Find {esc(m["name"])} and select Install.</li></ol><p>It will ask to: {esc(join_words([x["t"][0].lower() + x["t"][1:] for x in perm_items]) if perm_items else "nothing")}.</p></div>
