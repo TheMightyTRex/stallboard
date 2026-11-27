@@ -100,14 +100,26 @@ jobs:
           set -euo pipefail
           if [ -z "$(git status --porcelain data assets/starboard)" ]; then echo "Nothing changed."; exit 0; fi
           day=$(date -u +%Y-%m-%d)
-          branch="refresh/$day"
+          # An open refresh pull request is updated in place. Otherwise the branch name carries the run id, so a second run on one day cannot collide.
+          existing=$(gh pr list --state open --base main --json number,headRefName --jq '[.[] | select(.headRefName | startswith("refresh/"))][0] | if . then "\(.number) \(.headRefName)" else empty end')
+          mkdir -p reports
+          { echo "A daily refresh. A person reads it before merging: anything that asks for more than before is in bold."; echo; cat data/refresh-report.md 2>/dev/null || true; } > reports/refresh-body.md
+          if [ -n "$existing" ]; then
+            number="${existing%% *}"; branch="${existing#* }"
+          else
+            number=""; branch="refresh/$day-${GITHUB_RUN_ID}"
+          fi
           git checkout -b "$branch"
           git add data assets/starboard
           git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Refresh snapshots and Starboard releases ($day)"
-          git push origin "$branch"
-          mkdir -p reports
-          { echo "A daily refresh. A person reads it before merging: anything that asks for more than before is in bold."; echo; cat data/refresh-report.md 2>/dev/null || true; } > reports/refresh-body.md
-          gh pr create --base main --head "$branch" --title "Refresh snapshots ($day)" --body-file reports/refresh-body.md
+          if [ -n "$number" ]; then
+            # Each refresh starts from main and holds the whole change, so the new commit replaces the old one on the open branch.
+            git push --force origin "$branch"
+            gh pr edit "$number" --title "Refresh snapshots ($day)" --body-file reports/refresh-body.md
+          else
+            git push origin "$branch"
+            gh pr create --base main --head "$branch" --title "Refresh snapshots ($day)" --body-file reports/refresh-body.md
+          fi
 
   tell:
     name: Open an issue when a refresh fails
