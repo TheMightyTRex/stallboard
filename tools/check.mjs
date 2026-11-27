@@ -139,10 +139,20 @@ if (MODE === "check") {
         record(cname, "home-sorted", await axeRun(page), page);
         const first = await page.evaluate(() => [...document.querySelectorAll("#all-list > li:not([hidden])")].slice(0, 3).map((l) => l.dataset.id));
         if (!first.length) fail("home sorted by memory: nothing shown");
-        await page.selectOption("#mysb", "0.20.0"); await page.waitForTimeout(100);
+        // The select lists only the newest releases, so the version to pick comes from the page, never from a fixed number.
+        // Pick the oldest one listed and expect exactly the plug-ins whose first working Starboard is newer than it.
+        const oldest = await page.evaluate(() => [...document.querySelectorAll("#mysb option")].map((o) => o.value).filter(Boolean).pop());
+        if (!oldest) fail("home: the Starboard version select lists no versions");
+        await page.selectOption("#mysb", oldest); await page.waitForTimeout(100);
         if (phone) { await page.click("#filters-close"); await page.waitForTimeout(100); }
         const marked = await page.evaluate(() => document.querySelectorAll('.sb-need[data-tone="danger"]').length);
-        if (!marked) fail("home: no plug-in is marked as needing a newer Starboard than 0.20.0");
+        const expected = await page.evaluate((mine) => {
+          const n = (v) => v.split(".").map(Number);
+          const older = (a, b) => { const x = n(a), y = n(b); for (let i = 0; i < 3; i++) { if ((x[i] || 0) !== (y[i] || 0)) return (x[i] || 0) < (y[i] || 0); } return false; };
+          return [...document.querySelectorAll("#all-list > li[data-sb]")].filter((l) => l.dataset.sb && older(mine, l.dataset.sb)).length;
+        }, oldest);
+        if (!expected) fail(`home: no plug-in needs a newer Starboard than ${oldest}, so the marking cannot be checked`);
+        else if (marked !== expected) fail(`home: ${marked} plug-ins are marked as needing a newer Starboard than ${oldest}, expected ${expected}`);
         record(cname, "home-marked", await axeRun(page), page);
       }
       if (pname === "category") {
