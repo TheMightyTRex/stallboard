@@ -55,7 +55,7 @@ class RealSite(unittest.TestCase):
         self.assertIn("https://themightytrex.github.io/stallboard/plugins/direct-play.html", (self.out / "sitemap.xml").read_text())
 
     def test_ai_assistants_is_a_category_that_stays_hidden_while_it_is_empty(self):
-        """DASH-625: the category exists, with an icon from the sprite, but nothing is listed in it yet, so (as for every empty category)
+        """DASH-626: the category exists, with an icon from the sprite, but nothing is listed in it yet, so (as for every empty category)
         it has no page, no card on the index and no place in the rail, and a first listing makes all three."""
         import copy
         import render as R
