@@ -54,6 +54,34 @@ class RealSite(unittest.TestCase):
         self.assertEqual(len(list((self.out / "category").glob("*.html"))), 9)  # eight categories and the index
         self.assertIn("https://themightytrex.github.io/stallboard/plugins/direct-play.html", (self.out / "sitemap.xml").read_text())
 
+    def test_ai_assistants_is_a_category_that_stays_hidden_while_it_is_empty(self):
+        """DASH-626: the category exists, with an icon from the sprite, but nothing is listed in it yet, so (as for every empty category)
+        it has no page, no card on the index and no place in the rail, and a first listing makes all three."""
+        import copy
+        import render as R
+        self.assertIn("AI assistants", mf.KINDS)
+        self.assertEqual(list(R.KINDS), mf.KINDS)
+        slug, ic, line = R.KINDS["AI assistants"]
+        self.assertEqual((slug, ic), ("ai-assistants", "bot"))
+        self.assertIn('id="i-bot"', R.SPRITE)
+        self.assertIn("AI assistants", R.KIND_ABOUT)
+        self.assertIn("with your own model or key", line)
+        self.assertIn(".kind-ai-assistants", (ROOT / "assets" / "store.css").read_text())
+        self.assertFalse((self.out / "category" / "ai-assistants.html").exists())
+        self.assertNotIn("AI assistants", (self.out / "category" / "index.html").read_text())
+        self.assertNotIn("ai-assistants", (self.out / "index.html").read_text())
+        self.assertEqual([p["id"] for p in self.plugins if p["kind"] == "AI assistants"], [])
+        first = copy.deepcopy(self.plugins[0])
+        first["kind"] = "AI assistants"
+        both = self.plugins + [first]
+        index = R.category_index(both)
+        self.assertIn('href="ai-assistants.html"', index)
+        self.assertIn("These let you ask an assistant about your server", index)
+        self.assertIn('href="category/ai-assistants.html"', R.rail(both, [], "all", 0, False))
+        page = R.category_page("AI assistants", both)
+        self.assertIn("<h1 id=\"hero-h\">AI assistants</h1>", page)
+        self.assertIn('id="cat-list"', page)
+
     def test_the_home_page_lists_everything_without_a_script(self):
         t = (self.out / "index.html").read_text()
         self.assertEqual(len(re.findall(r'<li class="tile ', t.split('id="all-list"', 1)[1])), 33)

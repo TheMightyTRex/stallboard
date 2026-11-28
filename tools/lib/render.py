@@ -33,6 +33,7 @@ KINDS = {
     "Downloads": ("downloads", "download", "What is coming in, and how safely."),
     "Home": ("home", "house", "Your house, on your dashboard."),
     "Appearance": ("appearance", "sparkles", "Change how Starboard looks."),
+    "AI assistants": ("ai-assistants", "bot", "Ask an assistant about your server, or let an AI tool manage Starboard, with your own model or key."),
 }
 PERM = {
     "jellyfin:key": ("Use your Jellyfin key", "Signs in to Jellyfin as a helper, so it can find, tag or play titles.", "both"),
@@ -322,6 +323,7 @@ KIND_ABOUT = {
     "Downloads": "These show what is coming in, and check that downloads go out through your VPN.",
     "Home": "These put your house on the Starboard dashboard, with lights and home automation beside your media.",
     "Appearance": "These change how Starboard looks, with colours, shapes and text styles across every screen.",
+    "AI assistants": "These let you ask an assistant about your server, or let an AI tool manage Starboard, with your own model or key.",
 }
 
 

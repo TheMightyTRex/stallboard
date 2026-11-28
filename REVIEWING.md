@@ -19,7 +19,7 @@ Never run anything from the submission on your own computer. Read it on GitHub.
 
 ## After you approve
 
-The workflow opens a pull request with the checklist. Tick it, change `kind` if the category is wrong, and merge. Merging deploys the site. If something is wrong, close the pull request and say why on the issue.
+The workflow opens a pull request with the checklist. Tick it, change `kind` if the category is wrong, and merge. The categories are Apps you can add, Jellyfin, Network, System, Accessibility, Downloads, Home, Appearance and AI assistants (assistants you ask about your server, or AI tools that manage Starboard, with the person's own model or key). A category with no plug-in has no page until the first one is listed. Merging deploys the site. If something is wrong, close the pull request and say why on the issue.
 
 ## When a refresh pull request arrives
 

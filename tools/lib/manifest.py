@@ -19,7 +19,7 @@ import base64  # noqa: E402
 from starboard import plugin_logo, plugins  # noqa: E402
 
 STARBOARD_RELEASE = json.loads((HERE.parent.parent / "vendor" / "starboard" / "VENDORED.json").read_text())["release"]
-KINDS = ["Apps you can add", "Jellyfin", "Network", "System", "Accessibility", "Downloads", "Home", "Appearance"]
+KINDS = ["Apps you can add", "Jellyfin", "Network", "System", "Accessibility", "Downloads", "Home", "Appearance", "AI assistants"]
 MAX_MANIFEST = 256 * 1024
 MAX_VERSIONS = 40
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")

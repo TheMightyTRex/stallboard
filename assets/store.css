@@ -69,6 +69,7 @@
   --c-downloads-bg: #B7E04A; --c-downloads-fg: #241438;
   --c-home-bg: #C72F20; --c-home-fg: #FFFFFF;
   --c-appearance-bg: #FFD23F; --c-appearance-fg: #241438;
+  --c-ai-assistants-bg: #2B5FD9; --c-ai-assistants-fg: #FFFFFF;
 }
 
 :root[data-theme="dark"] {
@@ -118,6 +119,7 @@
   --c-downloads-bg: #4F6E00; --c-downloads-fg: #FFFFFF;
   --c-home-bg: #B3261E; --c-home-fg: #FFFFFF;
   --c-appearance-bg: #7A5C00; --c-appearance-fg: #FFFFFF;
+  --c-ai-assistants-bg: #2552BE; --c-ai-assistants-fg: #FFFFFF;
 }
 
 html { scroll-padding-top: var(--sp-3); }
@@ -415,6 +417,7 @@ h2.display { font-size: clamp(1.5rem, 1rem + 1.5vw, 2rem); }
 .kind-downloads { --cat-bg: var(--c-downloads-bg); --cat-fg: var(--c-downloads-fg); }
 .kind-home { --cat-bg: var(--c-home-bg); --cat-fg: var(--c-home-fg); }
 .kind-appearance { --cat-bg: var(--c-appearance-bg); --cat-fg: var(--c-appearance-fg); }
+.kind-ai-assistants { --cat-bg: var(--c-ai-assistants-bg); --cat-fg: var(--c-ai-assistants-fg); }
 .chip { background: var(--color-surface); border: 1px solid var(--color-line); border-radius: 999px; font-size: 0.8125rem; min-height: 24px; padding-inline: var(--sp-2); white-space: normal; }
 .chip[data-tone="success"] { background: var(--status-success-bg); }
 .chip svg { width: 14px; height: 14px; flex: none; }
