@@ -132,7 +132,7 @@ if (MODE === "check") {
         if (!/that work with/.test(await page.evaluate(() => document.getElementById("results-status").textContent))) fail(`${cname}: the filtered count is not announced`);
         record(cname, "home-filtered", await axeRun(page), page);
         await page.click("#active button"); await page.waitForTimeout(100);
-        if ((await page.evaluate(() => document.querySelectorAll("#all-list > li:not([hidden])").length)) !== 33) fail(`${cname}: removing the chip did not bring every plug-in back`);
+        if ((await page.evaluate(() => document.querySelectorAll("#all-list > li:not([hidden])").length)) !== 34) fail(`${cname}: removing the chip did not bring every plug-in back`);
         if (!(await page.evaluate(() => document.getElementById("active").hidden))) fail(`${cname}: the chip list is still shown when nothing is filtered`);
         if (phone) { await page.click("#filters-open"); await page.waitForTimeout(100); }
         await page.selectOption("#sort", "mem"); await page.waitForTimeout(100);
