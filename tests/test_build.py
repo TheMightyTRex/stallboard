@@ -44,7 +44,7 @@ class RealSite(unittest.TestCase):
         cls.plugins, cls.warnings, cls.files = build.build(cls.out, TODAY)
 
     def test_every_page_is_made(self):
-        self.assertEqual(len(self.plugins), 33)
+        self.assertEqual(len(self.plugins), 34)
         for name in ("index.html", "starboard.html", "reelix.html", "submit.html", "what-reviewed-means.html", "accessibility.html", "privacy.html", "404.html",
                      "catalogue.json", "sitemap.xml", "robots.txt"):
             self.assertTrue((self.out / name).exists(), name)
@@ -84,7 +84,7 @@ class RealSite(unittest.TestCase):
 
     def test_the_home_page_lists_everything_without_a_script(self):
         t = (self.out / "index.html").read_text()
-        self.assertEqual(len(re.findall(r'<li class="tile ', t.split('id="all-list"', 1)[1])), 33)
+        self.assertEqual(len(re.findall(r'<li class="tile ', t.split('id="all-list"', 1)[1])), 34)
         self.assertIn("Start here", t)
         self.assertNotIn("data:image", t)
 
@@ -121,7 +121,7 @@ class RealSite(unittest.TestCase):
     def test_the_catalogue_has_starboards_schema(self):
         cat = json.loads((self.out / "catalogue.json").read_text())
         self.assertEqual((cat["catalogue_version"], cat["name"]), (1, "Stallboard"))
-        self.assertEqual(len(cat["plugins"]), 33)
+        self.assertEqual(len(cat["plugins"]), 34)
         ref = json.loads(PLUGINS_CATALOGUE.read_text()) if PLUGINS_CATALOGUE.exists() else None
         for e in cat["plugins"]:
             self.assertRegex(e["id"], r"^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$")

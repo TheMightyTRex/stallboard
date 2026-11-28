@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Calibre library maker is listed (DASH-660, owner's choice on 28 November 2026), in System, at version 1.0.1. Its manifest is pinned to starboard-plugins commit 36b57bf2, the commit that holds the file the catalogue lists. It is a pull request for the owner to read before merging.
 - A new category, AI assistants (DASH-626), with the bot icon from the design system: "Ask an assistant about your server, or let an AI tool manage Starboard, with your own model or key." It is a choice for a listing's `kind`. No plug-in is listed in it yet, so, like every empty category, it has no page, no card on the categories index and no place in the rail until the first listing. Its tile colours pass the contrast check.
 - The two-column layout of the home and category pages is now `.store-layout`, so it no longer clashes with the design system's `.shelf` (a row of Discover covers).
 - The design system copies in `assets/ds` are current and now come from the design system's own sync tool.

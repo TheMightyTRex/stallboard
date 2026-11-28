@@ -45,7 +45,7 @@ class Rules(unittest.TestCase):
 
 class RealData(unittest.TestCase):
     def test_every_file_passes(self):
-        self.assertEqual(len(sf.load_all(ROOT / "data" / "storefront")), 33)
+        self.assertEqual(len(sf.load_all(ROOT / "data" / "storefront")), 34)
 
     def test_site_has_category_pages_search_and_sections(self):
         import build
@@ -64,7 +64,7 @@ class RealData(unittest.TestCase):
             self.assertIn('href="../category/jellyfin.html"', page)
             home = files["index.html"]
             self.assertIn('href="category/jellyfin.html"', home)
-            self.assertEqual(len(re.findall(r'data-search="', home.split('id="all-list"', 1)[1])), 33)
+            self.assertEqual(len(re.findall(r'data-search="', home.split('id="all-list"', 1)[1])), 34)
 
     def test_media_server_chips(self):
         import build
@@ -78,11 +78,11 @@ class RealData(unittest.TestCase):
             self.assertIn('aria-label="Works with Jellyfin, Plex and Emby"', tdarr)
             self.assertIn('aria-label="Works with Jellyfin only"', files["plugins/direct-play.html"])
             home = files["index.html"].split('id="all-list"', 1)[1]
-            self.assertEqual(len(re.findall(r'class="chiprow media-chips"', home)), 33)
+            self.assertEqual(len(re.findall(r'class="chiprow media-chips"', home)), 34)
             self.assertIn('name="media"', files["index.html"])
             self.assertIn('name="media"', files["category/network.html"])
             cat = json.loads((pathlib.Path(d) / "catalogue.json").read_text())
-            self.assertEqual(len(cat["media_servers"]), 33)
+            self.assertEqual(len(cat["media_servers"]), 34)
             self.assertEqual(cat["media_servers"]["direct-play"], ["jellyfin"])
 
 
@@ -102,7 +102,7 @@ class Shelf(unittest.TestCase):
 
     def test_every_card_has_the_same_parts_and_at_most_three_chips(self):
         cards = self.files["index.html"].split('id="all-list"', 1)[1].split('<li class="tile ')[1:]
-        self.assertEqual(len(cards), 33)
+        self.assertEqual(len(cards), 34)
         for c in cards:
             self.assertEqual(c.count('class="tile__art"'), 1)
             self.assertEqual(c.count('class="tile__pitch"'), 1)

@@ -1,0 +1,71 @@
+{
+ "id": "calibre-library",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/36b57bf2a7b8c0b73a4532a65fd9669595a33b8c/calibre-library/starboard-plugin.json",
+ "fetched_at": "2026-11-28T17:57Z",
+ "sha256": "c90266eb831429761210aca3f67f511079a04a39dbb5108d432b7c79ccc5b97a",
+ "starboard_check": "v0.29.0",
+ "problems": [],
+ "manifest_data": {
+  "id": "calibre-library",
+  "name": "Calibre library maker",
+  "version": "1.0.1",
+  "description": "Makes a Calibre library from the books in your books folder, in a new folder beside it, so Calibre-Web has something to open. Your own books are never changed.",
+  "author": "TheMightyTRexUK",
+  "licence": "MIT",
+  "homepage": "https://github.com/TheMightyTRex/starboard-plugins/tree/main/calibre-library",
+  "support_url": "https://github.com/TheMightyTRex/starboard-plugins/issues",
+  "starboard_api": ">=1.14 <2.0",
+  "permissions": [],
+  "needs": [],
+  "containers": [
+   {
+    "name": "main",
+    "image": "ghcr.io/themightytrex/starboard-plugin-calibre-library@sha256:ae2e0c2ba6c2a16e9d1d7f67c7bc2c5ad46e916ca4c98b3180e9ec493466753a",
+    "port": 8080,
+    "network": "default",
+    "start": "when_needed",
+    "idle_stop_minutes": 5,
+    "publish": null
+   }
+  ],
+  "resources": {
+   "main": {
+    "memory": 320,
+    "cpus": 1.0,
+    "pids": 128
+   }
+  },
+  "versions": [
+   {
+    "version": "1.0.1",
+    "date": "2026-11-26",
+    "groups": [
+     [
+      "Changed",
+      [
+       "Plainer wording in the text and help pages. How it works has not changed."
+      ]
+     ]
+    ]
+   },
+   {
+    "version": "1.0.0",
+    "date": "2026-11-26",
+    "groups": [
+     [
+      "Added",
+      [
+       "Calibre library maker: makes a Calibre library from your books folder, in a new books-library folder, so Calibre-Web has something to open. It never changes your books, says what it will do first, shows progress, lists files it could not read and can be run again."
+      ]
+     ]
+    ]
+   }
+  ],
+  "logo": {
+   "file": "logo.svg",
+   "alt": "Calibre library maker logo"
+  }
+ },
+ "logo": "data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDggNDgiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgcm9sZT0iaW1nIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjx0aXRsZT5DYWxpYnJlIGxpYnJhcnkgbWFrZXIgbG9nbzwvdGl0bGU+PHJlY3Qgd2lkdGg9IjQ4IiBoZWlnaHQ9IjQ4IiByeD0iMTEiIGZpbGw9IiM0YTVkMjMiIC8+PHJlY3QgeD0iOCIgeT0iMTIiIHdpZHRoPSI5IiBoZWlnaHQ9IjI0IiByeD0iMS41IiBmaWxsPSIjZmZmZmZmIiAvPjxyZWN0IHg9IjE5IiB5PSIxMiIgd2lkdGg9IjkiIGhlaWdodD0iMjQiIHJ4PSIxLjUiIGZpbGw9IiNmZmZmZmYiIC8+PHBhdGggZD0iTTM1IDE4djEyTTI5IDI0aDEyIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMy41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIC8+PC9zdmc+",
+ "logo_note": ""
+}

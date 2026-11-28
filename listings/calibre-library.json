@@ -1,0 +1,16 @@
+{
+ "id": "calibre-library",
+ "name": "Calibre library maker",
+ "manifest": "https://raw.githubusercontent.com/TheMightyTRex/starboard-plugins/36b57bf2a7b8c0b73a4532a65fd9669595a33b8c/calibre-library/starboard-plugin.json",
+ "maker": "TheMightyTRexUK",
+ "listed_at": "2026-11-28",
+ "reviewed": {
+  "by": "TheMightyTRexUK",
+  "at": "2026-11-28",
+  "version": "1.0.1"
+ },
+ "kind": "System",
+ "help": "https://themightytrex.github.io/starboard-plugins/help/plugins/calibre-library/index.html",
+ "pitch": "Make a Calibre library from your books folder.",
+ "own": true
+}

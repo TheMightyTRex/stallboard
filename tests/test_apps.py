@@ -76,7 +76,7 @@ class Site(unittest.TestCase):
         self.assertEqual([a["id"] for a in cat["apps"]], ["reelix"])
         self.assertEqual(cat["apps"][0]["kind"], "app")
         self.assertNotIn("reelix", [p["id"] for p in cat["plugins"]])
-        self.assertEqual(len(cat["plugins"]), 33)
+        self.assertEqual(len(cat["plugins"]), 34)
 
     def test_a_second_app_is_just_another_file(self):
         def mutate(d):

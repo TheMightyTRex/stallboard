@@ -1,0 +1,32 @@
+{
+ "summary": "Makes a Calibre library from your books folder, so Calibre-Web has something to open.",
+ "does": [
+  "Calibre-Web needs a Calibre library, which is a folder with a metadata.db file in it. A folder of book files is not one. This plug-in reads your books folder and copies each book into a new library in a folder beside it, using Calibre's own command line tool.",
+  "It tells you first how many books it found, how much room the copy needs and about how long it will take. It lists any file it could not read, with the reason. It is safe to run again, because books already in the library are skipped. Your own books are never changed."
+ ],
+ "for": "People who keep books as files, such as Author/Title.epub, and want Calibre-Web or Calibre to list them.",
+ "needs": "A books folder in your media folder, and room for a second copy of your books. Starboard with plug-in API 1.14 or later. Its image holds Calibre's command line tools and is about 0.7 GB on disk.",
+ "shows": "A page in Starboard that says what it will do before it starts, then shows progress in words. It has no dashboard card. It rests when it is not used: Starboard stops it after 5 idle minutes.",
+ "tags": [
+  "books",
+  "ebooks",
+  "calibre",
+  "library",
+  "epub",
+  "metadata",
+  "calibre-web",
+  "convert",
+  "import"
+ ],
+ "unclear": [],
+ "sources": [
+  "calibre-library/README.md",
+  "calibre-library/starboard-plugin.json"
+ ],
+ "media_servers": [
+  "jellyfin",
+  "plex",
+  "emby"
+ ],
+ "media_servers_basis": "none"
+}
